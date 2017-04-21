@@ -1,17 +1,27 @@
 {
-  "name": "tugboat",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "node ./bin/www"
+  "name": "express-vue-super-simple",
+  "version": "1.0.0",
+  "description": "super simple example for express-vue",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
   },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danmademe/express-vue-super-simple.git"
+  },
+  "author": "Daniel Cherubini",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danmademe/express-vue/issues"
+  },
+  "homepage": "https://github.com/danmademe/express-vue-super-simple#readme",
   "dependencies": {
-    "body-parser": "~1.17.1",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.3",
-    "express": "~4.15.2",
-    "less-middleware": "~2.2.0",
-    "morgan": "~1.8.1",
-    "serve-favicon": "~2.4.2"
+    "express": "^4.15.2",
+    "express-vue": "^3.9.6"
   }
 }
