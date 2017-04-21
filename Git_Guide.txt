@@ -7,6 +7,7 @@
 
 \f0\b\fs24 \cf0 Git guide: 
 \b0 \
+	* Git pull ffs\
 	* G\'e5 till project foldern\
 	* Skriv git branch f\'f6r att se vilken branch du st\'e5r p\'e5 (st\'e5 p\'e5 master)\
 	* F\'f6r att skapa en egen branch skriv git branch <insert branch name here> \
