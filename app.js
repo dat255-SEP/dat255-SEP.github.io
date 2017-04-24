@@ -20,5 +20,9 @@ app.get('/', function (req, res) {
     res.render('index', scope)
 })
 
+livereload = require('express-livereload')
+
+livereload(app, config={})
+
 app.listen(3001)
 console.log('Express server listening on port 3001')
