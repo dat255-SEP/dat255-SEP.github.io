@@ -2,13 +2,13 @@
   "name": "tugboat",
   "version": "1.0.0",
   "description": "tugboat app",
-  "main": "index.js",
+  "main": "app.js",
   "directories": {
     "example": "examples"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js",
+    "start": "nodemon app.js",
     "lint": "eslint --ext .js,.vue router views || true"
   },
   "repository": {
