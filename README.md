@@ -1,4 +1,10 @@
-# project
+#DAT255 Project
+Group Tuglife
 
+# Run
 
-Hej
+To Use this just run
+`npm install`
+
+Then to run it
+`npm start`
