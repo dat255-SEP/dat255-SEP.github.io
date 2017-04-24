@@ -1,12 +1,21 @@
 <template lang="html">
-
     <div>
+        
         <h1>{{title}}</h1>
         <p>Welcome to the {{title}} demo.</p>
 
 
         <table>
             <tbody>
+                <tr>
+                    <th align="left">
+                        Boat
+                    </th>
+                    <th align="left">
+                        Available
+                    </th>
+                </tr>
+
                 <tr>
                     <td>
                         {{ item1 }}
@@ -39,4 +48,5 @@ export default {
 </script>
 
 <style lang="css">
+
 </style>
