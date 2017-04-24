@@ -14,7 +14,10 @@ app.set('vue', {
 app.get('/', function (req, res) {
     var scope = {
       data: {
-        title: 'HelloWorld'
+        title: 'HelloWorld',
+        item1: 'hej',
+        item2: 'test',
+        item3: 'cool tabell'
       }
     }
     res.render('index', scope)
@@ -24,5 +27,5 @@ livereload = require('express-livereload')
 
 livereload(app, config={})
 
-app.listen(3001)
-console.log('Express server listening on port 3001')
+app.listen(3000)
+console.log('Express server listening on port 3000')
