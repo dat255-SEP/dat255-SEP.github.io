@@ -1,17 +1,16 @@
 <template lang="html">
     <div>
-        
+
         <h1>{{title}}</h1>
         <p>Welcome to the {{title}} demo.</p>
 
 
         <table>
-            <tbody>
                 <tr>
                     <th align="left">
                         Boat
                     </th>
-                    <th align="left">
+                    <th>
                         Available
                     </th>
                 </tr>
@@ -29,7 +28,6 @@
                         {{ item3 }}
                     </td>
                 </tr>
-            </tbody>
         </table>
 
     </div>
