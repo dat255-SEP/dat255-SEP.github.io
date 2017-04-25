@@ -2,7 +2,7 @@
     <div>
 
         <h1>{{title}}</h1>
-        <p>Welcome to the {{title}} demo.</p>
+        <p>Welcome to the {{title}} demo {{test}}.</p>
 
 
         <table>
@@ -37,9 +37,17 @@
 </template>
 
 <script>
+
+import * as api from '../api'
+
 export default {
+    async created () {
+      this.test = await api.test()
+    },
+
     data: function() {
         return {
+          test: ''
         }
     }
 }
