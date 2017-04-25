@@ -1,20 +1,26 @@
 <template lang="html">
     <div>
-        
+        <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
+
+
         <h1>{{title}}</h1>
-        <p>Welcome to the {{title}} demo.</p>
+        <p>Welcome to the {{title}}, {{test}}</p>
 
 
-        <table>
-            <tbody>
+        <table class="pure-table">
+            <thead>
+
                 <tr>
                     <th align="left">
                         Boat
                     </th>
-                    <th align="left">
+                    <th>
                         Available
                     </th>
                 </tr>
+            </thead>
+            <tbody>
+
 
                 <tr>
                     <td>
@@ -28,6 +34,9 @@
                     <td>
                         {{ item3 }}
                     </td>
+                    <td>
+                        {{ item4 }}
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -39,14 +48,22 @@
 </template>
 
 <script>
+
+import * as api from '../api'
+
 export default {
+    async created () {
+      this.test = await api.test()
+    },
+
     data: function() {
         return {
+          test: ''
         }
     }
 }
+*/
 </script>
 
-<style lang="css">
-
+<style>
 </style>
