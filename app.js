@@ -4,7 +4,6 @@ var expressVue = require('express-vue')
 var app = express()
 var index = require('./routes/index')
 
-
 app.engine('vue', expressVue)
 app.set('view engine', 'vue')
 app.set('views', path.join(__dirname, '/views'))
