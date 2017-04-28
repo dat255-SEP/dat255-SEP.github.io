@@ -9,8 +9,7 @@ router.get('/', function (req, res) {
         title: 'HelloWorld',
         item1: 'hej',
         item2: 'test',
-        item3: 'cool tabell',
-        test: ''
+        item3: 'cool tabell'
       }
     }
 

@@ -52,35 +52,59 @@
 </template>
 
 <script>
-//import * as api from '../api'
 import * as api from '../api'
 
 export default {
-    async created() {
-        var self = this
-        return Promise.resolve(await api.test())
-            .then(function(msg) {
-                console.log(msg)
-                return self.test = 'hej'
-            }).catch(function(error){
-              console.log('slutaa')
-            })
-
-    },
 
     data: function() {
         return {
             test: ''
         }
-    }
+    },
 
+    async created() {
+        this.fetchApi()
+    },
+    watch: {
+        // call again the method if the route changes
+        '$route': 'fetchApi'
+    },
+
+    methods: {
+        async fetchApi() {
+
+            const response = await api.test()
+
+            if (!response) {
+                throw new Error('i dun goofd')
+            }
+
+            // Logga resultatet
+            console.log(response)
+
+            // Eller om du vill spara som en property på this
+            this.test = response
+        }
+    }
 }
 </script>
 
 <!-- Bootstrap -->
 
 
+
+
+
+
+
+
 <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+
+
+
+
+
+
 
 
 
@@ -94,7 +118,19 @@ export default {
 
 
 
+
+
+
+
+
+
 <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+
+
+
+
+
+
 
 
 
