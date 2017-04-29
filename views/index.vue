@@ -62,7 +62,7 @@ export default {
         }
     },
 
-    async created() {
+    created() {
         this.fetchApi()
     },
     watch: {
@@ -71,19 +71,14 @@ export default {
     },
 
     methods: {
-        async fetchApi() {
-
-            const response = await api.test()
-
-            if (!response) {
-                throw new Error('i dun goofd')
-            }
-
-            // Logga resultatet
-            console.log(response)
-
-            // Eller om du vill spara som en property på this
-            this.test = response
+        fetchApi() {
+            // api.test().
+            // then((msg) => {
+            //     //console.log(msg)
+            // }).
+            // catch((error) => {
+            //     //console.log(error);
+            // })
         }
     }
 }
@@ -98,7 +93,15 @@ export default {
 
 
 
+
+
+
+
 <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+
+
+
+
 
 
 
@@ -124,7 +127,15 @@ export default {
 
 
 
+
+
+
+
 <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+
+
+
+
 
 
 
