@@ -8,7 +8,7 @@
 
 
         <h1>{{title}}</h1>
-        <p wait-for="created"> Welcome to the {{title}} demo {{test}}.</p>
+        <p wait-for="created"> Welcome to the {{title}} demo.</p>
 
 
         <table class="table">
@@ -43,8 +43,13 @@
                       {{'hej'}}
                     </td>
                 </tr>
-        </table>
 
+        </table>
+        <div>
+          <p>
+            Hello_world_api:  {{test}}
+          </p>
+        </div>
     </div>
 
 
@@ -58,34 +63,8 @@ export default {
 
     data: function() {
         return {
-            test: ''
         }
     },
-
-    async created() {
-        this.fetchApi()
-    },
-    watch: {
-        // call again the method if the route changes
-        '$route': 'fetchApi'
-    },
-
-    methods: {
-        async fetchApi() {
-
-            const response = await api.test()
-
-            if (!response) {
-                throw new Error('i dun goofd')
-            }
-
-            // Logga resultatet
-            console.log(response)
-
-            // Eller om du vill spara som en property på this
-            this.test = response
-        }
-    }
 }
 </script>
 
@@ -98,7 +77,15 @@ export default {
 
 
 
+
+
+
+
 <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+
+
+
+
 
 
 
@@ -124,7 +111,15 @@ export default {
 
 
 
+
+
+
+
 <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+
+
+
+
 
 
 
