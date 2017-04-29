@@ -8,7 +8,7 @@
 
 
         <h1>{{title}}</h1>
-        <p wait-for="created"> Welcome to the {{title}} demo {{test}}.</p>
+        <p wait-for="created"> Welcome to the {{title}} demo.</p>
 
 
         <table class="table">
@@ -43,8 +43,13 @@
                       {{'hej'}}
                     </td>
                 </tr>
-        </table>
 
+        </table>
+        <div>
+          <p>
+            Hello_world_api:  {{test}}
+          </p>
+        </div>
     </div>
 
 
@@ -58,29 +63,8 @@ export default {
 
     data: function() {
         return {
-            test: ''
         }
     },
-
-    created() {
-        this.fetchApi()
-    },
-    watch: {
-        // call again the method if the route changes
-        '$route': 'fetchApi'
-    },
-
-    methods: {
-        fetchApi() {
-            // api.test().
-            // then((msg) => {
-            //     //console.log(msg)
-            // }).
-            // catch((error) => {
-            //     //console.log(error);
-            // })
-        }
-    }
 }
 </script>
 
