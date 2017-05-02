@@ -5,6 +5,7 @@ import * as api from '../api'
 /* GET home page. */
 router.get('/', function(req, res) {
     var bordenogintevarasahar = '';
+    var eeeh = '';
     api.test().then(function(msg) {
         const response = msg.data;
 
@@ -12,7 +13,7 @@ router.get('/', function(req, res) {
         const answers = locationStates.filter(function(el){
             return el !== null
         })
-        const eeeh = answers.filter(function(awd){
+        eeeh = answers.filter(function(awd){
           return awd.referenceObject == 'TUG' || awd.referenceObject == 'ESCORT_TUG' || awd.serviceObject == 'TOWAGE' || awd.serviceObject == 'ESCORT_TOWAGE'
         })
 
@@ -28,17 +29,7 @@ router.get('/', function(req, res) {
         var scope = {
             data: {
                 title: 'HelloWorld',
-                boatArray: [{
-                        name: "Kalle",
-                        serviceState: "17:00",
-                        locationState: "Vinga"
-                    },
-                    {
-                        name: "Emil",
-                        serviceState: "15:00",
-                        locationState: "Gotland"
-                    }
-                ],
+                boatArray: eeeh,
                 test: bordenogintevarasahar
             }
 
