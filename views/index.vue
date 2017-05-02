@@ -31,29 +31,6 @@
                     <th>
                         At
                     </th>
-                    <th>
-                        Between
-                    </th>
-                    <th>
-                        Arrival Location
-                    </th>
-                    <th>
-                        Location Type
-                    </th>
-                    <th>
-                        Location Position
-                    </th>
-                    <th>
-                        Departure Location
-                    </th>
-
-                    <th>
-                        Departure position
-                    </th>
-
-                    <th>
-                        Departure Location Type
-                    </th>
 
                 </tr>
             </thead>
@@ -65,8 +42,43 @@
                     <td>{{ boat.time}} </td>
                     <td>{{ boat.timeType }} </td>
                     <td>{{ boat.at }} </td>
-                    <td>{{ boat.between }} </td>
+                </tr>
+            </tbody>
+        </table>
 
+        <table class="table">
+          <thead>
+                <tr>
+
+                    <th align="left">
+                        Service Object
+                    </th>
+                    <th>
+                        Performing Actor
+                    </th>
+                    <th>
+                        Time Sequence
+                    </th>
+                    <th>
+                        Time
+                    </th>
+                    <th>
+                        Time Type
+                    </th>
+                    <th>
+                        At
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="between in toArrayOut">
+                    <td> {{ between.to.locationType }} </td>
+                    <td>{{ between.to.position }} </td>
+                    <td>{{ between.to.name }} </td>
+                    <td>{{ between.from.locationType}} </td>
+                    <td>{{ between.from.position }} </td>
+                    <td>{{ between.from.name }} </td>
                 </tr>
             </tbody>
         </table>
@@ -92,7 +104,19 @@ export default {
 
 
 
+
+
+
+
+
+
 <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+
+
+
+
+
+
 
 
 
@@ -104,7 +128,19 @@ export default {
 
 
 
+
+
+
+
+
+
 <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+
+
+
+
+
+
 
 
 

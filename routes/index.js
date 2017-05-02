@@ -5,9 +5,7 @@ import * as api from '../api'
 /* GET home page. */
 router.get('/', function(req, res) {
     var filteredTugs = '';
-    var toArray = '';
-    var fromArray = '';
-    var finalFilteredTugs;
+    var toFromArray = '';
 
     api.test().then(function(msg) {
         const response = msg.data;
@@ -22,16 +20,12 @@ router.get('/', function(req, res) {
 
         const betweenStates = filteredTugs.map(s => (s.between))
 
-        toArray = betweenStates.filter(function(el) {
+        toFromArray = betweenStates.filter(function(el) {
             if (el !== undefined) {
                 return el.to
             }
         })
-        fromArray = betweenStates.filter(function(el) {
-            if (el !== undefined) {
-              return el.from
-            }
-        })
+
 
     }).catch(function(error) {
         console.log(error);
@@ -39,7 +33,8 @@ router.get('/', function(req, res) {
         var scope = {
             data: {
                 title: 'HelloWorld',
-                boatArray: filteredTugs
+                boatArray: filteredTugs,
+                toArrayOut: toFromArray
             }
 
         }
