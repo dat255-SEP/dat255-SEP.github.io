@@ -8,14 +8,14 @@ router.get('/', function(req, res) {
     api.test().then(function(msg) {
         const response = msg.data;
         const locationStates = response.map(m => m.locationState)
-        const answers = locationStates.filter(function(el){
+        const answers = locationStates.filter(function(el) {
             return el !== null
         })
-        const eeeh = answers.filter(function(awd){
-          return awd.referenceObject == 'TUG' || awd.referenceObject == 'ESCORT_TUG'
+        const boats = answers.filter(function(serviceObject) {
+            return serviceObject.referenceObject == 'TUG' || serviceObject.referenceObject == 'ESCORT_TUG'
         })
-        console.log(eeeh)
-        bordenogintevarasahar = JSON.stringify(eeeh)
+        console.log(boats)
+        bordenogintevarasahar = JSON.stringify(boats)
 
     }).catch(function(error) {
         console.log(error);
@@ -24,9 +24,17 @@ router.get('/', function(req, res) {
         var scope = {
             data: {
                 title: 'HelloWorld',
-                item1: 'bosse',
-                item2: 'test',
-                item3: 'cool tabell',
+                boatArray: [{
+                        name: "Kalle",
+                        serviceState: "17:00",
+                        locationState: "Vinga"
+                    },
+                    {
+                        name: "Emil",
+                        serviceState: "15:00",
+                        locationState: "Gotland"
+                    }
+                ],
                 test: bordenogintevarasahar
             }
         }
