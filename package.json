@@ -23,10 +23,12 @@
   },
   "homepage": "https://github.com/danmademe/express-vue-super-simple#readme",
   "dependencies": {
+    "axios": "^0.16.1",
     "babel-polyfill": "^6.23.0",
     "bootstrap": "^3.3.7",
     "express": "^4.15.2",
     "express-vue": "^3.9.6",
+    "nodemon": "^1.11.0",
     "promise": "^7.1.1"
   },
   "devDependencies": {
