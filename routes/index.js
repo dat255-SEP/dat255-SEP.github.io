@@ -14,8 +14,11 @@ router.get('/', function(req, res) {
         const boats = answers.filter(function(serviceObject) {
             return serviceObject.referenceObject == 'TUG' || serviceObject.referenceObject == 'ESCORT_TUG'
         })
+
+
         console.log(boats)
         bordenogintevarasahar = JSON.stringify(boats)
+
 
     }).catch(function(error) {
         console.log(error);
