@@ -41,10 +41,18 @@
                         Location Type
                     </th>
                     <th>
-                        Position
+                        Location Position
                     </th>
                     <th>
                         Departure Location
+                    </th>
+
+                    <th>
+                        Departure position
+                    </th>
+
+                    <th>
+                        Departure Location Type
                     </th>
 
                 </tr>
@@ -73,19 +81,34 @@ import * as api from '../api'
 export default {
 
     data: function() {
-        return {
-        }
+        return {}
     },
 }
 </script>
 
 <!-- Bootstrap -->
 
+
+
+
+
 <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+
+
+
+
 
 <script src="//unpkg.com/tether@latest/dist/js/tether.min.js"></script>
 
+
+
+
+
 <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+
+
+
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.12/vue.js"></script>
 
