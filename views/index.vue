@@ -20,7 +20,10 @@
                         Boat
                     </th>
                     <th>
-                        Available
+                        Service State
+                    </th>
+                    <th>
+                        Location State
                     </th>
                 </tr>
             </thead>
