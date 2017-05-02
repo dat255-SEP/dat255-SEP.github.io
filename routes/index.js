@@ -19,6 +19,7 @@ router.get('/', function(req, res) {
 
     }).catch(function(error) {
         console.log(error);
+        bordenogintevarasahar = 'API_call failed'
     }).then(function() {
         var scope = {
             data: {
