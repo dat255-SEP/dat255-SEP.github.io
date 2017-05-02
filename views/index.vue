@@ -20,10 +20,34 @@
                         Boat
                     </th>
                     <th>
-                        Service State
+                        Performing Actor
                     </th>
                     <th>
-                        Location State
+                        Time Sequence
+                    </th>
+                    <th>
+                        At
+                    </th>
+                    <th>
+                        Between
+                    </th>
+                    <th>
+                        Time
+                    </th>
+                    <th>
+                        Time Type
+                    </th>
+                    <th>
+                        Arrival Location
+                    </th>
+                    <th>
+                        Location Type
+                    </th>
+                    <th>
+                        Position
+                    </th>
+                    <th>
+                        Departure Location
                     </th>
                 </tr>
             </thead>

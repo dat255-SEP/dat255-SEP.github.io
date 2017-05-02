@@ -14,7 +14,7 @@ router.get('/', function(req, res) {
         const eeeh = answers.filter(function(awd){
           return awd.referenceObject == 'TUG' || awd.referenceObject == 'ESCORT_TUG'
         })
-        console.log(eeeh)
+        console.log(answers)
         bordenogintevarasahar = JSON.stringify(eeeh)
 
     }).catch(function(error) {
