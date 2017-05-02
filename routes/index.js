@@ -23,7 +23,7 @@ router.get('/', function(req, res) {
         var scope = {
             data: {
                 title: 'HelloWorld',
-                item1: tid,
+                item1: 'bosse',
                 item2: 'test',
                 item3: 'cool tabell',
                 test: bordenogintevarasahar
