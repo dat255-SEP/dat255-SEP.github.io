@@ -7,17 +7,18 @@ router.get('/', function(req, res) {
     var bordenogintevarasahar = '';
     api.test().then(function(msg) {
         const response = msg.data;
-        const locationStates = response.map(m => m.locationState)
-        const answers = locationStates.filter(function(el) {
+
+        const locationStates = response.map(m => (m.locationState || m.serviceState))
+        const answers = locationStates.filter(function(el){
             return el !== null
         })
-        const boats = answers.filter(function(serviceObject) {
-            return serviceObject.referenceObject == 'TUG' || serviceObject.referenceObject == 'ESCORT_TUG'
+        const eeeh = answers.filter(function(awd){
+          return awd.referenceObject == 'TUG' || awd.referenceObject == 'ESCORT_TUG' || awd.serviceObject == 'TOWAGE' || awd.serviceObject == 'ESCORT_TOWAGE'
         })
 
+        console.log(eeeh)
+        bordenogintevarasahar = JSON.stringify(eeeh)
 
-        console.log(boats)
-        bordenogintevarasahar = JSON.stringify(boats)
 
 
     }).catch(function(error) {
@@ -40,9 +41,27 @@ router.get('/', function(req, res) {
                 ],
                 test: bordenogintevarasahar
             }
+
         }
         res.render('index', scope)
     })
+})
+
+router.post('/test', function(req, res) {
+
+    var scope = {
+        data: {
+            title: 'HelloWorld',
+            item1: 'bosse',
+            item2: 'test',
+            item3: 'cool tabell',
+            test: 'haj'
+
+        }
+    }
+
+    res.render('index', scope)
+    console.log('test')
 })
 
 module.exports = router;
