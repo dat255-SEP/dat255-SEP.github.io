@@ -1,4 +1,5 @@
 var express = require('express');
+var moment = require('moment');
 var router = express.Router();
 import * as api from '../api'
 
@@ -25,6 +26,11 @@ router.get('/', function(req, res) {
                 return el.to
             }
         })
+
+        filteredTugs.filter(function(tid) {
+            return tid.time = moment(tid.time).format("DD MMM YYYY hh:mm a")
+        })
+
 
 
     }).catch(function(error) {
