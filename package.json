@@ -28,6 +28,7 @@
     "bootstrap": "^3.3.7",
     "express": "^4.15.2",
     "express-vue": "^3.9.6",
+    "moment": "^2.18.1",
     "nodemon": "^1.11.0",
     "promise": "^7.1.1"
   },
