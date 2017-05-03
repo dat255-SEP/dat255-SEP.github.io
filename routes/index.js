@@ -15,7 +15,7 @@ router.get('/', function(req, res) {
             return el !== null
         })
         filteredTugs = answers.filter(function(el) {
-            return el.referenceObject == 'TUG' || el.referenceObject == 'ESCORT_TUG' || el.serviceObject == 'TOWAGE' || el.serviceObject == 'ESCORT_TOWAGE'
+            return el.serviceObject == 'TOWAGE' || el.serviceObject == 'ESCORT_TOWAGE'
         })
 
         const betweenStates = filteredTugs.map(s => (s.between))

@@ -17,9 +17,6 @@
                         Service Object
                     </th>
                     <th>
-                        Performing Actor
-                    </th>
-                    <th>
                         Time Sequence
                     </th>
                     <th>
@@ -28,20 +25,14 @@
                     <th>
                         Time Type
                     </th>
-                    <th>
-                        At
-                    </th>
-
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="boat in boatArray">
                     <td> {{ boat.serviceObject }} </td>
-                    <td>{{ boat.performingActor }} </td>
                     <td>{{ boat.timeSequence }} </td>
                     <td>{{ boat.time}} </td>
                     <td>{{ boat.timeType }} </td>
-                    <td>{{ boat.at }} </td>
                 </tr>
             </tbody>
         </table>
@@ -50,23 +41,23 @@
           <thead>
                 <tr>
 
-                    <th align="left">
-                        Service Object
+                    <th align="right">
+                        To: Location Type
                     </th>
                     <th>
-                        Performing Actor
+                        To: Position
                     </th>
                     <th>
-                        Time Sequence
+                        To: Name
                     </th>
                     <th>
-                        Time
+                        From: Location Type
                     </th>
                     <th>
-                        Time Type
+                        From: Position
                     </th>
                     <th>
-                        At
+                        From: Name
                     </th>
 
                 </tr>
