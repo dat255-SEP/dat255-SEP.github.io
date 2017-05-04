@@ -17,6 +17,9 @@
                         Service Object
                     </th>
                     <th>
+                      Performing Actor
+                    </th>
+                    <th>
                         Time Sequence
                     </th>
                     <th>
@@ -30,6 +33,7 @@
             <tbody>
                 <tr v-for="boat in boatArray">
                     <td> {{ boat.serviceObject }} </td>
+                    <td> {{ boat.performingActor }} </td>
                     <td>{{ boat.timeSequence }} </td>
                     <td>{{ boat.time}} </td>
                     <td>{{ boat.timeType }} </td>
@@ -42,20 +46,25 @@
                 <tr>
 
                     <th align="right">
-                        To: Location Type
+                      Location State
                     </th>
                     <th>
+                        To: Location Type
+                    </th>
+            <!--        <th>
                         To: Position
                     </th>
+            -->
                     <th>
                         To: Name
                     </th>
                     <th>
                         From: Location Type
                     </th>
-                    <th>
+            <!--        <th>
                         From: Position
                     </th>
+            -->
                     <th>
                         From: Name
                     </th>
@@ -64,11 +73,12 @@
             </thead>
             <tbody>
                 <tr v-for="between in toArrayOut">
+                    <td> {{ between.to.at }} </td>
                     <td> {{ between.to.locationType }} </td>
-                    <td>{{ between.to.position }} </td>
+            <!--        <td>{{ between.to.position }} </td>   -->
                     <td>{{ between.to.name }} </td>
                     <td>{{ between.from.locationType}} </td>
-                    <td>{{ between.from.position }} </td>
+            <!--        <td>{{ between.from.position }} </td>     -->
                     <td>{{ between.from.name }} </td>
                 </tr>
             </tbody>
