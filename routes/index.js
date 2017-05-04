@@ -21,6 +21,8 @@ router.get('/', function(req, res) {
 
         const betweenStates = filteredTugs.map(s => (s.between))
 
+        console.log(filteredTugs)
+
         toFromArray = betweenStates.filter(function(el) {
             if (el !== undefined) {
                 return el.to
