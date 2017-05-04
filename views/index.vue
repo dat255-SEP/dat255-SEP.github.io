@@ -7,6 +7,7 @@
         <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
 
         <h1>{{ title }}</h1>
+        
         <p wait-for="created"> Welcome to the {{ title }} demo. </p>
         <table class="table">
             <tr>
@@ -15,17 +16,19 @@
                         <thead>
                             <tr>
                                 <th> Service Object </th>
+                                <th> Performing Actor </th>
                                 <th> Time Sequence </th>
                                 <th> Time </th>
                                 <th> Type </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td> {{ "boat.serviceObject" }} </td>
-                                <td> {{ "boat.timeSequence" }} </td>
-                                <td> {{ "boat.time" }} </td>
-                                <td> {{ "boat.timeType" }} </td>
+                            <tr v-for="boat in boatArray">
+                                <td> {{ boat.serviceObject }} </td>
+                                <td> {{ boat.performingActor }} </td>
+                                <td> {{ boat.timeSequence }} </td>
+                                <td> {{ boat.time}} </td>
+                                <td> {{ boat.timeType }} </td>
                             </tr>
                         </tbody>
                     </table>
@@ -34,22 +37,24 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th> To: Location State </th>
                                 <th> To: Location Type </th>
-                                <th> To: Pos </th>
+                           <!-- <th> To: Pos </th> -->
                                 <th> To: Name </th>
                                 <th> From: Location Type </th>
-                                <th> From: Pos </th>
+                           <!-- <th> From: Pos </th> -->
                                 <th> From: Name </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td> {{"to loc"}} </td>
-                                <td> {{ "between.to.position" }} </td>
-                                <td> {{ "between.to.name" }} </td>
-                                <td> {{ "between.from.locationType" }} </td>
-                                <td> {{ "between.from.position" }} </td>
-                                <td> {{ "between.from.name" }} </td>
+                            <tr v-for="between in toArrayOut">
+                                <td> {{ between.to.at }} </td>
+                                <td> {{ between.to.locationType }} </td>
+                        <!--    <td> {{ between.to.position }} </td>   -->
+                                <td> {{ between.to.name }} </td>
+                                <td> {{ between.from.locationType}} </td>
+                        <!--    <td> {{ between.from.position }} </td>     -->
+                                <td> {{ between.from.name }} </td>
                             </tr>
                         </tbody>
                     </table>
