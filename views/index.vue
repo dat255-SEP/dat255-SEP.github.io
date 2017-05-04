@@ -7,75 +7,56 @@
         <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
 
         <h1>{{ title }}</h1>
-        <p wait-for="created"> Welcome to the {{ title }} demo.</p>
-
+        <p wait-for="created"> Welcome to the {{ title }} demo. </p>
         <table class="table">
-          <thead>
-                <tr>
-
-                    <th align="left">
-                        Service Object
-                    </th>
-                    <th>
-                        Time Sequence
-                    </th>
-                    <th>
-                        Time
-                    </th>
-                    <th>
-                        Time Type
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="boat in boatArray">
-                    <td> {{ boat.serviceObject }} </td>
-                    <td>{{ boat.timeSequence }} </td>
-                    <td>{{ boat.time}} </td>
-                    <td>{{ boat.timeType }} </td>
-                </tr>
-            </tbody>
+            <tr>
+                <td>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th> Service Object </th>
+                                <th> Time Sequence </th>
+                                <th> Time </th>
+                                <th> Type </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> {{ "boat.serviceObject" }} </td>
+                                <td> {{ "boat.timeSequence" }} </td>
+                                <td> {{ "boat.time" }} </td>
+                                <td> {{ "boat.timeType" }} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th> To: Location Type </th>
+                                <th> To: Pos </th>
+                                <th> To: Name </th>
+                                <th> From: Location Type </th>
+                                <th> From: Pos </th>
+                                <th> From: Name </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> {{"to loc"}} </td>
+                                <td> {{ "between.to.position" }} </td>
+                                <td> {{ "between.to.name" }} </td>
+                                <td> {{ "between.from.locationType" }} </td>
+                                <td> {{ "between.from.position" }} </td>
+                                <td> {{ "between.from.name" }} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
         </table>
-
-        <table class="table">
-          <thead>
-                <tr>
-
-                    <th align="right">
-                        To: Location Type
-                    </th>
-                    <th>
-                        To: Position
-                    </th>
-                    <th>
-                        To: Name
-                    </th>
-                    <th>
-                        From: Location Type
-                    </th>
-                    <th>
-                        From: Position
-                    </th>
-                    <th>
-                        From: Name
-                    </th>
-
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="between in toArrayOut">
-                    <td> {{ between.to.locationType }} </td>
-                    <td>{{ between.to.position }} </td>
-                    <td>{{ between.to.name }} </td>
-                    <td>{{ between.from.locationType}} </td>
-                    <td>{{ between.from.position }} </td>
-                    <td>{{ between.from.name }} </td>
-                </tr>
-            </tbody>
-        </table>
-
     </div>
-
 </template>
 
 <script>
