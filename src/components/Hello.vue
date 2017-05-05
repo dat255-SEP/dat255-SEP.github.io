@@ -60,6 +60,7 @@
 
 <script>
 import axios from 'axios'
+import moment from 'moment'
 
 export default {
   name: 'hello',
@@ -91,6 +92,11 @@ export default {
         const filteredTugs = answers.filter(function (el) {
           return el.serviceObject === 'TOWAGE' || el.serviceObject === 'ESCORT_TOWAGE'
         })
+
+        filteredTugs.filter(function (tid) {
+          tid.time = moment(tid.time).format('DD MMM YYYY hh:mm a')
+        })
+
         this.boatArray = filteredTugs
 
         const betweenStates = filteredTugs.map(s => (s.between))
