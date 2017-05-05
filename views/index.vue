@@ -7,7 +7,7 @@
         <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
 
         <h1>{{ title }}</h1>
-        
+
         <p wait-for="created"> Welcome to the {{ title }} demo. </p>
         <table class="table">
             <tr>
@@ -37,7 +37,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th> To: Location State </th>
+                                <th> Location State </th>
                                 <th> To: Location Type </th>
                            <!-- <th> To: Pos </th> -->
                                 <th> To: Name </th>
