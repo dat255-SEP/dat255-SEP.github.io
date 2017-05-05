@@ -6,6 +6,20 @@
     <tr>
       <td>
         <table class="table">
+			<thead>
+				<th align="left">
+					ID
+				</th>
+			</thead>
+			<tbody>
+				<tr v-for="performingActor in idArrayOut">
+					<td> {{ performingActor.id.id }} </td>	
+				</tr>
+			</tbody>
+        </table>
+      </td>
+      <td>
+        <table class="table">
           <thead>
             <tr>
               <th> Service Object </th>
@@ -70,7 +84,8 @@ export default {
     return {
       msg: 'Tug Life',
       boatArray: '',
-      toArrayOut: ''
+      toArrayOut: '',
+      idArrayOut: ''
     }
   },
   methods: {
@@ -99,7 +114,15 @@ export default {
             return el.to
           }
         })
+        const perfActorStates = filteredTugs.map(x => (x.performingActor))
+
+        const idArray = perfActorStates.filter(function (el) {
+          if (el !== undefined) {
+            return el.id
+          }
+        })
         this.toArrayOut = toFromArray
+        this.idArrayOut = idArray
       }).catch(error => {
         console.log(error)
       })
