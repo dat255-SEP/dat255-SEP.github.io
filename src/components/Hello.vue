@@ -1,7 +1,7 @@
 <template>
 <div class="hello">
   <h1>{{ msg }}</h1>
-
+  <img src="../assets/tommy.png" width="30%">
   <table class="table">
     <tr>
       <td>
@@ -63,14 +63,12 @@ import * as api from '../api'
 import moment from 'moment'
 
 export default {
-  name: 'hello',
-
   created () {
     this.getStates()
   },
   data () {
     return {
-      msg: '',
+      msg: 'Tug Life',
       boatArray: '',
       toArrayOut: ''
     }
