@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import * as api from '../api'
 import moment from 'moment'
 
 export default {
@@ -77,13 +77,8 @@ export default {
   },
   methods: {
     getStates () {
-      axios.get('http://192.168.56.101:8080/dmp/mss/state_update?count=30&api_key=mb%2Fmqs', {
-        headers: {
-          'X-PortCDM-UserId': 'porter',
-          'X-PortCDM-Password': 'porter',
-          'X-PortCDM-APIKey': 'eeee'
-        }
-      }).then(res => {
+      api.getBoatStuffs()
+      .then(res => {
         const response = res.data
         const locationStates = response.map(m => (m.locationState || m.serviceState))
         const answers = locationStates.filter(function (el) {
