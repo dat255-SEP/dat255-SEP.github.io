@@ -6,16 +6,16 @@
     <tr>
       <td>
         <table class="table">
-			<thead>
-				<th align="left">
-					ID
-				</th>
-			</thead>
-			<tbody>
-				<tr v-for="performingActor in idArrayOut">
-					<td> {{ performingActor.id.id }} </td>	
-				</tr>
-			</tbody>
+          <thead>
+            <th align="left">
+              ID
+            </th>
+          </thead>
+          <tbody>
+            <tr v-for="performingActor in idArrayOut">
+              <td> {{ performingActor.id.id }} </td>
+            </tr>
+          </tbody>
         </table>
       </td>
       <td>
@@ -69,6 +69,13 @@
     </tr>
   </table>
 
+  <div id="inputfield">
+    <h1>Change Service State</h1>
+    <input placeholder="instruction">
+    <button v-on:click="postServiceState">Post</button>
+    <p> {{ message }}.</p>
+  </div>
+
 </div>
 </template>
 
@@ -85,48 +92,60 @@ export default {
       msg: 'Tug Life',
       boatArray: '',
       toArrayOut: '',
-      idArrayOut: ''
+      idArrayOut: '',
+      message: '',
+      counter: 0
     }
   },
   methods: {
     getStates () {
       api.getBoatStuffs()
-      .then(res => {
-        const response = res.data
-        const locationStates = response.map(m => (m.locationState || m.serviceState))
-        const answers = locationStates.filter(function (el) {
-          return el !== null
-        })
-        const filteredTugs = answers.filter(function (el) {
-          return el.serviceObject === 'TOWAGE' || el.serviceObject === 'ESCORT_TOWAGE'
-        })
+        .then(res => {
+          const response = res.data
+          const locationStates = response.map(m => (m.locationState || m.serviceState))
+          const answers = locationStates.filter(function (el) {
+            return el !== null
+          })
+          const filteredTugs = answers.filter(function (el) {
+            return el.serviceObject === 'TOWAGE' || el.serviceObject === 'ESCORT_TOWAGE'
+          })
 
-        filteredTugs.filter(function (tid) {
-          tid.time = moment(tid.time).format('DD MMM YYYY hh:mm a')
+          filteredTugs.filter(function (tid) {
+            tid.time = moment(tid.time).format('DD MMM YYYY hh:mm a')
+          })
+
+          this.boatArray = filteredTugs
+
+          const betweenStates = filteredTugs.map(s => (s.between))
+
+          const toFromArray = betweenStates.filter(function (el) {
+            if (el !== undefined) {
+              return el.to
+            }
+          })
+          const perfActorStates = filteredTugs.map(x => (x.performingActor))
+
+          const idArray = perfActorStates.filter(function (el) {
+            if (el !== undefined) {
+              return el.id
+            }
+          })
+          this.toArrayOut = toFromArray
+          this.idArrayOut = idArray
+        }).catch(error => {
+          console.log(error)
         })
+    },
 
-        this.boatArray = filteredTugs
-
-        const betweenStates = filteredTugs.map(s => (s.between))
-
-        const toFromArray = betweenStates.filter(function (el) {
-          if (el !== undefined) {
-            return el.to
-          }
+    postServiceState () {
+      api.postServiceState()
+        .then(msg => {
+          this.message = msg.data
+        }).catch(error => {
+          console.log(error)
         })
-        const perfActorStates = filteredTugs.map(x => (x.performingActor))
-
-        const idArray = perfActorStates.filter(function (el) {
-          if (el !== undefined) {
-            return el.id
-          }
-        })
-        this.toArrayOut = toFromArray
-        this.idArrayOut = idArray
-      }).catch(error => {
-        console.log(error)
-      })
     }
+
   }
 
 }
@@ -154,6 +173,6 @@ a {
 }
 
 table {
-    margin: auto;
+  margin: auto;
 }
 </style>

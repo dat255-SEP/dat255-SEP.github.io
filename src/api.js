@@ -11,3 +11,15 @@ export function getBoatStuffs () {
     }
   })
 }
+
+export function postServiceState () {
+  const querystring = require('querystring')
+  return api.post('http://192.168.56.101:8080/mb/mqs', querystring.stringify({}), {
+    headers: {
+      'X-PortCDM-UserId': 'porter',
+      'X-PortCDM-Password': 'porter',
+      'X-PortCDM-APIKey': 'eeee',
+      'Content-Type': 'application/json'
+    }
+  })
+}
