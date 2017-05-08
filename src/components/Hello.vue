@@ -70,9 +70,46 @@
   </table>
 
   <div id="inputfield">
-    <h1>Change Service State</h1>
-    <input placeholder="instruction">
-    <button v-on:click="postServiceState">Post</button>
+
+    <h1>Change Locationstate</h1>
+    <table class="table">
+      <tr>
+        <td>
+          <table class="table">
+            <thead>
+              <tr>
+                <th> vesselId </th>
+                <th> messageId </th>
+                <th> reportedBy </th>
+                <th> referenceObject </th>
+                <th> time </th>
+                <th> timeType </th>
+                <th> arrivalLocation </th>
+              </tr>
+            </thead>
+            <tbody>
+              <td> <input v-model="vesselId" placeholder="9501368">
+              </td>
+              <td> <input v-model="messageId" placeholder="5919ab7c-22fb-43a1-a21b-dc36bfd45d32">
+              </td>
+              <td> <input v-model="reportedBy" placeholder="TugAppLocStateView">
+              </td>
+              <td> <input v-model="referenceObject" placeholder="TUG">
+              </td>
+              <td> <input v-model="time" placeholder="2017-05-10T18:20:00.000Z">
+              </td>
+              <td> <input v-model="timeType" placeholder="EXPECTED">
+              </td>
+              <td> <input v-model="arrivalLocation" placeholder="Gothenburg Port">
+              </td>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <button id="post_button" v-on:click="postServiceState">Post</button>
+
     <h2> {{ 'Statuscode: ' }} </h2>
     <p> {{ statuscode }} </p>
     <h2> {{ 'API-Message: ' }}.</h2>
@@ -85,6 +122,7 @@
 <script>
 import * as api from '../api'
 import moment from 'moment'
+import * as converter from '../converter'
 
 export default {
   created () {
@@ -96,6 +134,13 @@ export default {
       boatArray: '',
       toArrayOut: '',
       idArrayOut: '',
+      vesselId: '',
+      messageId: '',
+      reportedBy: '',
+      referenceObject: '',
+      time: '',
+      timeType: '',
+      arrivalLocation: '',
       message: '',
       statuscode: ''
     }
@@ -141,7 +186,9 @@ export default {
     },
 
     async postServiceState () {
-      const response = await api.postServiceState()
+      const input = [this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocation]
+      const xmlData = await converter.convertServiceState(input)
+      const response = await api.postServiceState(xmlData)
       if (!response) {
         console.log('Could not get API Service')
       }
@@ -177,5 +224,21 @@ a {
 
 table {
   margin: auto;
+}
+
+#post_button {
+  height: 70px;
+  width: 40%;
+  border: none;
+  box-shadow: 2px 2px 10px #888888;
+  border-radius: 5px;
+  background-color: rgb(13, 155, 255);
+  transition: all .2s ease-in-out;
+  font-size: 40px;
+  color: rgb(46, 46, 46);
+}
+
+#post_button:hover {
+  transform: scale(1.02);
 }
 </style>
