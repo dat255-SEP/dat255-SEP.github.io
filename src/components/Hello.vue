@@ -6,16 +6,16 @@
     <tr>
       <td>
         <table class="table">
-			<thead>
-				<th align="left">
-					ID
-				</th>
-			</thead>
-			<tbody>
-				<tr v-for="performingActor in idArrayOut">
-					<td> {{ performingActor.id.id }} </td>	
-				</tr>
-			</tbody>
+          <thead>
+            <th align="left">
+              ID
+            </th>
+          </thead>
+          <tbody>
+            <tr v-for="performingActor in idArrayOut">
+              <td> {{ performingActor.id.id }} </td>
+            </tr>
+          </tbody>
         </table>
       </td>
       <td>
@@ -69,12 +69,60 @@
     </tr>
   </table>
 
+  <div id="inputfield">
+
+    <h1>Change Locationstate</h1>
+    <table class="table">
+      <tr>
+        <td>
+          <table class="table">
+            <thead>
+              <tr>
+                <th> vesselId </th>
+                <th> messageId </th>
+                <th> reportedBy </th>
+                <th> referenceObject </th>
+                <th> time </th>
+                <th> timeType </th>
+                <th> arrivalLocation </th>
+              </tr>
+            </thead>
+            <tbody>
+              <td> <input v-model="vesselId" placeholder="9501368">
+              </td>
+              <td> <input v-model="messageId" placeholder="5919ab7c-22fb-43a1-a21b-dc36bfd45d32">
+              </td>
+              <td> <input v-model="reportedBy" placeholder="TugAppLocStateView">
+              </td>
+              <td> <input v-model="referenceObject" placeholder="TUG">
+              </td>
+              <td> <input v-model="time" placeholder="2017-05-10T18:20:00.000Z">
+              </td>
+              <td> <input v-model="timeType" placeholder="EXPECTED">
+              </td>
+              <td> <input v-model="arrivalLocation" placeholder="Gothenburg Port">
+              </td>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <button id="post_button" v-on:click="postServiceState">Post</button>
+
+    <h2> {{ 'Statuscode: ' }} </h2>
+    <p> {{ statuscode }} </p>
+    <h2> {{ 'API-Message: ' }}.</h2>
+    <p> {{ message }} </p>
+  </div>
+
 </div>
 </template>
 
 <script>
 import * as api from '../api'
 import moment from 'moment'
+import * as converter from '../converter'
 
 export default {
   created () {
@@ -85,48 +133,69 @@ export default {
       msg: 'Tug Life',
       boatArray: '',
       toArrayOut: '',
-      idArrayOut: ''
+      idArrayOut: '',
+      vesselId: '',
+      messageId: '',
+      reportedBy: '',
+      referenceObject: '',
+      time: '',
+      timeType: '',
+      arrivalLocation: '',
+      message: '',
+      statuscode: ''
     }
   },
   methods: {
-    getStates () {
-      api.getBoatStuffs()
-      .then(res => {
-        const response = res.data
-        const locationStates = response.map(m => (m.locationState || m.serviceState))
-        const answers = locationStates.filter(function (el) {
-          return el !== null
-        })
-        const filteredTugs = answers.filter(function (el) {
-          return el.serviceObject === 'TOWAGE' || el.serviceObject === 'ESCORT_TOWAGE'
-        })
+    async getStates () {
+      await api.getBoatStuffs()
+        .then(res => {
+          const response = res.data
+          const locationStates = response.map(m => (m.locationState || m.serviceState))
+          const answers = locationStates.filter(function (el) {
+            return el !== null
+          })
+          const filteredTugs = answers.filter(function (el) {
+            return el.serviceObject === 'TOWAGE' || el.serviceObject === 'ESCORT_TOWAGE'
+          })
 
-        filteredTugs.filter(function (tid) {
-          tid.time = moment(tid.time).format('DD MMM YYYY hh:mm a')
+          filteredTugs.filter(function (tid) {
+            tid.time = moment(tid.time).format('DD MMM YYYY hh:mm a')
+          })
+
+          this.boatArray = filteredTugs
+
+          const betweenStates = filteredTugs.map(s => (s.between))
+
+          const toFromArray = betweenStates.filter(function (el) {
+            if (el !== undefined) {
+              return el.to
+            }
+          })
+          const perfActorStates = filteredTugs.map(x => (x.performingActor))
+
+          const idArray = perfActorStates.filter(function (el) {
+            if (el !== undefined) {
+              return el.id
+            }
+          })
+          this.toArrayOut = toFromArray
+          this.idArrayOut = idArray
+        }).catch(error => {
+          console.log(error)
         })
+    },
 
-        this.boatArray = filteredTugs
-
-        const betweenStates = filteredTugs.map(s => (s.between))
-
-        const toFromArray = betweenStates.filter(function (el) {
-          if (el !== undefined) {
-            return el.to
-          }
-        })
-        const perfActorStates = filteredTugs.map(x => (x.performingActor))
-
-        const idArray = perfActorStates.filter(function (el) {
-          if (el !== undefined) {
-            return el.id
-          }
-        })
-        this.toArrayOut = toFromArray
-        this.idArrayOut = idArray
-      }).catch(error => {
-        console.log(error)
-      })
+    async postServiceState () {
+      const input = [this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocation]
+      const xmlData = await converter.convertServiceState(input)
+      const response = await api.postServiceState(xmlData)
+      if (!response) {
+        console.log('Could not get API Service')
+      }
+      this.statuscode = response.status
+      this.message = response.data
     }
+
   }
 
 }
@@ -154,6 +223,22 @@ a {
 }
 
 table {
-    margin: auto;
+  margin: auto;
+}
+
+#post_button {
+  height: 70px;
+  width: 40%;
+  border: none;
+  box-shadow: 2px 2px 10px #888888;
+  border-radius: 5px;
+  background-color: rgb(13, 155, 255);
+  transition: all .2s ease-in-out;
+  font-size: 40px;
+  color: rgb(46, 46, 46);
+}
+
+#post_button:hover {
+  transform: scale(1.02);
 }
 </style>
