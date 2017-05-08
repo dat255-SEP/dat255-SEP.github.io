@@ -73,7 +73,10 @@
     <h1>Change Service State</h1>
     <input placeholder="instruction">
     <button v-on:click="postServiceState">Post</button>
-    <p> {{ message }}.</p>
+    <h2> {{ 'Statuscode: ' }} </h2>
+    <p> {{ statuscode }} </p>
+    <h2> {{ 'API-Message: ' }}.</h2>
+    <p> {{ message }} </p>
   </div>
 
 </div>
@@ -94,12 +97,12 @@ export default {
       toArrayOut: '',
       idArrayOut: '',
       message: '',
-      counter: 0
+      statuscode: ''
     }
   },
   methods: {
-    getStates () {
-      api.getBoatStuffs()
+    async getStates () {
+      await api.getBoatStuffs()
         .then(res => {
           const response = res.data
           const locationStates = response.map(m => (m.locationState || m.serviceState))
@@ -137,13 +140,13 @@ export default {
         })
     },
 
-    postServiceState () {
-      api.postServiceState()
-        .then(msg => {
-          this.message = msg.data
-        }).catch(error => {
-          console.log(error)
-        })
+    async postServiceState () {
+      const response = await api.postServiceState()
+      if (!response) {
+        console.log('Could not get API Service')
+      }
+      this.statuscode = response.status
+      this.message = response.data
     }
 
   }
