@@ -1,13 +1,11 @@
 <template>
-
 <div class="hello">
 
-<head>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-</head>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  </head>
 
-<button type="button" class="btn btn-default">Bootstrap Test</button>
 
   <h1>{{ msg }}</h1>
 
@@ -129,20 +127,24 @@
 </div>
 </template>
 
+
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <script>
 import * as api from '../api'
+//  import * as update from '../update'
 import moment from 'moment'
 import * as converter from '../converter'
 
 export default {
   created () {
     this.getStates()
+    this.updateAPICall()
   },
   data () {
     return {
-      msg: 'Tug Life',
+      msg: '',
       boatArray: '',
       toArrayOut: '',
       idArrayOut: '',
@@ -159,6 +161,7 @@ export default {
   },
   methods: {
     async getStates () {
+      this.msg = 'Tug Life'
       await api.getBoatStuffs()
         .then(res => {
           const response = res.data
@@ -206,10 +209,56 @@ export default {
       }
       this.statuscode = response.status
       this.message = response.data
+    },
+
+    async updateAPICall () {
+      var response = ''
+      var tugs = ''
+      // var toFromArray = ''
+      // var idArray = ''
+
+      //  this.msg = 'hej'
+      setInterval(async function () {
+        await api.getBoatStuffs()
+          .then(res => {
+            response = res.data
+            tugs = response.map(m => (m.locationState || m.serviceState))
+            tugs.filter(function (el) {
+              return el !== null
+            })
+            tugs.filter(function (el) {
+              return el.serviceObject === 'TOWAGE' || el.serviceObject === 'ESCORT_TOWAGE'
+            })
+
+          //  console.log(tugs)
+            // filteredTugs.filter(function (tid) {
+            //   tid.time = moment(tid.time).format('DD MMM YYYY hh:mm a')
+            // })
+            this.boatArray = tugs
+
+            const betweenStates = tugs.map(s => (s.between))
+
+            const toFromArray = betweenStates.filter(function (el) {
+              if (el !== undefined) {
+                return el.to
+              }
+            })
+            const perfActorStates = tugs.map(x => (x.performingActor))
+
+            const idArray = perfActorStates.filter(function (el) {
+              if (el !== undefined) {
+                return el.id
+              }
+            })
+            this.msg = 'Update Test'
+            this.toArrayOut = toFromArray
+            this.idArrayOut = idArray
+          }).catch(error => {
+            console.log(error)
+          })
+      }, 3000)
     }
-
   }
-
 }
 </script>
 
