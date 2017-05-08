@@ -204,6 +204,7 @@ export default {
         }).catch(error => {
           console.log(error)
         })
+      console.log(this.msg)
     },
 
     async postServiceState () {
@@ -246,16 +247,17 @@ export default {
 
             const toFromArray = betweenStates.filter(function (el) {
               if (el !== undefined) {
-                return el.to
+                // return el.to
               }
             })
             const perfActorStates = tugs.map(x => (x.performingActor))
 
             const idArray = perfActorStates.filter(function (el) {
               if (el !== undefined) {
-                return el.id
+                // return el.id
               }
             })
+            console.log(this.msg)
             this.msg = 'Update Test'
             this.toArrayOut = toFromArray
             this.idArrayOut = idArray
