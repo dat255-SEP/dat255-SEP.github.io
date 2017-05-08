@@ -7,9 +7,13 @@
   </head>
 
 
-  <h1>{{ msg }}</h1>
+  <!-- <h1>{{ msg }}</h1> -->
+  <div class="hero">
+    <img class="logo" src="../assets/tuglife-logo.png" width="30%">
+    <br>
+    <button type="button" class="btn btn-book">Book a Tug boat</button>
+  </div>
 
-  <img src="../assets/tommy.png" width="30%">
   <table class="table">
     <tr>
       <td>
@@ -179,6 +183,8 @@ export default {
 
           this.boatArray = filteredTugs
 
+          console.log(filteredTugs)
+
           const betweenStates = filteredTugs.map(s => (s.between))
 
           const toFromArray = betweenStates.filter(function (el) {
@@ -264,6 +270,41 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+body {
+  overflow-x: hidden;
+  font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.logo {
+
+}
+
+.btn-book {
+  color: white;
+  background-color: #3498db;
+  border-color: #3498db;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.btn-book:hover,
+.btn-book:focus,
+.btn-book:active,
+.btn-book.active,
+.open .dropdown-toggle.btn-book {
+  color: white;
+  background-color: #2980b9;
+  border-color: #2980b9;
+}
+
+.hero {
+  background-image: linear-gradient(rgba(0,0,0,0.0), rgba(0,0,0,0.0)), url("../assets/hero-image.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 40px;
+  background-attachment: fixed;
+}
+
 h1,
 h2 {
   font-weight: normal;
@@ -284,7 +325,8 @@ a {
 }
 
 table {
-  margin: auto;
+  margin: 50px auto;
+
 }
 
 #post_button {
