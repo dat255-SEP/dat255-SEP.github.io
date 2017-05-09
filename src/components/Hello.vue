@@ -55,7 +55,7 @@
       <td>
         <table class="table">
           <thead>
-            <tr>
+            <tr class="table2-titles">
               <th> To: Location State </th>
               <th> To: Location Type </th>
               <!-- <th> To: Pos </th> -->
@@ -472,6 +472,10 @@ input {
 }
 
 .table-titles th {
+  text-align: center;
+}
+
+.table2-titles th {
   text-align: center;
 }
 
