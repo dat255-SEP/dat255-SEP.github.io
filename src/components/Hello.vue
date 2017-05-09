@@ -16,6 +16,7 @@
     <button type="button" class="btn btn-book">Book a Tug boat</button>
   </div>
 
+<div class="table-container">
   <table class="table">
     <tr>
       <td>
@@ -82,6 +83,7 @@
       </td>
     </tr>
   </table>
+</div>
 
   <div id="inputfield">
 
@@ -224,6 +226,8 @@ export default {
 body {
   overflow-x: hidden;
   font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .logo {
@@ -278,6 +282,9 @@ a {
 table {
   margin: 50px auto;
 
+}
+
+.table-container {
 }
 
 #post_button {
