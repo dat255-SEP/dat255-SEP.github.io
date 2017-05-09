@@ -1,13 +1,11 @@
 <template>
-
 <div class="hello">
 
-<head>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-</head>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  </head>
 
-<!-- <button type="button" class="btn btn-default">Bootstrap Test</button> -->
 
   <!-- <h1>{{ msg }}</h1> -->
   <div class="hero">
@@ -143,20 +141,26 @@
 </div>
 </template>
 
+
+
+
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <script>
 import * as api from '../api'
+//  import * as update from '../update'
 import moment from 'moment'
 import * as converter from '../converter'
 
 export default {
   created () {
     this.getStates()
+    this.updateAPICall()
   },
   data () {
     return {
-      msg: 'Tug Life',
+      msg: '',
       boatArray: '',
       toArrayOut: '',
       idArrayOut: '',
@@ -173,6 +177,7 @@ export default {
   },
   methods: {
     async getStates () {
+      this.msg = 'Tug Life'
       await api.getBoatStuffs()
         .then(res => {
           const response = res.data
@@ -190,7 +195,7 @@ export default {
 
           this.boatArray = filteredTugs
 
-          console.log(filteredTugs)
+          // console.log(filteredTugs)
 
           const betweenStates = filteredTugs.map(s => (s.between))
 
@@ -199,18 +204,22 @@ export default {
               return el.to
             }
           })
+          // console.log(toFromArray)
+          this.toArrayOut = toFromArray
           const perfActorStates = filteredTugs.map(x => (x.performingActor))
+          // console.log(perfActorStates)
 
           const idArray = perfActorStates.filter(function (el) {
             if (el !== undefined) {
               return el.id
             }
           })
-          this.toArrayOut = toFromArray
           this.idArrayOut = idArray
+      //    console.log(toFromArray)
         }).catch(error => {
           console.log(error)
         })
+    //  console.log(this.msg)
     },
 
     async postServiceState () {
@@ -222,10 +231,60 @@ export default {
       }
       this.statuscode = response.status
       this.message = response.data
+    },
+
+    async updateAPICall () {
+      var response = ''
+      var tugs = ''
+      // var toFromArray = ''
+      // var idArray = ''
+
+      //  this.msg = 'hej'
+      setInterval(async function () {
+        await api.getBoatStuffs()
+          .then(res => {
+            response = res.data
+            tugs = response.map(m => (m.locationState || m.serviceState))
+            tugs.filter(function (el) {
+              return el !== null
+            })
+            tugs.filter(function (el) {
+              return el.serviceObject === 'TOWAGE' || el.serviceObject === 'ESCORT_TOWAGE'
+            })
+
+            //  console.log(tugs)
+            // filteredTugs.filter(function (tid) {
+            //   tid.time = moment(tid.time).format('DD MMM YYYY hh:mm a')
+            // })
+            this.boatArray = tugs
+
+            const betweenStates = tugs.map(s => (s.between))
+
+            const toFromArray = betweenStates.filter(function (el) {
+              if (el !== undefined) {
+                // return el.to
+              }
+            })
+            const perfActorStates = tugs.map(x => (x.performingActor))
+
+            const idArray = perfActorStates.filter(function (el) {
+              if (el !== undefined) {
+                // return el.id
+              }
+            })
+            console.log(this.msg)
+            this.nextTick(function () {
+              this.msg = 'Update Test'
+               // => 'updated'
+            })
+            this.toArrayOut = toFromArray
+            this.idArrayOut = idArray
+          }).catch(error => {
+            console.log(error)
+          })
+      }, 3000)
     }
-
   }
-
 }
 </script>
 
@@ -238,9 +297,7 @@ body {
   padding: 0;
 }
 
-.logo {
-
-}
+.logo {}
 
 .btn-book {
   color: white;
@@ -250,6 +307,7 @@ body {
   text-transform: uppercase;
   font-weight: 700;
 }
+
 .btn-book:hover,
 .btn-book:focus,
 .btn-book:active,
@@ -261,7 +319,7 @@ body {
 }
 
 .hero {
-  background-image: linear-gradient(rgba(0,0,0,0.0), rgba(0,0,0,0.0)), url("../assets/hero-image.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)), url("../assets/hero-image.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   padding: 40px;
@@ -289,7 +347,6 @@ a {
 
 table {
   margin: 50px auto;
-
 }
 
 .post {
