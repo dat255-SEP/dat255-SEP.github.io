@@ -262,11 +262,9 @@ export default {
       await api.getBoatStuffs()
         .then(res => {
           this.filterCall(res)
-      //    console.log(toFromArray)
         }).catch(error => {
           console.log(error)
         })
-    //  console.log(this.msg)
     },
 
     async postServiceState () {
@@ -281,20 +279,17 @@ export default {
     },
 
     async updateAPICall () {
-    //  var response = ''
-    //  var tugs = ''
-      // var toFromArray = ''
-      // var idArray = ''
+      var vm = this
 
-      //  this.msg = 'hej'
       setInterval(async function () {
         await api.getBoatStuffs()
           .then(res => {
-            this.filterCall(res)
+            // vm.msg = 'swaaaaaaag'
+            vm.filterCall(res)
           }).catch(error => {
             console.log(error)
           })
-      }, 3000)
+      }, 30000)
     },
 
     filterCall (array) {
@@ -313,8 +308,6 @@ export default {
 
       this.boatArray = filteredTugs
 
-    //  console.log(filteredTugs)
-
       const betweenStates = filteredTugs.map(s => (s.between))
 
       const toFromArray = betweenStates.filter(function (el) {
@@ -322,10 +315,9 @@ export default {
           return el.to
         }
       })
-      // console.log(toFromArray)
+
       this.toArrayOut = toFromArray
       const perfActorStates = filteredTugs.map(x => (x.performingActor))
-      // console.log(perfActorStates)
 
       const idArray = perfActorStates.filter(function (el) {
         if (el !== undefined) {
