@@ -133,6 +133,8 @@
 
 
 
+
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <script>
@@ -183,7 +185,7 @@ export default {
 
           this.boatArray = filteredTugs
 
-          console.log(filteredTugs)
+          // console.log(filteredTugs)
 
           const betweenStates = filteredTugs.map(s => (s.between))
 
@@ -192,19 +194,22 @@ export default {
               return el.to
             }
           })
+          // console.log(toFromArray)
+          this.toArrayOut = toFromArray
           const perfActorStates = filteredTugs.map(x => (x.performingActor))
+          // console.log(perfActorStates)
 
           const idArray = perfActorStates.filter(function (el) {
             if (el !== undefined) {
               return el.id
             }
           })
-          this.toArrayOut = toFromArray
           this.idArrayOut = idArray
+      //    console.log(toFromArray)
         }).catch(error => {
           console.log(error)
         })
-      console.log(this.msg)
+    //  console.log(this.msg)
     },
 
     async postServiceState () {
@@ -237,7 +242,7 @@ export default {
               return el.serviceObject === 'TOWAGE' || el.serviceObject === 'ESCORT_TOWAGE'
             })
 
-          //  console.log(tugs)
+            //  console.log(tugs)
             // filteredTugs.filter(function (tid) {
             //   tid.time = moment(tid.time).format('DD MMM YYYY hh:mm a')
             // })
@@ -258,7 +263,10 @@ export default {
               }
             })
             console.log(this.msg)
-            this.msg = 'Update Test'
+            this.nextTick(function () {
+              this.msg = 'Update Test'
+               // => 'updated'
+            })
             this.toArrayOut = toFromArray
             this.idArrayOut = idArray
           }).catch(error => {
@@ -277,9 +285,7 @@ body {
   font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.logo {
-
-}
+.logo {}
 
 .btn-book {
   color: white;
@@ -289,6 +295,7 @@ body {
   text-transform: uppercase;
   font-weight: 700;
 }
+
 .btn-book:hover,
 .btn-book:focus,
 .btn-book:active,
@@ -300,7 +307,7 @@ body {
 }
 
 .hero {
-  background-image: linear-gradient(rgba(0,0,0,0.0), rgba(0,0,0,0.0)), url("../assets/hero-image.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)), url("../assets/hero-image.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   padding: 40px;
@@ -328,7 +335,6 @@ a {
 
 table {
   margin: 50px auto;
-
 }
 
 #post_button {
