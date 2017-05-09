@@ -264,41 +264,7 @@ export default {
       this.msg = 'Tug Life'
       await api.getBoatStuffs()
         .then(res => {
-          const response = res.data
-          const locationStates = response.map(m => (m.locationState || m.serviceState))
-          const answers = locationStates.filter(function (el) {
-            return el !== null
-          })
-          const filteredTugs = answers.filter(function (el) {
-            return el.serviceObject === 'TOWAGE' || el.serviceObject === 'ESCORT_TOWAGE'
-          })
-
-          filteredTugs.filter(function (tid) {
-            tid.time = moment(tid.time).format('DD MMM YYYY hh:mm a')
-          })
-
-          this.boatArray = filteredTugs
-
-          // console.log(filteredTugs)
-
-          const betweenStates = filteredTugs.map(s => (s.between))
-
-          const toFromArray = betweenStates.filter(function (el) {
-            if (el !== undefined) {
-              return el.to
-            }
-          })
-          // console.log(toFromArray)
-          this.toArrayOut = toFromArray
-          const perfActorStates = filteredTugs.map(x => (x.performingActor))
-          // console.log(perfActorStates)
-
-          const idArray = perfActorStates.filter(function (el) {
-            if (el !== undefined) {
-              return el.id
-            }
-          })
-          this.idArrayOut = idArray
+          this.filterCall(res)
       //    console.log(toFromArray)
         }).catch(error => {
           console.log(error)
@@ -318,8 +284,8 @@ export default {
     },
 
     async updateAPICall () {
-      var response = ''
-      var tugs = ''
+    //  var response = ''
+    //  var tugs = ''
       // var toFromArray = ''
       // var idArray = ''
 
@@ -327,46 +293,49 @@ export default {
       setInterval(async function () {
         await api.getBoatStuffs()
           .then(res => {
-            response = res.data
-            tugs = response.map(m => (m.locationState || m.serviceState))
-            tugs.filter(function (el) {
-              return el !== null
-            })
-            tugs.filter(function (el) {
-              return el.serviceObject === 'TOWAGE' || el.serviceObject === 'ESCORT_TOWAGE'
-            })
-
-            //  console.log(tugs)
-            // filteredTugs.filter(function (tid) {
-            //   tid.time = moment(tid.time).format('DD MMM YYYY hh:mm a')
-            // })
-            this.boatArray = tugs
-
-            const betweenStates = tugs.map(s => (s.between))
-
-            const toFromArray = betweenStates.filter(function (el) {
-              if (el !== undefined) {
-                // return el.to
-              }
-            })
-            const perfActorStates = tugs.map(x => (x.performingActor))
-
-            const idArray = perfActorStates.filter(function (el) {
-              if (el !== undefined) {
-                // return el.id
-              }
-            })
-            console.log(this.msg)
-            this.nextTick(function () {
-              this.msg = 'Update Test'
-               // => 'updated'
-            })
-            this.toArrayOut = toFromArray
-            this.idArrayOut = idArray
+            this.filterCall(res)
           }).catch(error => {
             console.log(error)
           })
       }, 3000)
+    },
+
+    filterCall (array) {
+      const response = array.data
+      const locationStates = response.map(m => (m.locationState || m.serviceState))
+      const answers = locationStates.filter(function (el) {
+        return el !== null
+      })
+      const filteredTugs = answers.filter(function (el) {
+        return el.serviceObject === 'TOWAGE' || el.serviceObject === 'ESCORT_TOWAGE'
+      })
+
+      filteredTugs.filter(function (tid) {
+        tid.time = moment(tid.time).format('DD MMM YYYY hh:mm a')
+      })
+
+      this.boatArray = filteredTugs
+
+    //  console.log(filteredTugs)
+
+      const betweenStates = filteredTugs.map(s => (s.between))
+
+      const toFromArray = betweenStates.filter(function (el) {
+        if (el !== undefined) {
+          return el.to
+        }
+      })
+      // console.log(toFromArray)
+      this.toArrayOut = toFromArray
+      const perfActorStates = filteredTugs.map(x => (x.performingActor))
+      // console.log(perfActorStates)
+
+      const idArray = perfActorStates.filter(function (el) {
+        if (el !== undefined) {
+          return el.id
+        }
+      })
+      this.idArrayOut = idArray
     }
   }
 }
