@@ -16,7 +16,7 @@
 <div class="table-container">
   <table class="table">
     <tr>
-      <td>
+      <td v-if="idArrayOut.length !== 0">
         <table class="table">
           <thead>
             <th align="left">
@@ -26,6 +26,20 @@
           <tbody>
             <tr v-for="performingActor in idArrayOut">
               <td> {{ performingActor.id.id }} </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+      <td v-if="idArrayOut.length == 0">
+        <table class="table">
+          <thead>
+            <th align="left">
+              ID
+            </th>
+          </thead>
+          <tbody>
+            <tr v-for="fakeID in idArrayOut2">
+              <td> {{ fakeID }} </td>
             </tr>
           </tbody>
         </table>
@@ -242,6 +256,7 @@ export default {
       boatArray: '',
       toArrayOut: '',
       idArrayOut: '',
+      idArrayOut2: '',
       vesselId: '',
       messageId: '',
       reportedBy: '',
@@ -305,6 +320,12 @@ export default {
 
       this.boatArray = filteredTugs
 
+      for (var i = 0; i < this.boatArray.length; i++) {
+        if (this.boatArray[i].performingActor == null) {
+          this.boatArray[i].performingActor = 'NotSpecified' + i
+        }
+      }
+
       const betweenStates = filteredTugs.map(s => (s.between))
 
       const toFromArray = betweenStates.filter(function (el) {
@@ -315,6 +336,13 @@ export default {
 
       this.toArrayOut = toFromArray
       const perfActorStates = filteredTugs.map(x => (x.performingActor))
+
+      var tempArray = []
+      for (var i2 = 0; i2 < perfActorStates.length; i2++) {
+        tempArray.push('No ID-' + i2)
+      }
+      // console.log(tempArray)
+      this.idArrayOut2 = tempArray
 
       const idArray = perfActorStates.filter(function (el) {
         if (el !== undefined) {
