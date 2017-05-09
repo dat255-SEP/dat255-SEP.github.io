@@ -5,6 +5,7 @@
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" type="text/css" href="../stylesheets/style.css"> -->
 </head>
 
 <!-- <button type="button" class="btn btn-default">Bootstrap Test</button> -->
@@ -124,6 +125,60 @@
       </tr>
     </table>
 
+
+
+
+    <div class="form-box">
+    			<div class="row">
+    				<h2>Change Location State</h2>
+    			</div>
+    			<div class="row">
+    				<form action="#" method="post" class="contact-form">
+    					<div class="row">
+    						<div class="col span-1-of-3">
+    							<label for="name">vesselId</label>
+    						</div>
+    						<div class="col span-2-of-3">
+    							<input type="text" name="name" id="name" placeholder="Your name" class="name" required>
+    						</div>
+    					</div>
+    					<div class="row">
+    						<div class="col span-1-of-3">
+    							<label for="email">messageId</label>
+    						</div>
+    						<div class="col span-2-of-3">
+    							<input type="email" name="email" id="email" placeholder="Your email" required>
+    						</div>
+    					</div>
+    					<div class="row">
+    						<div class="col span-1-of-3">
+    							<label for="find-us">reportedBy</label>
+    						</div>
+    						<div class="col span-2-of-3">
+    							<select name="find-us" id="find-us">
+    								<option value="Friends" selected>1</option>
+    								<option value="search-engine">2</option>
+    								<option value="advertisement">3</option>
+    								<option value="other">4</option>
+    							</select>
+    						</div>
+    					</div>
+    					<div class="row">
+    						<div class="col span-1-of-3">
+    							<label>&nbsp;</label>
+    						</div>
+    					</div>
+    				</form>
+    			</div>
+    		</div>
+
+
+
+
+
+
+
+
     <button id="post_button" v-on:click="postServiceState">Post</button>
 
     <div class="post">
@@ -231,6 +286,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 body {
   overflow-x: hidden;
   font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -341,4 +397,5 @@ table {
 #post_button:hover {
   transform: scale(1.02);
 }
+
 </style>
