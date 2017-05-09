@@ -125,42 +125,73 @@
 
 
     <div class="form-box">
-    			<div class="row">
+    			<div>
     				<h2>Change Location State</h2>
     			</div>
-    			<div class="row">
+    			<div>
     				<form action="#" method="post" class="contact-form">
-    					<div class="row">
-    						<div class="col span-1-of-3">
+    					<div>
+    						<div>
     							<label for="name">vesselId</label>
     						</div>
-    						<div class="col span-2-of-3">
-    							<input type="text" name="name" id="name" placeholder="Your name" class="name" required>
+    						<div>
+    							<input v-model="vesselId" placeholder="9501368">
     						</div>
     					</div>
-    					<div class="row">
-    						<div class="col span-1-of-3">
+    					<div>
+    						<div>
     							<label for="email">messageId</label>
     						</div>
-    						<div class="col span-2-of-3">
-    							<input type="email" name="email" id="email" placeholder="Your email" required>
+    						<div>
+                  <input v-model="messageId" placeholder="5919ab7c-22fb-43a1-a21b-dc36bfd45d32">
     						</div>
     					</div>
-    					<div class="row">
-    						<div class="col span-1-of-3">
-    							<label for="find-us">reportedBy</label>
+              <div>
+    						<div>
+    							<label for="email">reportedBy</label>
     						</div>
-    						<div class="col span-2-of-3">
-    							<select name="find-us" id="find-us">
-    								<option value="Friends" selected>1</option>
-    								<option value="search-engine">2</option>
-    								<option value="advertisement">3</option>
-    								<option value="other">4</option>
+    						<div>
+                  <input v-model="reportedBy" placeholder="TugAppLocStateView">
+    						</div>
+    					</div>
+              <div>
+    						<div>
+    							<label>reportedBy</label>
+    						</div>
+    						<div>
+    							<select>
+                    <option selected v-model="referenceObject">TUG</option>
     							</select>
     						</div>
     					</div>
-    					<div class="row">
-    						<div class="col span-1-of-3">
+    					<div>
+    						<div>
+    							<label>timeType</label>
+    						</div>
+    						<div>
+    							<select>
+    								<option selected>1</option>
+    								<option>2</option>
+    								<option>3</option>
+    								<option>4</option>
+    							</select>
+    						</div>
+    					</div>
+              <div>
+    						<div>
+    							<label>arrivalLocation</label>
+    						</div>
+    						<div>
+    							<select>
+    								<option selected>1</option>
+    								<option>2</option>
+    								<option>3</option>
+    								<option>4</option>
+    							</select>
+    						</div>
+    					</div>
+    					<div>
+    						<div>
     							<label>&nbsp;</label>
     						</div>
     					</div>
