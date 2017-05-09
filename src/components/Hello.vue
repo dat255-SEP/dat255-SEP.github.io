@@ -84,6 +84,7 @@
 
   <div id="inputfield">
 
+<!--
     <h1>Change Locationstate</h1>
     <table class="table">
       <tr>
@@ -120,108 +121,104 @@
         </td>
       </tr>
     </table>
+-->
+    <div class="post-container">
+      <div class="form-box">
+      			<div class="locationTitle">
+      				<h2>Change Location State</h2>
+      			</div>
+      			<div>
+      				<form action="#" method="post" class="contact-form">
+      					<div>
+      						<div>
+      							<label for="name">vesselId</label>
+      						</div>
+      						<div>
+      							<input v-model="vesselId" placeholder="9501368">
+      						</div>
+      					</div>
+      					<div>
+      						<div>
+      							<label for="email">messageId</label>
+      						</div>
+      						<div>
+                    <input v-model="messageId" placeholder="5919ab7c-22fb-43a1-a21b-dc36bfd45d32">
+      						</div>
+      					</div>
+                <div>
+      						<div>
+      							<label for="email">reportedBy</label>
+      						</div>
+      						<div>
+                    <input v-model="reportedBy" placeholder="TugAppLocStateView">
+      						</div>
+      					</div>
+                <div>
+      						<div>
+      							<label>referenceObject</label>
+      						</div>
+      						<div>
+      							<select>
+                      <option selected v-model="referenceObject">TUG</option>
+      							</select>
+      						</div>
+      					</div>
+                <div>
+      						<div>
+      							<label for="email">time</label>
+      						</div>
+      						<div>
+                    <input v-model="time" type="date" id="theTime">
+      						</div>
+      					</div>
+      					<div>
+      						<div>
+      							<label>timeType</label>
+      						</div>
+      						<div>
+      							<select>
+      								<option selected v-model="timeType">EXPECTED</option>
+      								<option>ACTUAL</option>
+      								<option>ESTIMATED</option>
+      							</select>
+      						</div>
+      					</div>
+                <div>
+      						<div>
+      							<label>arrivalLocation</label>
+      						</div>
+      						<div>
+      							<select>
+      								<option selected v-model="arrivalLocation">Gothenburg Port</option>
+      							</select>
+      						</div>
+      					</div>
+      					<div>
+      						<div>
+      							<label>&nbsp;</label>
+      						</div>
+      					</div>
+      				</form>
+      			</div>
+      		</div>
 
+      <button id="post_button" v-on:click="postServiceState">Post</button>
 
+      <div class="post">
+        <h2> {{ 'Statuscode: ' }} </h2>
+        <form>
+          <textarea class="status-form"> {{ statuscode }} </textarea>
+        </form>
 
+        <h2> {{ 'API-Message: ' }} </h2>
+        <form>
+          <textarea class="message-form"> {{ message }} </textarea>
+        </form>
+    </div>
 
-    <div class="form-box">
-    			<div>
-    				<h2>Change Location State</h2>
-    			</div>
-    			<div>
-    				<form action="#" method="post" class="contact-form">
-    					<div>
-    						<div>
-    							<label for="name">vesselId</label>
-    						</div>
-    						<div>
-    							<input v-model="vesselId" placeholder="9501368">
-    						</div>
-    					</div>
-    					<div>
-    						<div>
-    							<label for="email">messageId</label>
-    						</div>
-    						<div>
-                  <input v-model="messageId" placeholder="5919ab7c-22fb-43a1-a21b-dc36bfd45d32">
-    						</div>
-    					</div>
-              <div>
-    						<div>
-    							<label for="email">reportedBy</label>
-    						</div>
-    						<div>
-                  <input v-model="reportedBy" placeholder="TugAppLocStateView">
-    						</div>
-    					</div>
-              <div>
-    						<div>
-    							<label>reportedBy</label>
-    						</div>
-    						<div>
-    							<select>
-                    <option selected v-model="referenceObject">TUG</option>
-    							</select>
-    						</div>
-    					</div>
-    					<div>
-    						<div>
-    							<label>timeType</label>
-    						</div>
-    						<div>
-    							<select>
-    								<option selected>1</option>
-    								<option>2</option>
-    								<option>3</option>
-    								<option>4</option>
-    							</select>
-    						</div>
-    					</div>
-              <div>
-    						<div>
-    							<label>arrivalLocation</label>
-    						</div>
-    						<div>
-    							<select>
-    								<option selected>1</option>
-    								<option>2</option>
-    								<option>3</option>
-    								<option>4</option>
-    							</select>
-    						</div>
-    					</div>
-    					<div>
-    						<div>
-    							<label>&nbsp;</label>
-    						</div>
-    					</div>
-    				</form>
-    			</div>
-    		</div>
-
-
-
-
-
-
-
-
-    <button id="post_button" v-on:click="postServiceState">Post</button>
-
-    <div class="post">
-      <h2> {{ 'Statuscode: ' }} </h2>
-      <form>
-        <textarea class="status-form"> {{ statuscode }} </textarea>
-      </form>
-
-      <h2> {{ 'API-Message: ' }} </h2>
-      <form>
-        <textarea class="message-form"> {{ message }} </textarea>
-      </form>
-  </div>
+    </div>
 
   </div>
-
 </div>
 </template>
 
@@ -349,6 +346,7 @@ body {
   font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin: 0;
   padding: 0;
+  background: #e5e5e5;
 }
 
 .logo {}
@@ -437,6 +435,15 @@ table {
 .table-container {
 }
 
+.form-box {
+  margin-bottom: 50px;
+}
+
+.post-container {
+  background-color: #fcfcfc;
+  padding: 20px;
+}
+
 #post_button {
   height: 70px;
   width: 40%;
@@ -451,6 +458,28 @@ table {
 
 #post_button:hover {
   transform: scale(1.02);
+}
+
+[type="date"] {
+  background:#fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)  97% 50% no-repeat ;
+}
+[type="date"]::-webkit-inner-spin-button {
+  display: none;
+}
+[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
+label {
+  display: block;
+}
+input {
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 3px 5px;
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+  width: 190px;
 }
 
 </style>
