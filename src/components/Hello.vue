@@ -126,10 +126,18 @@
 
     <button id="post_button" v-on:click="postServiceState">Post</button>
 
-    <h2> {{ 'Statuscode: ' }} </h2>
-    <p> {{ statuscode }} </p>
-    <h2> {{ 'API-Message: ' }}.</h2>
-    <p> {{ message }} </p>
+    <div class="post">
+      <h2> {{ 'Statuscode: ' }} </h2>
+      <form>
+        <textarea class="status-form"> {{ statuscode }} </textarea>
+      </form>
+
+      <h2> {{ 'API-Message: ' }} </h2>
+      <form>
+        <textarea class="message-form"> {{ message }} </textarea>
+      </form>
+  </div>
+
   </div>
 
 </div>
@@ -282,6 +290,37 @@ a {
 table {
   margin: 50px auto;
 
+}
+
+.post {
+  margin-top: 50px;
+}
+
+.message-form {
+    width: 50%;
+    height: 200px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+    margin-bottom: 30px;
+    margin-top: 10px;
+}
+
+.status-form {
+    text-align: center;
+    margin-top: 10px;
+    width: 50%;
+    height: 50px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+    margin-bottom: 30px;
 }
 
 .table-container {
