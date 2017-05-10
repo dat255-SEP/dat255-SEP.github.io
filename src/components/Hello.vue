@@ -139,7 +139,7 @@
     <div class="post-container">
       <div class="form-box">
       			<div class="locationTitle">
-      				<h2>Change Location State</h2>
+      				<h1>Change Location State</h1>
       			</div>
       			<div>
       				<form action="#" method="post" class="contact-form">
@@ -216,7 +216,7 @@
       			</div>
       		</div>
 
-      <button id="post_button" v-on:click="postServiceState">Post</button>
+      <button id="post_button" v-on:click="postLocationState">Post</button>
 
       <div class="post">
         <h2> {{ 'Statuscode: ' }} </h2>
@@ -227,6 +227,122 @@
         <h2> {{ 'API-Message: ' }} </h2>
         <form>
           <textarea class="message-form"> {{ message }} </textarea>
+        </form>
+    </div>
+
+    </div>
+
+    <div class="post-container">
+      <div class="form-box">
+            <div class="locationTitle">
+              <h1>Change Service State</h1>
+            </div>
+            <div>
+              <form action="#" method="post" class="contact-form">
+                <div>
+                  <div>
+                    <label for="name">serviceObject</label>
+                  </div>
+                  <div>
+                    <input v-model="serviceObject" placeholder="9501368">
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <label for="email">performingActor</label>
+                  </div>
+                  <div>
+                    <input v-model="performingActor" placeholder="5919ab7c-22fb-43a1-a21b-dc36bfd45d32">
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <label for="email">timeSequence</label>
+                  </div>
+                  <div>
+                    <input v-model="timeSequence" placeholder="TugAppLocStateView">
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <label>timeSer</label>
+                  </div>
+                  <div>
+                    <select>
+                      <option selected v-model="timeSer">TUG</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <label for="email">time</label>
+                  </div>
+                  <div>
+                    <input v-model="time" type="date" id="theTime">
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <label>timeTypeSer</label>
+                  </div>
+                  <div>
+                    <select>
+                      <option selected v-model="timeTypeSer">EXPECTED</option>
+                      <option>ACTUAL</option>
+                      <option>ESTIMATED</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <label>at</label>
+                  </div>
+                  <div>
+                    <select>
+                      <option selected v-model="at">Gothenburg Port</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <label>to</label>
+                  </div>
+                  <div>
+                    <select>
+                      <option selected v-model="to">Gothenburg Port</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <label>from</label>
+                  </div>
+                  <div>
+                    <select>
+                      <option selected v-model="from">Gothenburg Port</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <label>&nbsp;</label>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+      <button id="post_button" v-on:click="postServiceState">Post</button>
+
+      <div class="post">
+        <h2> {{ 'Statuscode: ' }} </h2>
+        <form>
+          <textarea class="status-form"> {{ statuscodeServ }} </textarea>
+        </form>
+
+        <h2> {{ 'API-Message: ' }} </h2>
+        <form>
+          <textarea class="message-form"> {{ messageServ }} </textarea>
         </form>
     </div>
 
@@ -265,7 +381,17 @@ export default {
       timeType: '',
       arrivalLocation: '',
       message: '',
-      statuscode: ''
+      statuscode: '',
+      serviceObject: '',
+      performingActor: '',
+      timeSequence: '',
+      timeSer: '',
+      timeTypeSer: '',
+      at: '',
+      to: '',
+      from: '',
+      statuscodeServ: '',
+      messageServ: ''
     }
   },
   methods: {
@@ -280,9 +406,21 @@ export default {
     },
 
     async postServiceState () {
-      const input = [this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocation]
+      const input = [this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
+        this.at, this.to, this.from]
       const xmlData = await converter.convertServiceState(input)
-      const response = await api.postServiceState(xmlData)
+      const response = await api.postState(xmlData)
+      if (!response) {
+        console.log('Could not get API Service')
+      }
+      this.statuscodeServ = response.status
+      this.messageServ = response.data
+    },
+
+    async postLocationState () {
+      const input = [this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocation]
+      const xmlData = await converter.convertLocationState(input)
+      const response = await api.postState(xmlData)
       if (!response) {
         console.log('Could not get API Service')
       }

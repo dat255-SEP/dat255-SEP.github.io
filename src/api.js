@@ -12,7 +12,7 @@ export async function getBoatStuffs () {
   })
 }
 
-export async function postServiceState (xmlData) {
+export async function postState (xmlData) {
   const querystring = require('querystring')
   return api.post('https://dev.portcdm.eu/dmp/mss/state_update', querystring.stringify({}), {
     data: {
