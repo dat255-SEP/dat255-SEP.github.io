@@ -295,32 +295,25 @@
                 </div>
                 <div>
                   <div>
-                    <label>at</label>
+                    <label for="name">at</label>
                   </div>
                   <div>
-                    <select>
-                      <option selected v-model="at">Gothenburg Port</option>
-                    </select>
+                    <input v-model="at" placeholder="a location">
                   </div>
                 </div>
                 <div>
                   <div>
-                    <label>to</label>
+                    <label for="name">to</label>
                   </div>
                   <div>
-                    <select>
-                      <option selected v-model="to">Gothenburg Port</option>
-                    </select>
+                    <input v-model="to" placeholder="to location">
                   </div>
-                </div>
-                <div>
+                </div><div>
                   <div>
-                    <label>from</label>
+                    <label for="name">from</label>
                   </div>
                   <div>
-                    <select>
-                      <option selected v-model="from">Gothenburg Port</option>
-                    </select>
+                    <input v-model="from" placeholder="from location">
                   </div>
                 </div>
                 <div>
