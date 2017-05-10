@@ -16,15 +16,15 @@ export async function convertServiceState (input) {
   var xmlData = '' +
       '<?xml version="1.0" encoding="UTF-8"?>' +
   '<ns2:portCallMessage xmlns:ns2="urn:x-mrn:stm:schema:port-call-message:0.0.16">' +
-  '<ns2:serviceObject> ns2:ServiceObject </ns2:serviceObject>'
-  '<ns2:performingActor> ns2:MRN </ns2:performingActor>'
-  '<ns2:timeSequence> ns2:ServiceTimeSequence </ns2:timeSequence>'
-  '<ns2:time> xs:dateTime </ns2:time>'
-  '<ns2:timeType> ns2:TimeType </ns2:timeType>'
-  '<ns2:at> ns2:Location </ns2:at>'
+  '<ns2:serviceObject> ns2:' + input[0] + '</ns2:serviceObject>'
+  '<ns2:performingActor> ns2:MRN ' + input[1] + '</ns2:performingActor>'
+  '<ns2:timeSequence> ns2:ServiceTimeSequence ' + input[2] + ' </ns2:timeSequence>'
+  '<ns2:time> xs:' + input[3] + ' </ns2:time>'
+  '<ns2:timeType> ns2:' + input[4] + ' </ns2:timeType>'
+  '<ns2:at> ns2:' + input[5] + ' </ns2:at>'
   '<ns2:between>'
-  '<ns2:to> ns2:Location </ns2:to>'
-  '<ns2:from> ns2:Location </ns2:from>'
+  '<ns2:to> ns2:' + input[6] + ' </ns2:to>'
+  '<ns2:from> ns2:' + input[7] + '</ns2:from>'
   '</ns2:between>'
   '</ns2:locationState>'
   '</ns2:portCallMessage>'
