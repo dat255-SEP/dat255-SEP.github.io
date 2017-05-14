@@ -10,7 +10,7 @@
   <div class="hero">
     <img class="logo" src="../assets/tuglife-logo.png" width="30%">
     <br>
-    <button type="button" class="btn btn-book">Book a Tug boat</button>
+
   </div>
 
 <div class="table-container">
