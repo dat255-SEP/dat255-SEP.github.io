@@ -70,7 +70,7 @@
         <table class="table">
           <thead>
             <tr class="table2-titles">
-              <th> To: Location State </th>
+              <th> Location State </th>
               <th> To: Location Type </th>
               <!-- <th> To: Pos </th> -->
               <th> To: Name </th>
