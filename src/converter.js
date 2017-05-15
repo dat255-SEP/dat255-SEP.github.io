@@ -8,7 +8,6 @@ export async function convertLocationState (input) {
   '</ns2:locationState>'
   '</ns2:portCallMessage>'
 
-  console.log(xmlData)
   return xmlData
 }
 

@@ -436,8 +436,7 @@ export default {
     },
 
     filterCall (array) {
-      const response = array.data
-      const locationStates = response.map(m => (m.locationState || m.serviceState))
+      const locationStates = array.map(m => (m.locationState || m.serviceState))
       const answers = locationStates.filter(function (el) {
         return el !== null
       })
