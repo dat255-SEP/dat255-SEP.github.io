@@ -13,6 +13,7 @@
 
   </div>
 
+<<<<<<< HEAD
   <div class="table-container">
     <table class="table">
       <tr>
