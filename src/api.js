@@ -11,7 +11,7 @@ export async function getBoatStuffs () {
 }
 
 export async function postState (xmlData) {
-  const response = await api.get(`/api/postDat`)
+  const response = await api.post(`/api/postDat`)
   if (!response) {
     throw new Error('could not get states')
   }
