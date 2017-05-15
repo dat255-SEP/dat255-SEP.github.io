@@ -412,8 +412,8 @@ export default {
 
     async postLocationState () {
       const input = [this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocation]
-      const xmlData = await converter.convertLocationState(input)
-      const response = await api.postState(xmlData)
+      const xml = await converter.convertLocationState(input)
+      const response = await api.postState(xml)
       if (!response) {
         console.log('Could not get API Service')
       }

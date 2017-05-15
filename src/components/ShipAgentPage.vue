@@ -161,7 +161,7 @@ export default {
         console.log('Could not get API Service')
       }
       this.statuscodeServ = response.status
-      this.messageServ = response.data
+      this.messageServ = response.statusText
     },
 
     async postLocationState () {
@@ -172,7 +172,7 @@ export default {
         console.log('Could not get API Service')
       }
       this.statuscode = response.status
-      this.message = response.data
+      this.message = response.statusText
     },
 
     async updateAPICall () {
