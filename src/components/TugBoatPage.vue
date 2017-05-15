@@ -13,92 +13,100 @@
 
   </div>
 
-<div class="table-container">
-  <table class="table">
-    <tr>
-      <td v-if="idArrayOut.length !== 0">
-        <table class="table">
-          <thead>
-            <th align="left">
-              ID
-            </th>
-          </thead>
-          <tbody>
-            <tr v-for="performingActor in idArrayOut">
-              <td> {{ performingActor.id.id }} </td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-      <td v-if="idArrayOut.length == 0">
-        <table class="table">
-          <thead>
-            <th align="left">
-              ID
-            </th>
-          </thead>
-          <tbody>
-            <tr v-for="fakeID in idArrayOut2">
-              <td> {{ fakeID }} </td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-      <td>
-        <table class="table">
-          <thead>
-            <tr class="table-titles">
-              <th> Service Object </th>
-              <th> Performing Actor </th>
-              <th> Time Sequence </th>
-              <th> Time </th>
-              <th> Type </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="boat in boatArray">
-              <td> {{ boat.serviceObject }} </td>
-              <td> {{ boat.performingActor }} </td>
-              <td> {{ boat.timeSequence }} </td>
-              <td> {{ boat.time}} </td>
-              <td> {{ boat.timeType }} </td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-      <td>
-        <table class="table">
-          <thead>
-            <tr class="table2-titles">
-              <th> To: Location State </th>
-              <th> To: Location Type </th>
-              <!-- <th> To: Pos </th> -->
-              <th> To: Name </th>
-              <th> From: Location Type </th>
-              <!-- <th> From: Pos </th> -->
-              <th> From: Name </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="between in toArrayOut">
-              <td> {{ between.to.at }} </td>
-              <td> {{ between.to.locationType }} </td>
-              <!--    <td> {{ between.to.position }} </td>   -->
-              <td> {{ between.to.name }} </td>
-              <td> {{ between.from.locationType}} </td>
-              <!--    <td> {{ between.from.position }} </td>     -->
-              <td> {{ between.from.name }} </td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-    </tr>
-  </table>
-</div>
+  <div class="table-container">
+    <table class="table">
+      <tr>
+        <td v-if="idArrayOut.length !== 0">
+          <table class="table">
+            <thead>
+              <th align="left">
+                ID
+              </th>
+            </thead>
+            <tbody>
+              <tr v-for="performingActor in idArrayOut">
+                <td> {{ performingActor.id.id }} </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td v-if="idArrayOut.length == 0">
+          <table class="table">
+            <thead>
+              <th align="left">
+                ID
+              </th>
+            </thead>
+            <tbody>
+              <tr v-for="fakeID in idArrayOut2">
+                <td> {{ fakeID }} </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td>
+          <table class="table">
+            <thead>
+              <tr class="table-titles">
+                <th> Service Object </th>
+                <th> Performing Actor </th>
+                <th> Time Sequence </th>
+                <th> Time </th>
+                <th> Type </th>
+                <th> Update </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="boat in boatArray">
+                <td> {{ boat.serviceObject }} </td>
+                <td> {{ boat.performingActor }} </td>
+                <td> {{ boat.timeSequence }} </td>
+                <td> {{ boat.time }} </td>
+                <td> {{ boat.timeType }} </td>
+                <td>
+                  <button class="btn btn-book" id="updateLocation" v-on:click="updateLocation(boat)">Update</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td>
+          <table class="table">
+            <thead>
+              <tr class="table2-titles">
+                <th> To: Location State </th>
+                <th> To: Location Type </th>
+                <!-- <th> To: Pos </th> -->
+                <th> To: Name </th>
+                <th> From: Location Type </th>
+                <!-- <th> From: Pos </th> -->
+                <th> From: Name </th>
+                <th> Update </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="between in toArrayOut">
+                <td> {{ between.to.at }} </td>
+                <td> {{ between.to.locationType }} </td>
+                <!--    <td> {{ between.to.position }} </td>   -->
+                <td> {{ between.to.name }} </td>
+                <td> {{ between.from.locationType}} </td>
+                <!--    <td> {{ between.from.position }} </td>     -->
+                <td> {{ between.from.name }} </td>
+                <td>
+                  <button class="btn btn-book" id="editState">Update</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
 
   <div id="inputfield">
 
-<!--
+    <!--
     <h1>Change Locationstate</h1>
     <table class="table">
       <tr>
@@ -138,83 +146,83 @@
 -->
     <div class="post-container">
       <div class="form-box">
-      			<div class="locationTitle">
-      				<h1>Change Location State</h1>
-      			</div>
-      			<div>
-      				<form action="#" method="post" class="contact-form">
-      					<div>
-      						<div>
-      							<label for="name">vesselId</label>
-      						</div>
-      						<div>
-      							<input v-model="vesselId" placeholder="9501368">
-      						</div>
-      					</div>
-      					<div>
-      						<div>
-      							<label for="email">messageId</label>
-      						</div>
-      						<div>
-                    <input v-model="messageId" placeholder="5919ab7c-22fb-43a1-a21b-dc36bfd45d32">
-      						</div>
-      					</div>
-                <div>
-      						<div>
-      							<label for="email">reportedBy</label>
-      						</div>
-      						<div>
-                    <input v-model="reportedBy" placeholder="TugAppLocStateView">
-      						</div>
-      					</div>
-                <div>
-      						<div>
-      							<label>referenceObject</label>
-      						</div>
-      						<div>
-      							<select>
+        <div class="locationTitle">
+          <h1>Change Location State</h1>
+        </div>
+        <div>
+          <form action="#" method="post" class="contact-form">
+            <div>
+              <div>
+                <label for="name">vesselId</label>
+              </div>
+              <div>
+                <input v-model="vesselId" placeholder="9501368">
+              </div>
+            </div>
+            <div>
+              <div>
+                <label for="email">messageId</label>
+              </div>
+              <div>
+                <input v-model="messageId" placeholder="5919ab7c-22fb-43a1-a21b-dc36bfd45d32">
+              </div>
+            </div>
+            <div>
+              <div>
+                <label for="email">reportedBy</label>
+              </div>
+              <div>
+                <input v-model="reportedBy" placeholder="TugAppLocStateView">
+              </div>
+            </div>
+            <div>
+              <div>
+                <label>referenceObject</label>
+              </div>
+              <div>
+                <select>
                       <option selected v-model="referenceObject">TUG</option>
       							</select>
-      						</div>
-      					</div>
-                <div>
-      						<div>
-      							<label for="email">time</label>
-      						</div>
-      						<div>
-                    <input v-model="time" type="date" id="theTime">
-      						</div>
-      					</div>
-      					<div>
-      						<div>
-      							<label>timeType</label>
-      						</div>
-      						<div>
-      							<select>
-      								<option selected v-model="timeType">EXPECTED</option>
+              </div>
+            </div>
+            <div>
+              <div>
+                <label for="email">time</label>
+              </div>
+              <div>
+                <input v-model="time" type="date" id="theTime">
+              </div>
+            </div>
+            <div>
+              <div>
+                <label>timeType</label>
+              </div>
+              <div>
+                <select v-model="timeType">
+      								<option selected >EXPECTED</option>
       								<option>ACTUAL</option>
       								<option>ESTIMATED</option>
       							</select>
-      						</div>
-      					</div>
-                <div>
-      						<div>
-      							<label>arrivalLocation</label>
-      						</div>
-      						<div>
-      							<select>
+              </div>
+            </div>
+            <div>
+              <div>
+                <label>arrivalLocation</label>
+              </div>
+              <div>
+                <select>
       								<option selected v-model="arrivalLocation">Gothenburg Port</option>
       							</select>
-      						</div>
-      					</div>
-      					<div>
-      						<div>
-      							<label>&nbsp;</label>
-      						</div>
-      					</div>
-      				</form>
-      			</div>
-      		</div>
+              </div>
+            </div>
+            <div>
+              <div>
+                <label>&nbsp;</label>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
 
       <button id="post_button" v-on:click="postLocationState">Post</button>
 
@@ -228,102 +236,103 @@
         <form>
           <textarea class="message-form"> {{ message }} </textarea>
         </form>
-    </div>
+      </div>
 
     </div>
 
     <div class="post-container">
       <div class="form-box">
-            <div class="locationTitle">
-              <h1>Change Service State</h1>
+        <div class="locationTitle">
+          <h1>Change Service State</h1>
+        </div>
+        <div>
+          <form action="#" method="post" class="contact-form">
+            <div>
+              <div>
+                <label for="name">serviceObject</label>
+              </div>
+              <div>
+                <input v-model="serviceObject" placeholder="9501368">
+              </div>
             </div>
             <div>
-              <form action="#" method="post" class="contact-form">
-                <div>
-                  <div>
-                    <label for="name">serviceObject</label>
-                  </div>
-                  <div>
-                    <input v-model="serviceObject" placeholder="9501368">
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <label for="email">performingActor</label>
-                  </div>
-                  <div>
-                    <input v-model="performingActor" placeholder="5919ab7c-22fb-43a1-a21b-dc36bfd45d32">
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <label for="email">timeSequence</label>
-                  </div>
-                  <div>
-                    <input v-model="timeSequence" placeholder="TugAppLocStateView">
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <label>timeSer</label>
-                  </div>
-                  <div>
-                    <select>
+              <div>
+                <label for="email">performingActor</label>
+              </div>
+              <div>
+                <input v-model="performingActor" placeholder="5919ab7c-22fb-43a1-a21b-dc36bfd45d32">
+              </div>
+            </div>
+            <div>
+              <div>
+                <label for="email">timeSequence</label>
+              </div>
+              <div>
+                <input v-model="timeSequence" placeholder="TugAppLocStateView">
+              </div>
+            </div>
+            <div>
+              <div>
+                <label>timeSer</label>
+              </div>
+              <div>
+                <select>
                       <option selected v-model="timeSer">TUG</option>
                     </select>
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <label for="email">time</label>
-                  </div>
-                  <div>
-                    <input v-model="time" type="date" id="theTime">
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <label>timeTypeSer</label>
-                  </div>
-                  <div>
-                    <select>
+              </div>
+            </div>
+            <div>
+              <div>
+                <label for="email">time</label>
+              </div>
+              <div>
+                <input v-model="time" type="date" id="theTime">
+              </div>
+            </div>
+            <div>
+              <div>
+                <label>timeTypeSer</label>
+              </div>
+              <div>
+                <select>
                       <option selected v-model="timeTypeSer">EXPECTED</option>
                       <option>ACTUAL</option>
                       <option>ESTIMATED</option>
                     </select>
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <label for="name">at</label>
-                  </div>
-                  <div>
-                    <input v-model="at" placeholder="a location">
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <label for="name">to</label>
-                  </div>
-                  <div>
-                    <input v-model="to" placeholder="to location">
-                  </div>
-                </div><div>
-                  <div>
-                    <label for="name">from</label>
-                  </div>
-                  <div>
-                    <input v-model="from" placeholder="from location">
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <label>&nbsp;</label>
-                  </div>
-                </div>
-              </form>
+              </div>
             </div>
-          </div>
+            <div>
+              <div>
+                <label for="name">at</label>
+              </div>
+              <div>
+                <input v-model="at" placeholder="a location">
+              </div>
+            </div>
+            <div>
+              <div>
+                <label for="name">to</label>
+              </div>
+              <div>
+                <input v-model="to" placeholder="to location">
+              </div>
+            </div>
+            <div>
+              <div>
+                <label for="name">from</label>
+              </div>
+              <div>
+                <input v-model="from" placeholder="from location">
+              </div>
+            </div>
+            <div>
+              <div>
+                <label>&nbsp;</label>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
 
       <button id="post_button" v-on:click="postServiceState">Post</button>
 
@@ -337,7 +346,7 @@
         <form>
           <textarea class="message-form"> {{ messageServ }} </textarea>
         </form>
-    </div>
+      </div>
 
     </div>
 
@@ -345,10 +354,13 @@
 </div>
 </template>
 
+
+
+
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <script>
-
 import * as api from '../api'
 //  import * as update from '../update'
 import moment from 'moment'
@@ -400,7 +412,8 @@ export default {
 
     async postServiceState () {
       const input = [this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
-        this.at, this.to, this.from]
+        this.at, this.to, this.from
+      ]
       const xmlData = await converter.convertServiceState(input)
       const response = await api.postState(xmlData)
       if (!response) {
@@ -429,6 +442,7 @@ export default {
           .then(res => {
             // vm.msg = 'swaaaaaaag'
             vm.filterCall(res)
+            console.log('Updated table')
           }).catch(error => {
             console.log(error)
           })
@@ -448,6 +462,7 @@ export default {
         tid.time = moment(tid.time).format('DD MMM YYYY hh:mm a')
       })
 
+      // console.log(locationStates)
       this.boatArray = filteredTugs
 
       for (var i = 0; i < this.boatArray.length; i++) {
@@ -480,6 +495,12 @@ export default {
         }
       })
       this.idArrayOut = idArray
+    },
+    updateLocation (boat) {
+      console.log(boat)
+      this.vesselId = boat.vesselId
+      this.time = moment(new Date(boat.time)).format('YYYY-MM-DD')
+      this.timeType = boat.timeType
     }
   }
 }
@@ -487,7 +508,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 body {
   overflow-x: hidden;
   font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -553,34 +573,33 @@ table {
 }
 
 .message-form {
-    width: 50%;
-    height: 200px;
-    padding: 12px 20px;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    background-color: #f8f8f8;
-    resize: none;
-    margin-bottom: 30px;
-    margin-top: 10px;
+  width: 50%;
+  height: 200px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  resize: none;
+  margin-bottom: 30px;
+  margin-top: 10px;
 }
 
 .status-form {
-    text-align: center;
-    margin-top: 10px;
-    width: 50%;
-    height: 50px;
-    padding: 12px 20px;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    background-color: #f8f8f8;
-    resize: none;
-    margin-bottom: 30px;
+  text-align: center;
+  margin-top: 10px;
+  width: 50%;
+  height: 50px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  resize: none;
+  margin-bottom: 30px;
 }
 
-.table-container {
-}
+.table-container {}
 
 .form-box {
   margin-bottom: 50px;
@@ -608,11 +627,13 @@ table {
 }
 
 [type="date"] {
-  background:#fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)  97% 50% no-repeat ;
+  background: #fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png) 97% 50% no-repeat;
 }
+
 [type="date"]::-webkit-inner-spin-button {
   display: none;
 }
+
 [type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
 }
@@ -620,12 +641,13 @@ table {
 label {
   display: block;
 }
+
 input {
   border: 1px solid #c4c4c4;
   border-radius: 5px;
   background-color: #fff;
   padding: 3px 5px;
-  box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
   width: 190px;
 }
 
@@ -636,5 +658,4 @@ input {
 .table2-titles th {
   text-align: center;
 }
-
 </style>
