@@ -446,20 +446,40 @@ export default {
     },
 
     filterCall (array) {
-      const locationStates = array.map(m => (m.locationState || m.serviceState))
-      const answers = locationStates.filter(function (el) {
-        return el !== null
+      // const locationStates = array.map(m => (m.locationState || m.serviceState))
+      // const answers = locationStates.filter(function (el) {
+      //   return el !== null
+      // })
+      const answers = (array.map(m => ({
+        'portCallId': m.portCallId,
+        'messageId': m.messageId,
+        'vesselId': m.vesselId,
+        'locationState': m.locationState,
+        'serviceState': m.serviceState
+      })))
+
+      answers.forEach(el => {
+        if (el.locationState === null) {
+          delete (el.locationState)
+        } else if (el.serviceState === null) {
+          delete (el.serviceState)
+        }
       })
+
       const filteredTugs = answers.filter(function (el) {
-        return el.serviceObject === 'TOWAGE' || el.serviceObject === 'ESCORT_TOWAGE'
+        if (el.locationState) {
+        } else if (el.serviceState) {
+          if (el.serviceState.serviceObject === 'TOWAGE' || el.serviceState.serviceObject === 'ESCORT_TOWAGE') {
+            return el
+          }
+        }
       })
-
       filteredTugs.filter(function (tid) {
-        tid.time = moment(tid.time).format('DD MMM YYYY hh:mm a')
+        tid.serviceState.time = moment(tid.serviceState.time).format('DD MMM YYYY hh:mm a')
       })
 
-      // console.log(locationStates)
-      this.boatArray = filteredTugs
+      const parsingArray = filteredTugs.map(m => (m.serviceState))
+      this.boatArray = parsingArray
 
       for (var i = 0; i < this.boatArray.length; i++) {
         if (this.boatArray[i].performingActor == null) {
@@ -467,14 +487,13 @@ export default {
         }
       }
 
-      const betweenStates = filteredTugs.map(s => (s.between))
+      const betweenStates = parsingArray.map(s => (s.between))
 
       const toFromArray = betweenStates.filter(function (el) {
         if (el !== undefined) {
           return el.to
         }
       })
-
       this.toArrayOut = toFromArray
       const perfActorStates = filteredTugs.map(x => (x.performingActor))
 
