@@ -49,7 +49,6 @@
           <table class="table">
             <thead>
               <tr class="table2-titles">
-                <th> To: Location State </th>
                 <th> To: Location Type </th>
                 <th> To: Name </th>
                 <th> From: Location Type </th>
@@ -59,7 +58,6 @@
             </thead>
             <tbody>
               <tr v-for="between in toArrayOut">
-                <td> {{ between.to.at }} </td>
                 <td> {{ between.to.locationType }} </td>
                 <td> {{ between.to.name }} </td>
                 <td> {{ between.from.locationType}} </td>
@@ -295,12 +293,6 @@
 </div>
 </template>
 
-
-
-
-
-
-
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <script>
@@ -366,7 +358,7 @@ export default {
     },
 
     async postLocationState () {
-      const input = [this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocation]
+      const input = [this.portCallId, this.vesselId, this.messageId, this.reportedBy, 'TUG', this.time, this.timeType, this.arrivalLocation]
       const response = await api.postState(input)
       if (!response) {
         console.log('Could not get API Service')
@@ -381,9 +373,7 @@ export default {
       setInterval(async function () {
         await api.getBoatStuffs()
           .then(res => {
-            // vm.msg = 'swaaaaaaag'
             vm.filterCall(res)
-            console.log('Updated table')
           }).catch(error => {
             console.log(error)
           })
@@ -419,16 +409,13 @@ export default {
       })
       this.boatArray = filteredTugs
 
-      const parsingArray = filteredTugs.map(m => ({'vesselId': m.vesselId, 'serviceState': m.serviceState}))
-      // this.boatArray = parsingArray
-
       for (var i = 0; i < this.boatArray.length; i++) {
         if (this.boatArray[i].performingActor == null) {
           this.boatArray[i].performingActor = 'NotSpecified' + i
         }
       }
 
-      const betweenStates = parsingArray.map(s => (s.between))
+      const betweenStates = filteredTugs.map(s => (s.serviceState.between))
 
       const toFromArray = betweenStates.filter(function (el) {
         if (el !== undefined) {
