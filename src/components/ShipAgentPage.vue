@@ -106,7 +106,6 @@
 import * as api from '../api'
 //  import * as update from '../update'
 import moment from 'moment'
-import * as converter from '../converter'
 
 export default {
   created () {
@@ -150,29 +149,6 @@ export default {
         }).catch(error => {
           console.log(error)
         })
-    },
-
-    async postServiceState () {
-      const input = [this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
-        this.at, this.to, this.from]
-      const xmlData = await converter.convertServiceState(input)
-      const response = await api.postState(xmlData)
-      if (!response) {
-        console.log('Could not get API Service')
-      }
-      this.statuscodeServ = response.status
-      this.messageServ = response.statusText
-    },
-
-    async postLocationState () {
-      const input = [this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocation]
-      const xmlData = await converter.convertLocationState(input)
-      const response = await api.postState(xmlData)
-      if (!response) {
-        console.log('Could not get API Service')
-      }
-      this.statuscode = response.status
-      this.message = response.statusText
     },
 
     async updateAPICall () {
