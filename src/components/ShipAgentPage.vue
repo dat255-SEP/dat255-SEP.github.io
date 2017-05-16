@@ -19,10 +19,12 @@
       <td v-if="idArrayOut.length !== 0">
         <table class="table">
           <thead>
-            <th align="left">
-              ID
-            </th>
-          </thead>
+              <tr class="table3-titles">
+                  <th>
+                    ID
+                  </th>
+              </tr>
+            </thead>
           <tbody>
             <tr v-for="performingActor in idArrayOut">
               <td> {{ performingActor.id.id }} </td>
@@ -33,10 +35,12 @@
       <td v-if="idArrayOut.length == 0">
         <table class="table">
           <thead>
-            <th align="left">
-              ID
-            </th>
-          </thead>
+              <tr class="table4-titles">
+                  <th>
+                    ID
+                  </th>
+              </tr>
+            </thead>
           <tbody>
             <tr v-for="fakeID in idArrayOut2">
               <td> {{ fakeID }} </td>
@@ -364,6 +368,14 @@ input {
 }
 
 .table2-titles th {
+  text-align: center;
+}
+
+.table3-titles th {
+  text-align: center;
+}
+
+.table4-titles th {
   text-align: center;
 }
 
