@@ -34,14 +34,20 @@
         <td v-if="idArrayOut.length == 0">
           <table class="table">
             <thead>
-              <th align="left">
-                ID
+              <th>
+                VesselId
               </th>
+              <!-- <th>
+                ID
+              </th> -->
             </thead>
             <tbody>
-              <tr v-for="fakeID in idArrayOut2">
-                <td> {{ fakeID }} </td>
+              <tr v-for="vesselId in vesselIdArray">
+                <td> {{ vesselId }} </td>
               </tr>
+              <!-- <tr v-for="fakeID in idArrayOut2">
+                <td> {{ fakeID }} </td>
+              </tr> -->
             </tbody>
           </table>
         </td>
@@ -395,7 +401,8 @@ export default {
       to: '',
       from: '',
       statuscodeServ: '',
-      messageServ: ''
+      messageServ: '',
+      vesselIdArray: ''
     }
   },
   methods: {
@@ -477,6 +484,8 @@ export default {
       filteredTugs.filter(function (tid) {
         tid.serviceState.time = moment(tid.serviceState.time).format('DD MMM YYYY hh:mm a')
       })
+
+      this.vesselIdArray = filteredTugs.map(m => m.vesselId)
 
       const parsingArray = filteredTugs.map(m => (m.serviceState))
       this.boatArray = parsingArray
