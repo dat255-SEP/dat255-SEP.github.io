@@ -20,21 +20,8 @@
         <td>
           <table class="table">
             <thead>
-              <tr class="table2-titles">
-                <th> VesselId </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="vesselId in vesselIdArray">
-                <td> {{ vesselId }} </td>
-              </tr>
-            </tbody>
-          </table>
-        </td>
-        <td>
-          <table class="table">
-            <thead>
               <tr class="table-titles">
+                <th> VesselIds </th>
                 <th> Service Object </th>
                 <th> Performing Actor </th>
                 <th> Time Sequence </th>
@@ -45,11 +32,12 @@
             </thead>
             <tbody>
               <tr v-for="boat in boatArray">
-                <td> {{ boat.serviceObject }} </td>
+                <td> {{ boat.vesselId }} </td>
+                <td> {{ boat.serviceState.serviceObject }} </td>
                 <td> {{ boat.performingActor }} </td>
-                <td> {{ boat.timeSequence }} </td>
-                <td> {{ boat.time }} </td>
-                <td> {{ boat.timeType }} </td>
+                <td> {{ boat.serviceState.timeSequence }} </td>
+                <td> {{ boat.serviceState.time }} </td>
+                <td> {{ boat.serviceState.timeType }} </td>
                 <td>
                   <button class="btn btn-book" id="updateLocation" v-on:click="updateLocation(boat)">Update</button>
                 </td>
@@ -95,6 +83,15 @@
         </div>
         <div>
           <form action="#" method="post" class="contact-form">
+            <div>
+              <div>
+                <label for="name">portCallId</label>
+              </div>
+              <div>
+                <input v-model="portCallId" placeholder="someTextLolski">
+              </div>
+            </div>
+
             <div>
               <div>
                 <label for="name">vesselId</label>
@@ -341,7 +338,8 @@ export default {
       from: '',
       statuscodeServ: '',
       messageServ: '',
-      vesselIdArray: ''
+      vesselIdArray: '',
+      portCallId: ''
     }
   },
   methods: {
@@ -419,11 +417,10 @@ export default {
       filteredTugs.filter(function (tid) {
         tid.serviceState.time = moment(tid.serviceState.time).format('DD MMM YYYY hh:mm a')
       })
+      this.boatArray = filteredTugs
 
-      this.vesselIdArray = filteredTugs.map(m => m.vesselId)
-
-      const parsingArray = filteredTugs.map(m => (m.serviceState))
-      this.boatArray = parsingArray
+      const parsingArray = filteredTugs.map(m => ({'vesselId': m.vesselId, 'serviceState': m.serviceState}))
+      // this.boatArray = parsingArray
 
       for (var i = 0; i < this.boatArray.length; i++) {
         if (this.boatArray[i].performingActor == null) {
@@ -445,7 +442,6 @@ export default {
       for (var i2 = 0; i2 < perfActorStates.length; i2++) {
         tempArray.push('No ID-' + i2)
       }
-      // console.log(tempArray)
       this.idArrayOut2 = tempArray
 
       const idArray = perfActorStates.filter(function (el) {
@@ -456,10 +452,11 @@ export default {
       this.idArrayOut = idArray
     },
     updateLocation (boat) {
-      console.log(boat)
+      this.portCallId = boat.portCallId
       this.vesselId = boat.vesselId
-      this.time = moment(new Date(boat.time)).format('YYYY-MM-DD')
-      this.timeType = boat.timeType
+      this.messageId = boat.messageId
+      this.time = moment(new Date(boat.serviceState.time)).format('YYYY-MM-DD')
+      this.timeType = boat.serviceState.timeType
     }
   }
 }
