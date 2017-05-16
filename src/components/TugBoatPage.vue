@@ -17,30 +17,16 @@
   <div class="table-container">
     <table class="table">
       <tr>
-        <td v-if="idArrayOut.length !== 0">
+        <td>
           <table class="table">
             <thead>
-              <th align="left">
-                ID
-              </th>
-            </thead>
-            <tbody>
-              <tr v-for="performingActor in idArrayOut">
-                <td> {{ performingActor.id.id }} </td>
+              <tr class="table2-titles">
+                <th> VesselId </th>
               </tr>
-            </tbody>
-          </table>
-        </td>
-        <td v-if="idArrayOut.length == 0">
-          <table class="table">
-            <thead>
-              <th align="left">
-                ID
-              </th>
             </thead>
             <tbody>
-              <tr v-for="fakeID in idArrayOut2">
-                <td> {{ fakeID }} </td>
+              <tr v-for="vesselId in vesselIdArray">
+                <td> {{ vesselId }} </td>
               </tr>
             </tbody>
           </table>
@@ -77,10 +63,8 @@
               <tr class="table2-titles">
                 <th> To: Location State </th>
                 <th> To: Location Type </th>
-                <!-- <th> To: Pos </th> -->
                 <th> To: Name </th>
                 <th> From: Location Type </th>
-                <!-- <th> From: Pos </th> -->
                 <th> From: Name </th>
                 <th> Update </th>
               </tr>
@@ -89,10 +73,8 @@
               <tr v-for="between in toArrayOut">
                 <td> {{ between.to.at }} </td>
                 <td> {{ between.to.locationType }} </td>
-                <!--    <td> {{ between.to.position }} </td>   -->
                 <td> {{ between.to.name }} </td>
                 <td> {{ between.from.locationType}} </td>
-                <!--    <td> {{ between.from.position }} </td>     -->
                 <td> {{ between.from.name }} </td>
                 <td>
                   <button class="btn btn-book" id="editState">Update</button>
@@ -106,45 +88,6 @@
   </div>
 
   <div id="inputfield">
-
-    <!--
-    <h1>Change Locationstate</h1>
-    <table class="table">
-      <tr>
-        <td>
-          <table class="table">
-            <thead>
-              <tr>
-                <th> vesselId </th>
-                <th> messageId </th>
-                <th> reportedBy </th>
-                <th> referenceObject </th>
-                <th> time </th>
-                <th> timeType </th>
-                <th> arrivalLocation </th>
-              </tr>
-            </thead>
-            <tbody>
-              <td> <input v-model="vesselId" placeholder="9501368">
-              </td>
-              <td> <input v-model="messageId" placeholder="5919ab7c-22fb-43a1-a21b-dc36bfd45d32">
-              </td>
-              <td> <input v-model="reportedBy" placeholder="TugAppLocStateView">
-              </td>
-              <td> <input v-model="referenceObject" placeholder="TUG">
-              </td>
-              <td> <input v-model="time" placeholder="2017-05-10T18:20:00.000Z">
-              </td>
-              <td> <input v-model="timeType" placeholder="EXPECTED">
-              </td>
-              <td> <input v-model="arrivalLocation" placeholder="Gothenburg Port">
-              </td>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    </table>
--->
     <div class="post-container">
       <div class="form-box">
         <div class="locationTitle">
@@ -359,6 +302,8 @@
 
 
 
+
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <script>
@@ -395,7 +340,8 @@ export default {
       to: '',
       from: '',
       statuscodeServ: '',
-      messageServ: ''
+      messageServ: '',
+      vesselIdArray: ''
     }
   },
   methods: {
@@ -411,7 +357,8 @@ export default {
 
     async postServiceState () {
       const input = [this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
-        this.at, this.to, this.from]
+        this.at, this.to, this.from
+      ]
       const response = await api.postState(input)
       if (!response) {
         console.log('Could not get API Service')
@@ -446,10 +393,6 @@ export default {
     },
 
     filterCall (array) {
-      // const locationStates = array.map(m => (m.locationState || m.serviceState))
-      // const answers = locationStates.filter(function (el) {
-      //   return el !== null
-      // })
       const answers = (array.map(m => ({
         'portCallId': m.portCallId,
         'messageId': m.messageId,
@@ -467,8 +410,7 @@ export default {
       })
 
       const filteredTugs = answers.filter(function (el) {
-        if (el.locationState) {
-        } else if (el.serviceState) {
+        if (el.locationState) {} else if (el.serviceState) {
           if (el.serviceState.serviceObject === 'TOWAGE' || el.serviceState.serviceObject === 'ESCORT_TOWAGE') {
             return el
           }
@@ -477,6 +419,8 @@ export default {
       filteredTugs.filter(function (tid) {
         tid.serviceState.time = moment(tid.serviceState.time).format('DD MMM YYYY hh:mm a')
       })
+
+      this.vesselIdArray = filteredTugs.map(m => m.vesselId)
 
       const parsingArray = filteredTugs.map(m => (m.serviceState))
       this.boatArray = parsingArray
