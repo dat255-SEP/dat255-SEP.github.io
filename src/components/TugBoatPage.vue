@@ -38,9 +38,7 @@
                 <td> {{ boat.serviceState.timeSequence }} </td>
                 <td> {{ boat.serviceState.time }} </td>
                 <td> {{ boat.serviceState.timeType }} </td>
-                <td>
-                  <button class="btn btn-book" id="updateLocation" v-on:click="updateLocation(boat)">Update</button>
-                </td>
+                <td> <button class="btn btn-book" id="updateLocation" v-on:click="updateLocation(boat)">Update</button> </td>
               </tr>
             </tbody>
           </table>
@@ -62,9 +60,7 @@
                 <td> {{ between.to.name }} </td>
                 <td> {{ between.from.locationType}} </td>
                 <td> {{ between.from.name }} </td>
-                <td>
-                  <button class="btn btn-book" id="editState">Update</button>
-                </td>
+                <td> <button class="btn btn-book" id="editState">Update</button> </td>
               </tr>
             </tbody>
           </table>
@@ -73,379 +69,285 @@
     </table>
   </div>
 
-  <div id="inputfield">
-    <div class="post-container">
-      <div class="form-box">
-        <div class="locationTitle">
-          <h1>Change Location State</h1>
+  <table class="table">
+    <tr>
+      <td>
+        <div class="form-box">
+          <div class="locationTitle"> <h1>Change Location State</h1> </div>
+          <div>
+            <form action="#" method="post" class="contact-form">
+              <div>
+                <div> <label for="name">portCallId</label> </div>
+                <div> <input v-model="portCallId" placeholder="someTextLolski"> </div>
+              </div>
+              <div>
+                <div> <label for="name">vesselId</label> </div>
+                <div> <input v-model="vesselId" placeholder="9501368"> </div>
+              </div>
+              <div>
+                <div> <label for="email">messageId</label> </div>
+                <div> <input v-model="messageId" placeholder="5919ab7c-22fb-43a1-a21b-dc36bfd45d32"> </div>
+              </div>
+              <div>
+                <div> <label for="email">reportedBy</label> </div>
+                <div> <input v-model="reportedBy" placeholder="TugAppLocStateView"> </div>
+              </div>
+              <div>
+                <div> <label>referenceObject</label> </div>
+                <div> <select> <option selected v-model="referenceObject">TUG</option> </select> </div>
+              </div>
+              <div>
+                <div> <label for="email">time</label> </div>
+                <div> <input v-model="time" type="date" id="theTime"> </div>
+              </div>
+              <div>
+                <div> <label>timeType</label> </div>
+                <div>
+                  <select v-model="timeType">
+      								<option selected> EXPECTED </option>
+      								<option> ACTUAL </option>
+      								<option> ESTIMATED </option>
+      							</select>
+                </div>
+              </div>
+              <div>
+                <div> <label>arrivalLocation</label> </div>
+                <div> <select> <option selected v-model="arrivalLocation">Gothenburg Port</option> </select> </div>
+              </div>
+              <div>
+                <div> <label>&nbsp;</label> </div>
+              </div>
+            </form>
+          </div>
         </div>
-        <div>
-          <form action="#" method="post" class="contact-form">
-            <div>
-              <div>
-                <label for="name">portCallId</label>
-              </div>
-              <div>
-                <input v-model="portCallId" placeholder="someTextLolski">
-              </div>
-            </div>
-
-            <div>
-              <div>
-                <label for="name">vesselId</label>
-              </div>
-              <div>
-                <input v-model="vesselId" placeholder="9501368">
-              </div>
-            </div>
-            <div>
-              <div>
-                <label for="email">messageId</label>
-              </div>
-              <div>
-                <input v-model="messageId" placeholder="5919ab7c-22fb-43a1-a21b-dc36bfd45d32">
-              </div>
-            </div>
-            <div>
-              <div>
-                <label for="email">reportedBy</label>
-              </div>
-              <div>
-                <input v-model="reportedBy" placeholder="TugAppLocStateView">
-              </div>
-            </div>
-            <div>
-              <div>
-                <label>referenceObject</label>
-              </div>
-              <div>
-                <select>
-                      <option selected v-model="referenceObject">TUG</option>
-      							</select>
-              </div>
-            </div>
-            <div>
-              <div>
-                <label for="email">time</label>
-              </div>
-              <div>
-                <input v-model="time" type="date" id="theTime">
-              </div>
-            </div>
-            <div>
-              <div>
-                <label>timeType</label>
-              </div>
-              <div>
-                <select v-model="timeType">
-      								<option selected >EXPECTED</option>
-      								<option>ACTUAL</option>
-      								<option>ESTIMATED</option>
-      							</select>
-              </div>
-            </div>
-            <div>
-              <div>
-                <label>arrivalLocation</label>
-              </div>
-              <div>
-                <select>
-      								<option selected v-model="arrivalLocation">Gothenburg Port</option>
-      							</select>
-              </div>
-            </div>
-            <div>
-              <div>
-                <label>&nbsp;</label>
-              </div>
-            </div>
+        <button id="post_button" v-on:click="postLocationState">Post</button>
+        <div class="post">
+          <h2> {{ 'Statuscode: ' }} </h2>
+          <form>
+            <textarea class="status-form"> {{ statuscode }} </textarea>
           </form>
         </div>
-      </div>
-
-      <button id="post_button" v-on:click="postLocationState">Post</button>
-
-      <div class="post">
-        <h2> {{ 'Statuscode: ' }} </h2>
-        <form>
-          <textarea class="status-form"> {{ statuscode }} </textarea>
-        </form>
-
-        <h2> {{ 'API-Message: ' }} </h2>
-        <form>
-          <textarea class="message-form"> {{ message }} </textarea>
-        </form>
-      </div>
-
-    </div>
-
-    <div class="post-container">
-      <div class="form-box">
-        <div class="locationTitle">
-          <h1>Change Service State</h1>
+      </td>
+      <td>
+        <div class="form-box">
+          <div class="locationTitle"> <h1>Change Service State</h1> </div>
+          <div>
+            <form action="#" method="post" class="contact-form">
+              <div>
+                <div> <label for="name">serviceObject</label> </div>
+                <div> <input v-model="serviceObject" placeholder="9501368"> </div>
+              </div>
+              <div>
+                <div> <label for="email">performingActor</label> </div>
+                <div> <input v-model="performingActor" placeholder="5919ab7c-22fb-43a1-a21b-dc36bfd45d32"> </div>
+              </div>
+              <div>
+                <div> <label for="email">timeSequence</label> </div>
+                <div> <input v-model="timeSequence" placeholder="TugAppLocStateView"> </div>
+              </div>
+              <div>
+                <div> <label>timeSer</label> </div>
+                <div> <select> <option selected v-model="timeSer">TUG</option> </select> </div>
+              </div>
+              <div>
+                <div> <label for="email">time</label> </div>
+                <div> <input v-model="time" type="date" id="theTime"> </div>
+              </div>
+              <div>
+                <div> <label>timeTypeSer</label> </div>
+                <div>
+                  <select>
+                      <option selected v-model="timeTypeSer"> EXPECTED </option>
+                      <option> ACTUAL </option>
+                      <option> ESTIMATED </option>
+                    </select>
+                </div>
+              </div>
+              <div>
+                <div> <label for="name">at</label> </div>
+                <div> <input v-model="at" placeholder="a location"> </div>
+              </div>
+              <div>
+                <div> <label for="name">to</label> </div>
+                <div> <input v-model="to" placeholder="to location"> </div>
+              </div>
+              <div>
+                <div> <label for="name">from</label> </div>
+                <div> <input v-model="from" placeholder="from location"> </div>
+              </div>
+              <div>
+                <div> <label>&nbsp;</label> </div>
+              </div>
+            </form>
+          </div>
         </div>
-        <div>
-          <form action="#" method="post" class="contact-form">
-            <div>
-              <div>
-                <label for="name">serviceObject</label>
-              </div>
-              <div>
-                <input v-model="serviceObject" placeholder="9501368">
-              </div>
-            </div>
-            <div>
-              <div>
-                <label for="email">performingActor</label>
-              </div>
-              <div>
-                <input v-model="performingActor" placeholder="5919ab7c-22fb-43a1-a21b-dc36bfd45d32">
-              </div>
-            </div>
-            <div>
-              <div>
-                <label for="email">timeSequence</label>
-              </div>
-              <div>
-                <input v-model="timeSequence" placeholder="TugAppLocStateView">
-              </div>
-            </div>
-            <div>
-              <div>
-                <label>timeSer</label>
-              </div>
-              <div>
-                <select>
-                      <option selected v-model="timeSer">TUG</option>
-                    </select>
-              </div>
-            </div>
-            <div>
-              <div>
-                <label for="email">time</label>
-              </div>
-              <div>
-                <input v-model="time" type="date" id="theTime">
-              </div>
-            </div>
-            <div>
-              <div>
-                <label>timeTypeSer</label>
-              </div>
-              <div>
-                <select>
-                      <option selected v-model="timeTypeSer">EXPECTED</option>
-                      <option>ACTUAL</option>
-                      <option>ESTIMATED</option>
-                    </select>
-              </div>
-            </div>
-            <div>
-              <div>
-                <label for="name">at</label>
-              </div>
-              <div>
-                <input v-model="at" placeholder="a location">
-              </div>
-            </div>
-            <div>
-              <div>
-                <label for="name">to</label>
-              </div>
-              <div>
-                <input v-model="to" placeholder="to location">
-              </div>
-            </div>
-            <div>
-              <div>
-                <label for="name">from</label>
-              </div>
-              <div>
-                <input v-model="from" placeholder="from location">
-              </div>
-            </div>
-            <div>
-              <div>
-                <label>&nbsp;</label>
-              </div>
-            </div>
+        <button id="post_button" v-on:click="postServiceState">Post</button>
+        <div class="post">
+          <h2> {{ 'Statuscode: ' }} </h2>
+          <form>
+            <textarea class="status-form"> {{ statuscodeServ }} </textarea>
           </form>
         </div>
-      </div>
-
-      <button id="post_button" v-on:click="postServiceState">Post</button>
-
-      <div class="post">
-        <h2> {{ 'Statuscode: ' }} </h2>
-        <form>
-          <textarea class="status-form"> {{ statuscodeServ }} </textarea>
-        </form>
-
-        <h2> {{ 'API-Message: ' }} </h2>
-        <form>
-          <textarea class="message-form"> {{ messageServ }} </textarea>
-        </form>
-      </div>
-
-    </div>
-
-  </div>
+      </td>
+    </tr>
+  </table>
 </div>
 </template>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+</script>
 
 <script>
-import * as api from '../api'
+  import * as api from '../api'
 import moment from 'moment'
 
 export default {
-  created () {
-    this.getStates()
-    this.updateAPICall()
-  },
-  data () {
-    return {
-      msg: '',
-      boatArray: '',
-      toArrayOut: '',
-      idArrayOut: '',
-      idArrayOut2: '',
-      vesselId: '',
-      messageId: '',
-      reportedBy: '',
-      referenceObject: '',
-      time: '',
-      timeType: '',
-      arrivalLocation: '',
-      message: '',
-      statuscode: '',
-      serviceObject: '',
-      performingActor: '',
-      timeSequence: '',
-      timeSer: '',
-      timeTypeSer: '',
-      at: '',
-      to: '',
-      from: '',
-      statuscodeServ: '',
-      messageServ: '',
-      vesselIdArray: '',
-      portCallId: ''
-    }
-  },
-  methods: {
-    async getStates () {
-      this.msg = 'Tug Life'
-      await api.getBoatStuffs()
+    created () {
+      this.getStates()
+      this.updateAPICall()
+    },
+    data () {
+      return {
+        msg: '',
+        boatArray: '',
+        toArrayOut: '',
+        idArrayOut: '',
+        idArrayOut2: '',
+        vesselId: '',
+        messageId: '',
+        reportedBy: '',
+        referenceObject: '',
+        time: '',
+        timeType: '',
+        arrivalLocation: '',
+        message: '',
+        statuscode: '',
+        serviceObject: '',
+        performingActor: '',
+        timeSequence: '',
+        timeSer: '',
+        timeTypeSer: '',
+        at: '',
+        to: '',
+        from: '',
+        statuscodeServ: '',
+        messageServ: '',
+        vesselIdArray: '',
+        portCallId: ''
+      }
+    },
+    methods: {
+      async getStates () {
+        this.msg = 'Tug Life'
+        await api.getBoatStuffs()
         .then(res => {
           this.filterCall(res)
         }).catch(error => {
           console.log(error)
         })
-    },
+      },
 
-    async postServiceState () {
-      const input = [this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
-        this.at, this.to, this.from
-      ]
-      const response = await api.postState(input)
-      if (!response) {
-        console.log('Could not get API Service')
-      }
-      this.statuscodeServ = response.status
-      this.messageServ = response.data
-    },
+      async postServiceState () {
+        const input = [this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
+          this.at, this.to, this.from
+        ]
+        const response = await api.postState(input)
+        if (!response) {
+          console.log('Could not get API Service')
+        }
+        this.statuscodeServ = response.status
+        this.messageServ = response.data
+      },
 
-    async postLocationState () {
-      const input = [this.portCallId, this.vesselId, this.messageId, this.reportedBy, 'TUG', this.time, this.timeType, this.arrivalLocation]
-      const response = await api.postState(input)
-      if (!response) {
-        console.log('Could not get API Service')
-      }
-      this.statuscode = response.status
-      this.message = response.data
-    },
+      async postLocationState () {
+        const input = [this.portCallId, this.vesselId, this.messageId, this.reportedBy, 'TUG', this.time, this.timeType, this.arrivalLocation]
+        const response = await api.postState(input)
+        if (!response) {
+          console.log('Could not get API Service')
+        }
+        this.statuscode = response.status
+        this.message = response.data
+      },
 
-    async updateAPICall () {
-      var vm = this
+      async updateAPICall () {
+        var vm = this
 
-      setInterval(async function () {
-        await api.getBoatStuffs()
+        setInterval(async function () {
+          await api.getBoatStuffs()
           .then(res => {
             vm.filterCall(res)
           }).catch(error => {
             console.log(error)
           })
-      }, 30000)
-    },
+        }, 30000)
+      },
 
-    filterCall (array) {
-      const answers = (array.map(m => ({
-        'portCallId': m.portCallId,
-        'messageId': m.messageId,
-        'vesselId': m.vesselId,
-        'locationState': m.locationState,
-        'serviceState': m.serviceState
-      })))
+      filterCall (array) {
+        const answers = (array.map(m => ({
+          'portCallId': m.portCallId,
+          'messageId': m.messageId,
+          'vesselId': m.vesselId,
+          'locationState': m.locationState,
+          'serviceState': m.serviceState
+        })))
 
-      answers.forEach(el => {
-        if (el.locationState === null) {
-          delete (el.locationState)
-        } else if (el.serviceState === null) {
-          delete (el.serviceState)
-        }
-      })
+        answers.forEach(el => {
+          if (el.locationState === null) {
+            delete (el.locationState)
+          } else if (el.serviceState === null) {
+            delete (el.serviceState)
+          }
+        })
 
-      const filteredTugs = answers.filter(function (el) {
-        if (el.locationState) {} else if (el.serviceState) {
-          if (el.serviceState.serviceObject === 'TOWAGE' || el.serviceState.serviceObject === 'ESCORT_TOWAGE') {
-            return el
+        const filteredTugs = answers.filter(function (el) {
+          if (el.locationState) {} else if (el.serviceState) {
+            if (el.serviceState.serviceObject === 'TOWAGE' || el.serviceState.serviceObject === 'ESCORT_TOWAGE') {
+              return el
+            }
+          }
+        })
+        filteredTugs.filter(function (tid) {
+          tid.serviceState.time = moment(tid.serviceState.time).format('DD MMM YYYY hh:mm a')
+        })
+        this.boatArray = filteredTugs
+
+        for (var i = 0; i < this.boatArray.length; i++) {
+          if (this.boatArray[i].performingActor == null) {
+            this.boatArray[i].performingActor = 'NotSpecified' + i
           }
         }
-      })
-      filteredTugs.filter(function (tid) {
-        tid.serviceState.time = moment(tid.serviceState.time).format('DD MMM YYYY hh:mm a')
-      })
-      this.boatArray = filteredTugs
 
-      for (var i = 0; i < this.boatArray.length; i++) {
-        if (this.boatArray[i].performingActor == null) {
-          this.boatArray[i].performingActor = 'NotSpecified' + i
+        const betweenStates = filteredTugs.map(s => (s.serviceState.between))
+
+        const toFromArray = betweenStates.filter(function (el) {
+          if (el !== undefined) {
+            return el.to
+          }
+        })
+        this.toArrayOut = toFromArray
+        const perfActorStates = filteredTugs.map(x => (x.performingActor))
+
+        var tempArray = []
+        for (var i2 = 0; i2 < perfActorStates.length; i2++) {
+          tempArray.push('No ID-' + i2)
         }
+        this.idArrayOut2 = tempArray
+
+        const idArray = perfActorStates.filter(function (el) {
+          if (el !== undefined) {
+            return el.id
+          }
+        })
+        this.idArrayOut = idArray
+      },
+      updateLocation (boat) {
+        this.portCallId = boat.portCallId
+        this.vesselId = boat.vesselId
+        this.messageId = boat.messageId
+        this.time = moment(new Date(boat.serviceState.time)).format('YYYY-MM-DD')
+        this.timeType = boat.serviceState.timeType
       }
-
-      const betweenStates = filteredTugs.map(s => (s.serviceState.between))
-
-      const toFromArray = betweenStates.filter(function (el) {
-        if (el !== undefined) {
-          return el.to
-        }
-      })
-      this.toArrayOut = toFromArray
-      const perfActorStates = filteredTugs.map(x => (x.performingActor))
-
-      var tempArray = []
-      for (var i2 = 0; i2 < perfActorStates.length; i2++) {
-        tempArray.push('No ID-' + i2)
-      }
-      this.idArrayOut2 = tempArray
-
-      const idArray = perfActorStates.filter(function (el) {
-        if (el !== undefined) {
-          return el.id
-        }
-      })
-      this.idArrayOut = idArray
-    },
-    updateLocation (boat) {
-      this.portCallId = boat.portCallId
-      this.vesselId = boat.vesselId
-      this.messageId = boat.messageId
-      this.time = moment(new Date(boat.serviceState.time)).format('YYYY-MM-DD')
-      this.timeType = boat.serviceState.timeType
     }
-  }
 }
 </script>
 
@@ -515,6 +417,11 @@ table {
   margin-top: 50px;
 }
 
+.leftbox {
+  padding-top: 0px;
+  margin: 0px;
+}
+
 .message-form {
   width: 50%;
   height: 200px;
@@ -554,14 +461,14 @@ table {
 }
 
 #post_button {
-  height: 70px;
-  width: 40%;
+  height: 50px;
+  width: 20%;
   border: none;
   box-shadow: 2px 2px 10px #888888;
   border-radius: 5px;
   background-color: rgb(13, 155, 255);
   transition: all .2s ease-in-out;
-  font-size: 40px;
+  font-size: 20px;
   color: rgb(46, 46, 46);
 }
 
