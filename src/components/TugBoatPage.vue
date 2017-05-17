@@ -70,38 +70,38 @@
   </div>
 
   <table class="table">
-    <tr>
+    <tr class="changeRow">
       <td>
         <div class="form-box">
           <div class="locationTitle"> <h1>Change Location State</h1> </div>
           <div>
             <form action="#" method="post" class="contact-form">
               <div>
-                <div> <label for="name">portCallId</label> </div>
-                <div> <input v-model="portCallId" placeholder="someTextLolski"> </div>
+                <div> <label for="name">PortCall ID</label> </div>
+                <div> <input v-model="portCallId"> </div>
               </div>
               <div>
-                <div> <label for="name">vesselId</label> </div>
-                <div> <input v-model="vesselId" placeholder="9501368"> </div>
+                <div> <label for="name">Vessel ID</label> </div>
+                <div> <input v-model="vesselId"> </div>
               </div>
               <div>
-                <div> <label for="email">messageId</label> </div>
-                <div> <input v-model="messageId" placeholder="5919ab7c-22fb-43a1-a21b-dc36bfd45d32"> </div>
+                <div> <label for="email">Message ID</label> </div>
+                <div> <input v-model="messageId"> </div>
               </div>
               <div>
-                <div> <label for="email">reportedBy</label> </div>
-                <div> <input v-model="reportedBy" placeholder="TugAppLocStateView"> </div>
+                <div> <label for="email">Reported By</label> </div>
+                <div> <input v-model="reportedBy"> </div>
               </div>
               <div>
-                <div> <label>referenceObject</label> </div>
+                <div> <label>Reference Object</label> </div>
                 <div> <select> <option selected v-model="referenceObject">TUG</option> </select> </div>
               </div>
               <div>
-                <div> <label for="email">time</label> </div>
-                <div> <input v-model="time" type="date" id="theTime"> </div>
+                <div> <label for="email">Time</label> </div>
+                <div> <input class="inputTime" v-model="time" type="datetime-local" id="theTime"> </div>
               </div>
               <div>
-                <div> <label>timeType</label> </div>
+                <div> <label>Time Type</label> </div>
                 <div>
                   <select v-model="timeType">
       								<option selected> EXPECTED </option>
@@ -111,7 +111,7 @@
                 </div>
               </div>
               <div>
-                <div> <label>arrivalLocation</label> </div>
+                <div> <label>Arrival Location</label> </div>
                 <div> <select> <option selected v-model="arrivalLocation">Gothenburg Port</option> </select> </div>
               </div>
               <div>
@@ -134,27 +134,39 @@
           <div>
             <form action="#" method="post" class="contact-form">
               <div>
-                <div> <label for="name">serviceObject</label> </div>
-                <div> <input v-model="serviceObject" placeholder="9501368"> </div>
+                <div> <label for="name">PortCall ID</label> </div>
+                <div> <input v-model="portCallId"> </div>
               </div>
               <div>
-                <div> <label for="email">performingActor</label> </div>
-                <div> <input v-model="performingActor" placeholder="5919ab7c-22fb-43a1-a21b-dc36bfd45d32"> </div>
+                <div> <label for="name">Vessel ID</label> </div>
+                <div> <input v-model="vesselId"> </div>
               </div>
               <div>
-                <div> <label for="email">timeSequence</label> </div>
-                <div> <input v-model="timeSequence" placeholder="TugAppLocStateView"> </div>
+                <div> <label for="email">Message ID</label> </div>
+                <div> <input v-model="messageId"> </div>
               </div>
               <div>
-                <div> <label>timeSer</label> </div>
+                <div> <label for="name">Service Object</label> </div>
+                <div> <input v-model="serviceObject"> </div>
+              </div>
+              <div>
+                <div> <label for="email">Performing Actor</label> </div>
+                <div> <input v-model="performingActor"> </div>
+              </div>
+              <div>
+                <div> <label for="email">Time Sequence</label> </div>
+                <div> <input v-model="timeSequence"> </div>
+              </div>
+              <!-- <div>
+                <div> <label>Time Ser</label> </div>
                 <div> <select> <option selected v-model="timeSer">TUG</option> </select> </div>
+              </div> -->
+              <div>
+                <div> <label for="email">Time</label> </div>
+                <div> <input class="inputTime" v-model="time" type="datetime-local" id="theTime"> </div>
               </div>
               <div>
-                <div> <label for="email">time</label> </div>
-                <div> <input v-model="time" type="date" id="theTime"> </div>
-              </div>
-              <div>
-                <div> <label>timeTypeSer</label> </div>
+                <div> <label>Time Type</label> </div>
                 <div>
                   <select>
                       <option selected v-model="timeTypeSer"> EXPECTED </option>
@@ -164,16 +176,16 @@
                 </div>
               </div>
               <div>
-                <div> <label for="name">at</label> </div>
-                <div> <input v-model="at" placeholder="a location"> </div>
+                <div> <label for="name">At Location</label> </div>
+                <div> <input v-model="at"> </div>
               </div>
               <div>
-                <div> <label for="name">to</label> </div>
-                <div> <input v-model="to" placeholder="to location"> </div>
+                <div> <label for="name">To Location</label> </div>
+                <div> <input v-model="to"> </div>
               </div>
               <div>
-                <div> <label for="name">from</label> </div>
-                <div> <input v-model="from" placeholder="from location"> </div>
+                <div> <label for="name">From Location</label> </div>
+                <div> <input v-model="from"> </div>
               </div>
               <div>
                 <div> <label>&nbsp;</label> </div>
@@ -435,6 +447,14 @@ table {
   margin-top: 10px;
 }
 
+.inputTime {
+  width: 23%;
+}
+
+.changeRow {
+  vertical-align: top;
+}
+
 .status-form {
   text-align: center;
   margin-top: 10px;
@@ -458,6 +478,10 @@ table {
 .post-container {
   background-color: #fcfcfc;
   padding: 20px;
+}
+
+.leftcell {
+  padding-top: 0px
 }
 
 #post_button {
