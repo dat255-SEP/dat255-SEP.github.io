@@ -6,14 +6,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
   </head>
 
-  <!-- <h1>{{ msg }}</h1> -->
   <div class="hero">
     <img class="logo" src="../assets/tuglife-logo.png" width="30%">
     <br>
-
   </div>
-
-
   <div class="table-container">
     <table class="table">
       <tr>
@@ -77,45 +73,80 @@
           <div>
             <form action="#" method="post" class="contact-form">
               <div>
-                <div> <label for="name">PortCall ID</label> </div>
-                <div> <input v-model="portCallId"> </div>
+                <div> <label>PortCall ID</label> </div>
+                <div> <input v-model="portCallId" readonly> </div>
               </div>
               <div>
-                <div> <label for="name">Vessel ID</label> </div>
+                <div> <label>Vessel ID</label> </div>
                 <div> <input v-model="vesselId"> </div>
               </div>
               <div>
-                <div> <label for="email">Message ID</label> </div>
-                <div> <input v-model="messageId"> </div>
+                <div> <label>Message ID</label> </div>
+                <div> <input v-model="messageId" readonly> </div>
               </div>
               <div>
-                <div> <label for="email">Reported By</label> </div>
+                <div> <label>Reported By</label> </div>
                 <div> <input v-model="reportedBy"> </div>
               </div>
               <div>
                 <div> <label>Reference Object</label> </div>
-                <div> <select> <option selected v-model="referenceObject">TUG</option> </select> </div>
+                <div>
+                  <select v-model="referenceObject">
+                    <option>EscortTug</option>
+                    <option>Tug</option>
+                  </select>
+                </div>
               </div>
               <div>
-                <div> <label for="email">Time</label> </div>
+                <div> <label>Time</label> </div>
                 <div> <input class="inputTime" v-model="time" type="datetime-local" id="theTime"> </div>
               </div>
               <div>
                 <div> <label>Time Type</label> </div>
                 <div>
                   <select v-model="timeType">
-      								<option selected> EXPECTED </option>
-      								<option> ACTUAL </option>
-      								<option> ESTIMATED </option>
+      								<option> Actual </option>
+      								<option> Estimated </option>
+      								<option> Expected </option>
       							</select>
                 </div>
               </div>
               <div>
                 <div> <label>Arrival Location</label> </div>
-                <div> <select> <option selected v-model="arrivalLocation">Gothenburg Port</option> </select> </div>
+                <div>
+                  <select v-model="arrivalLocation">
+                    <option>ETugZone</option>
+                    <option>TugZone</option>
+                    <option>Berth</option>
+                  </select>
+                </div>
               </div>
               <div>
-                <div> <label>&nbsp;</label> </div>
+                <div> <label>Arrival Location Type</label> </div>
+                <div>
+                  <select v-model="arrivalLocationType">
+                    <option>-</option>
+                    <option>Vessel</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <div> <label>Departure Location</label> </div>
+                <div>
+                  <select v-model="departureLocation">
+                    <option>LOC</option>
+                    <option>Vessel</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <div> <label>Departure Location Type</label> </div>
+                <div>
+                  <select v-model="departureLocationType">
+                    <option>From</option>
+                    <option>To</option>
+                  </select>
+                </div>
               </div>
             </form>
           </div>
@@ -134,57 +165,66 @@
           <div>
             <form action="#" method="post" class="contact-form">
               <div>
-                <div> <label for="name">PortCall ID</label> </div>
-                <div> <input v-model="portCallId"> </div>
+                <div> <label>PortCall ID</label> </div>
+                <div> <input v-model="portCallId" readonly> </div>
               </div>
               <div>
-                <div> <label for="name">Vessel ID</label> </div>
-                <div> <input v-model="vesselId"> </div>
+                <div> <label>Vessel ID</label> </div>
+                <div> <input v-model="vesselId" readonly> </div>
               </div>
               <div>
-                <div> <label for="email">Message ID</label> </div>
-                <div> <input v-model="messageId"> </div>
+                <div> <label>Message ID</label> </div>
+                <div> <input v-model="messageId" readonly> </div>
               </div>
               <div>
-                <div> <label for="name">Service Object</label> </div>
+                <div> <label>Performing Actor</label> </div>
+                <div>
+                  <select v-model="performingActor">
+                      <option> EscortTowage </option>
+                      <option> Towage </option>
+                    </select>
+                </div>
+              </div>
+              <div>
+                <div> <label>Service Object</label> </div>
                 <div> <input v-model="serviceObject"> </div>
               </div>
               <div>
-                <div> <label for="email">Performing Actor</label> </div>
-                <div> <input v-model="performingActor"> </div>
+                <div> <label>Time Sequence</label> </div>
+                <div>
+                  <select v-model="timeSequence">
+                      <option> Commenced </option>
+                      <option> Completed </option>
+                      <option> Confirmed </option>
+                      <option> Denied </option>
+                      <option> ReqRecieved </option>
+                    </select>
+                </div>
               </div>
               <div>
-                <div> <label for="email">Time Sequence</label> </div>
-                <div> <input v-model="timeSequence"> </div>
-              </div>
-              <!-- <div>
-                <div> <label>Time Ser</label> </div>
-                <div> <select> <option selected v-model="timeSer">TUG</option> </select> </div>
-              </div> -->
-              <div>
-                <div> <label for="email">Time</label> </div>
+                <div> <label>Time</label> </div>
                 <div> <input class="inputTime" v-model="time" type="datetime-local" id="theTime"> </div>
               </div>
               <div>
                 <div> <label>Time Type</label> </div>
                 <div>
-                  <select>
-                      <option selected v-model="timeTypeSer"> EXPECTED </option>
-                      <option> ACTUAL </option>
-                      <option> ESTIMATED </option>
+                  <select v-model="timeType">
+                      <option> Actual </option>
+                      <option> Estimated </option>
+                      <option> Expected </option>
                     </select>
                 </div>
               </div>
               <div>
-                <div> <label for="name">At Location</label> </div>
+                <div> <label>At Location</label> </div>
                 <div> <input v-model="at"> </div>
               </div>
               <div>
-                <div> <label for="name">To Location</label> </div>
+                <div> <label>Between: To Location</label> </div>
                 <div> <input v-model="to"> </div>
               </div>
               <div>
-                <div> <label for="name">From Location</label> </div>
+                <div> <label>Between: From Location</label> </div>
                 <div> <input v-model="from"> </div>
               </div>
               <div>
@@ -196,9 +236,7 @@
         <button id="post_button" v-on:click="postServiceState">Post</button>
         <div class="post">
           <h2> {{ 'Statuscode: ' }} </h2>
-          <form>
-            <textarea class="status-form"> {{ statuscodeServ }} </textarea>
-          </form>
+          <form> <textarea class="status-form"> {{ statuscodeServ }} </textarea> </form>
         </div>
       </td>
     </tr>
