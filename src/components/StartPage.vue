@@ -16,18 +16,18 @@
 </div>
 </template>
 <script>
- 
+
 export default {
 
-   methods: {
+  methods: {
 
-     async gotoTug () {
-       this.$router.push({path: '/TugBoatPage', name: 'TugBoatPage'})
-     },
-     async gotoShip () {
-       this.$router.push({path: '/ShipAgentPage', name: 'ShipAgentPage'})
-     }
-   }
+    async gotoTug () {
+      this.$router.push({path: '/TugBoatPage', name: 'TugBoatPage'})
+    },
+    async gotoShip () {
+      this.$router.push({path: '/ShipAgentPage', name: 'ShipAgentPage'})
+    }
+  }
 }
 </script>
 
@@ -46,7 +46,7 @@ body {
 
 .btn-book {
   color: white;
-  width: 250px;
+  width: auto;
   background-color: #3498db;
   border-color: #3498db;
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
