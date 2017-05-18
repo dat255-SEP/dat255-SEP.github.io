@@ -92,8 +92,8 @@
                 <div> <label>Reference Object</label> </div>
                 <div>
                   <select v-model="referenceObject">
-                    <option>ESCORT_TUG</option>
-                    <option>TUG</option>
+                    <option>ESCORT_TOWAGE</option>
+                    <option>TOWAGE</option>
                   </select>
                 </div>
               </div>
@@ -106,7 +106,7 @@
                 <div>
                   <select v-model="timeType">
       								<option>ACTUAL</option>
-      								<option>EXPECTED</option>
+      								<option>ESTIMATED</option>
       							</select>
                 </div>
               </div>
@@ -345,6 +345,7 @@ export default {
         })))
 
         answers.forEach(el => {
+          // console.log(el.locationState)
           if (el.locationState === null) {
             delete (el.locationState)
           } else if (el.serviceState === null) {
@@ -360,7 +361,7 @@ export default {
           }
         })
         filteredTugs.filter(function (tid) {
-          tid.serviceState.time = moment(tid.serviceState.time).format('DD MMM YYYY hh:mm a')
+          tid.serviceState.time = moment(tid.serviceState.time).local().format('MM/DD/YYYY, hh:mm')
         })
         this.boatArray = filteredTugs
 
@@ -394,11 +395,13 @@ export default {
         this.idArrayOut = idArray
       },
       updateLocation (boat) {
+        console.log(boat)
         this.portCallId = boat.portCallId
         this.vesselId = boat.vesselId
         this.messageId = boat.messageId
-        this.time = moment(new Date(boat.serviceState.time)).format('')
+        this.time = moment(boat.serviceState.time).format('YYYY-MM-DDThh:mm')
         this.timeType = boat.serviceState.timeType
+        this.referenceObject = boat.serviceState.serviceObject
       }
     }
 }
