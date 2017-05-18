@@ -78,11 +78,11 @@
               </div>
               <div>
                 <div> <label>Vessel ID</label> </div>
-                <div> <input v-model="vesselId"> </div>
+                <div> <input v-model="vesselId" readonly> </div>
               </div>
               <div>
                 <div> <label>Message ID</label> </div>
-                <div> <input v-model="messageId" readonly> </div>
+                <div> <input v-model="messageId" > </div>
               </div>
               <div>
                 <div> <label>Reported By</label> </div>
@@ -92,8 +92,8 @@
                 <div> <label>Reference Object</label> </div>
                 <div>
                   <select v-model="referenceObject">
-                    <option>EscortTug</option>
-                    <option>Tug</option>
+                    <option>ESCORT_TUG</option>
+                    <option>TUG</option>
                   </select>
                 </div>
               </div>
@@ -105,26 +105,25 @@
                 <div> <label>Time Type</label> </div>
                 <div>
                   <select v-model="timeType">
-      								<option> Actual </option>
-      								<option> Estimated </option>
-      								<option> Expected </option>
+      								<option>ACTUAL</option>
+      								<option>EXPECTED</option>
       							</select>
-                </div>
-              </div>
-              <div>
-                <div> <label>Arrival Location</label> </div>
-                <div>
-                  <select v-model="arrivalLocation">
-                    <option>ETugZone</option>
-                    <option>TugZone</option>
-                    <option>Berth</option>
-                  </select>
                 </div>
               </div>
               <div>
                 <div> <label>Arrival Location Type</label> </div>
                 <div>
                   <select v-model="arrivalLocationType">
+                    <option>ESCORT_TUG_ZONE</option>
+                    <option>TUG_ZONE</option>
+                    <option>BERTH</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <div> <label>Arrival Location</label> </div>
+                <div>
+                  <select v-model="arrivalLocation">
                     <option>-</option>
                     <option>Vessel</option>
                   </select>
@@ -208,7 +207,7 @@
               <div>
                 <div> <label>Time Type</label> </div>
                 <div>
-                  <select v-model="timeType">
+                  <select v-model="timeTypeSer">
                       <option> Actual </option>
                       <option> Estimated </option>
                       <option> Expected </option>
@@ -283,7 +282,10 @@ export default {
         statuscodeServ: '',
         messageServ: '',
         vesselIdArray: '',
-        portCallId: ''
+        portCallId: '',
+        arrivalLocationType: '',
+        departureLocation: '',
+        departureLocationType: ''
       }
     },
     methods: {
@@ -310,7 +312,8 @@ export default {
       },
 
       async postLocationState () {
-        const input = [this.portCallId, this.vesselId, this.messageId, this.reportedBy, 'TUG', this.time, this.timeType, this.arrivalLocation]
+        const input = [this.portCallId, this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocation, this.arrivalLocationType, this.departureLocation, this.departureLocationType]
+        console.log(input)
         const response = await api.postState(input)
         if (!response) {
           console.log('Could not get API Service')
@@ -394,7 +397,7 @@ export default {
         this.portCallId = boat.portCallId
         this.vesselId = boat.vesselId
         this.messageId = boat.messageId
-        this.time = moment(new Date(boat.serviceState.time)).format('YYYY-MM-DD')
+        this.time = moment(new Date(boat.serviceState.time)).format('')
         this.timeType = boat.serviceState.timeType
       }
     }
