@@ -11,8 +11,10 @@
     <div class="hero-container">
       <img class="logo" src="../assets/tuglife-logo.png" width="30%">
       <br>
-      <button type="button" class="btn btn-book" id="tugBtn" v-on:click="gotoTug()">Tug boat page</button>
-      <button type="button" class="btn btn-book" id="shipBtn" v-on:click="gotoShip()">Ship agent page</button>
+      <div class="buttons">
+        <button type="button" class="btn btn-book" id="tugBtn" v-on:click="gotoTug()">Tug boat page</button>
+        <button type="button" class="btn btn-book" id="shipBtn" v-on:click="gotoShip()">Ship agent page</button>
+      </div>
     </div>
   </div>
 </div>
@@ -55,6 +57,7 @@ body {
   text-transform: uppercase;
   font-weight: 700;
   font-size: 25px;
+  margin: 10px;
 }
 
 .btn-book:hover,
@@ -190,6 +193,5 @@ input {
 .hero-container {
   padding-top: 170px;
 }
-
 
 </style>
