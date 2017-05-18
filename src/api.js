@@ -1,6 +1,4 @@
 import axios from 'axios'
-// import xml2js from 'xml2js'
-// var parser = new xml2js.Parser()
 
 const api = axios.create({timeout: 5000})
 
@@ -19,15 +17,3 @@ export async function postState (xml) {
   }
   return response
 }
-
-// function parseXML (xml) {
-//   let lol = ''
-//   parser.parseString(xml.toString(), function (err, result) {
-//     if (err) {
-//       console.log(err)
-//     }
-//     console.log(result)
-//     lol = result
-//   })
-//   return JSON.stringify(lol)
-// }
