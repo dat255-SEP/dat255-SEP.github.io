@@ -266,11 +266,6 @@ import moment from 'moment'
 
 export default {
   async created () {
-    const initiated = await api.weBeInitiating()
-    if (!initiated) {
-      throw new Error('Wat is dis, could not initiate TUGS')
-    }
-
     const response = await api.getStatesQueue()
     if (!response) {
       throw new Error('could not get states')

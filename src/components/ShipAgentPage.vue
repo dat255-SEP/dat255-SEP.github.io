@@ -153,7 +153,7 @@
 
 <script>
 //
-// import * as api from '../api'
+import * as api from '../api'
 //  import * as update from '../update'
 import moment from 'moment'
 
@@ -192,11 +192,16 @@ export default {
     }
   },
   methods: {
-    bookBoat (boat) {
+    async bookBoat (boat) {
       this.vesselId = ''
       boat.boat = ''
       boat.serviceObject = ''
       // Här vill jag göra ett apiCall till något
+      const response = await api.bookBoat()
+      if (!response) {
+        throw new Error('Gosh! Could not book boat')
+      }
+      console.log(response)
     },
     async updateAPICall () {
       // var vm = this

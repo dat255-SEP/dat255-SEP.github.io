@@ -3,26 +3,8 @@ var router = express.Router()
 var axios = require('axios')
 const api = axios.create({timeout: 5000})
 
-router.post('/weBeInitiating', async(req, res, next) => {
-  const getQueueId = await api.post('http://dev.portcdm.eu:8080/mb/mqs?fromTime=2017-05-10T14:20:21Z', '', {
-    headers: {
-      'X-PortCDM-UserId': 'viktoria',
-      'X-PortCDM-Password': 'vik123',
-      'X-PortCDM-APIKey': 'dhc',
-      'Content-Type': 'application/json'
-    }
-  })
-  const getQueue = await api.get('http://dev.portcdm.eu:8080/mb/mqs/' + getQueueId.data, {
-    headers: {
-      'X-PortCDM-UserId': 'viktoria',
-      'X-PortCDM-Password': 'vik123',
-      'X-PortCDM-APIKey': 'dhc'
-    }
-  })
-  const portCallId = (getQueue.data).map(m => m.portCallId)
-
-  // Lol, tar ett random portcallID HAHAH
-  console.log(portCallId[0])
+router.post('/bookBoat', async(req, res, next) => {
+  console.log('hej')
 })
 
 router.post('/getQueue', async(req, res, next) => {

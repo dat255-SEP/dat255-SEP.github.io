@@ -2,10 +2,10 @@ import axios from 'axios'
 
 const api = axios.create({timeout: 5000})
 
-export async function weBeInitiating () {
-  const response = await api.post(`/api/weBeInitiating`)
+export async function bookBoat () {
+  const response = await api.post(`/api/bookBoat`)
   if (!response) {
-    throw new Error('could not INITIATE')
+    throw new Error('could not book b0at')
   }
   return response.data
 }
