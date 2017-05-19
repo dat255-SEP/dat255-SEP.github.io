@@ -14,6 +14,95 @@
   </div>
 
 <div class="table-container">
+  <h2>Booked Tugboats</h2>
+  <table class="table">
+    <tr>
+      <td v-if="idArrayOut.length !== 0">
+        <table class="table">
+          <thead>
+              <tr class="table3-titles">
+                  <th>
+                    ID
+                  </th>
+              </tr>
+            </thead>
+          <tbody>
+            <tr v-for="performingActor in idArrayOut">
+              <td> {{ performingActor.id.id }} </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+      <td v-if="idArrayOut.length == 0">
+        <table class="table">
+          <thead>
+              <tr class="table4-titles">
+                  <th>
+                    ID
+                  </th>
+              </tr>
+            </thead>
+          <tbody>
+            <tr v-for="fakeID in idArrayOut2">
+              <td> {{ fakeID }} </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+      <td>
+        <table class="table">
+          <thead>
+            <tr class="table-titles">
+              <th> Service Object </th>
+              <th> Performing Actor </th>
+              <th> Time Sequence </th>
+              <th> Time </th>
+              <th> Type </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="boat in boatArray">
+              <td> {{ boat.serviceObject }} </td>
+              <td> {{ boat.performingActor }} </td>
+              <td> {{ boat.timeSequence }} </td>
+              <td> {{ boat.time}} </td>
+              <td> {{ boat.timeType }} </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+      <td>
+        <table class="table">
+          <thead>
+            <tr class="table2-titles">
+              <th> Location State </th>
+              <th> To: Location Type </th>
+              <!-- <th> To: Pos </th> -->
+              <th> To: Name </th>
+              <th> From: Location Type </th>
+              <!-- <th> From: Pos </th> -->
+              <th> From: Name </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="between in toArrayOut">
+              <td> {{ between.to.at }} </td>
+              <td> {{ between.to.locationType }} </td>
+              <!--    <td> {{ between.to.position }} </td>   -->
+              <td> {{ between.to.name }} </td>
+              <td> {{ between.from.locationType}} </td>
+              <!--    <td> {{ between.from.position }} </td>     -->
+              <td> {{ between.from.name }} </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div class="table-container">
+  <h2>Unbooked Tugboats</h2>
   <table class="table">
     <tr>
       <td v-if="idArrayOut.length !== 0">
@@ -303,6 +392,7 @@ table {
 }
 
 .table-container {
+  margin-top: 50px;
 }
 
 .form-box {
