@@ -266,12 +266,17 @@ import moment from 'moment'
 
 export default {
   async created () {
+    const initiated = await api.weBeInitiating()
+    if (!initiated) {
+      throw new Error('Wat is dis, could not initiate TUGS')
+    }
+
     const response = await api.getStatesQueue()
     if (!response) {
       throw new Error('could not get states')
     }
     this.getStatesFromQueue(response)
-    this.updateAPICall()
+    // this.updateAPICall()
   },
   data () {
     return {
@@ -327,13 +332,12 @@ export default {
 
       const filteredTugs = answers.filter(function (el) {
         if (el.locationState) {
-          console.log(el.locationState.referenceObject)
+          // console.log(el.locationState.referenceObject)
           if ((el.locationState.referenceObject).localeCompare('TUG') === 0 || el.locationState.referenceObject === 'ESCORT_TUG') {
-            console.log('awd')
             return el
           }
         } else if (el.serviceState) {
-          console.log(el.serviceState.serviceObject)
+          // console.log(el.serviceState.serviceObject)
           if (el.serviceState.serviceObject === 'TOWAGE' || el.serviceState.serviceObject === 'ESCORT_TOWAGE') {
             return el
           }
