@@ -18,14 +18,6 @@ export async function getStatesFromQueue (id) {
   return response.data
 }
 
-export async function getBoatStuffs () {
-  const response = await api.get(`/api/getStates`)
-  if (!response) {
-    throw new Error('could not get states')
-  }
-  return response.data
-}
-
 export async function postState (xml) {
   const response = await api.post(`/api/postDat/${xml}`)
   if (!response) {

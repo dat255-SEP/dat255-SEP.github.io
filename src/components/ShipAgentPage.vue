@@ -106,14 +106,13 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <script>
-
-import * as api from '../api'
+//
+// import * as api from '../api'
 //  import * as update from '../update'
 import moment from 'moment'
 
 export default {
   created () {
-    this.getStates()
     this.updateAPICall()
   },
   data () {
@@ -145,28 +144,18 @@ export default {
     }
   },
   methods: {
-    async getStates () {
-      this.msg = 'Tug Life'
-      await api.getBoatStuffs()
-        .then(res => {
-          this.filterCall(res)
-        }).catch(error => {
-          console.log(error)
-        })
-    },
-
     async updateAPICall () {
-      var vm = this
-
-      setInterval(async function () {
-        await api.getBoatStuffs()
-          .then(res => {
-            // vm.msg = 'swaaaaaaag'
-            vm.filterCall(res)
-          }).catch(error => {
-            console.log(error)
-          })
-      }, 30000)
+      // var vm = this
+      //
+      // setInterval(async function () {
+      //   await api.getBoatStuffs()
+      //     .then(res => {
+      //       // vm.msg = 'swaaaaaaag'
+      //       vm.filterCall(res)
+      //     }).catch(error => {
+      //       console.log(error)
+      //     })
+      // }, 30000)
     },
 
     filterCall (array) {

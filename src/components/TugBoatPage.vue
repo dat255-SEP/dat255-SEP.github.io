@@ -67,10 +67,10 @@
               </thead>
 
               <tbody>
-              <tr v-for="boat in boatArray">
-                <td> <button class="btn btn-book" id="updateLocation" v-on:click="updateLocation(boat)">Update</button> </td>
-              </tr>
-            </tbody>
+                <tr v-for="boat in boatArray">
+                  <td> <button class="btn btn-book" id="updateLocation" v-on:click="updateLocation(boat)">Update</button> </td>
+                </tr>
+              </tbody>
 
             </table>
           </td>
@@ -271,7 +271,6 @@ export default {
       throw new Error('could not get states')
     }
     this.getStatesFromQueue(response)
-    this.getStates()
     this.updateAPICall()
   },
   data () {
@@ -308,27 +307,85 @@ export default {
     }
   },
   methods: {
-    async getStatesFromQueue (id) {
-      await api.getStatesFromQueue(id)
-        .then(res => {
-          console.log(res)
-        }).catch(error => {
-          console.log(error)
-        })
+    filterCall (array) {
+      const answers = (array.map(m => ({
+        'portCallId': m.portCallId,
+        'messageId': m.messageId,
+        'vesselId': m.vesselId,
+        'locationState': m.locationState,
+        'serviceState': m.serviceState
+      })))
+
+      answers.forEach(el => {
+        // console.log(el.locationState)
+        if (el.locationState === null) {
+          delete (el.locationState)
+        } else if (el.serviceState === null) {
+          delete (el.serviceState)
+        }
+      })
+
+      const filteredTugs = answers.filter(function (el) {
+        if (el.locationState) {
+          console.log(el.locationState.referenceObject)
+          if ((el.locationState.referenceObject).localeCompare('TUG') === 0 || el.locationState.referenceObject === 'ESCORT_TUG') {
+            console.log('awd')
+            return el
+          }
+        } else if (el.serviceState) {
+          console.log(el.serviceState.serviceObject)
+          if (el.serviceState.serviceObject === 'TOWAGE' || el.serviceState.serviceObject === 'ESCORT_TOWAGE') {
+            return el
+          }
+        }
+      })
+
+      filteredTugs.filter(function (tid) {
+        tid.serviceState.time = moment(tid.serviceState.time).local().format('MM/DD/YYYY, hh:mm')
+      })
+      this.boatArray = filteredTugs
+
+      for (var i = 0; i < this.boatArray.length; i++) {
+        if (this.boatArray[i].performingActor == null) {
+          this.boatArray[i].performingActor = 'NotSpecified' + i
+        }
+      }
+
+      const betweenStates = filteredTugs.map(s => (s.serviceState.between))
+
+      const toFromArray = betweenStates.filter(function (el) {
+        if (el !== undefined) {
+          return el.to
+        }
+      })
+      this.toArrayOut = toFromArray
+      const perfActorStates = filteredTugs.map(x => (x.performingActor))
+
+      var tempArray = []
+      for (var i2 = 0; i2 < perfActorStates.length; i2++) {
+        tempArray.push('No ID-' + i2)
+      }
+      this.idArrayOut2 = tempArray
+
+      const idArray = perfActorStates.filter(function (el) {
+        if (el !== undefined) {
+          return el.id
+        }
+      })
+      this.idArrayOut = idArray
     },
-    async getStates () {
-      this.msg = 'Tug Life'
-      await api.getBoatStuffs()
-        .then(res => {
-          this.filterCall(res)
-        }).catch(error => {
-          console.log(error)
-        })
+    async getStatesFromQueue (id) {
+      const datQueueThough = await api.getStatesFromQueue(id)
+      if (!datQueueThough) {
+        throw new Error('could not get dat queue though')
+      }
+      this.filterCall(datQueueThough)
     },
 
     async postServiceState () {
       const input = ['service', this.portCallId, this.vesselId, this.messageId, this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
-        this.at, this.to, this.from]
+        this.at, this.to, this.from
+      ]
       const response = await api.postState(input)
       if (!response) {
         console.log('Could not get API Service')
@@ -373,76 +430,16 @@ export default {
   },
 
   async updateAPICall () {
-    var vm = this
+    // var vm = this
 
     setInterval(async function () {
-      await api.getBoatStuffs()
-          .then(res => {
-            vm.filterCall(res)
-          }).catch(error => {
-            console.log(error)
-          })
+    //   await api.getBoatStuffs()
+    //     .then(res => {
+    //       vm.filterCall(res)
+    //     }).catch(error => {
+    //       console.log(error)
+    //     })
     }, 30000)
-  },
-
-  filterCall (array) {
-    const answers = (array.map(m => ({
-      'portCallId': m.portCallId,
-      'messageId': m.messageId,
-      'vesselId': m.vesselId,
-      'locationState': m.locationState,
-      'serviceState': m.serviceState
-    })))
-
-    answers.forEach(el => {
-        // console.log(el.locationState)
-      if (el.locationState === null) {
-        delete (el.locationState)
-      } else if (el.serviceState === null) {
-        delete (el.serviceState)
-      }
-    })
-
-    const filteredTugs = answers.filter(function (el) {
-      if (el.locationState) {} else if (el.serviceState) {
-        if (el.serviceState.serviceObject === 'TOWAGE' || el.serviceState.serviceObject === 'ESCORT_TOWAGE') {
-          return el
-        }
-      }
-    })
-    filteredTugs.filter(function (tid) {
-      tid.serviceState.time = moment(tid.serviceState.time).local().format('MM/DD/YYYY, hh:mm')
-    })
-    this.boatArray = filteredTugs
-
-    for (var i = 0; i < this.boatArray.length; i++) {
-      if (this.boatArray[i].performingActor == null) {
-        this.boatArray[i].performingActor = 'NotSpecified' + i
-      }
-    }
-
-    const betweenStates = filteredTugs.map(s => (s.serviceState.between))
-
-    const toFromArray = betweenStates.filter(function (el) {
-      if (el !== undefined) {
-        return el.to
-      }
-    })
-    this.toArrayOut = toFromArray
-    const perfActorStates = filteredTugs.map(x => (x.performingActor))
-
-    var tempArray = []
-    for (var i2 = 0; i2 < perfActorStates.length; i2++) {
-      tempArray.push('No ID-' + i2)
-    }
-    this.idArrayOut2 = tempArray
-
-    const idArray = perfActorStates.filter(function (el) {
-      if (el !== undefined) {
-        return el.id
-      }
-    })
-    this.idArrayOut = idArray
   },
   updateLocation (boat) {
     console.log(boat)
@@ -520,7 +517,6 @@ a {
 table {
   margin: 50px auto;
 }
-
 
 .post {
   margin-top: 50px;

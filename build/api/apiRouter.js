@@ -31,17 +31,6 @@ router.get('/getAllThoseCalls/:queueId', async(req, res, next) => {
   res.send(response.data)
 })
 
-router.get('/getStates', async(req, res, next) => {
-  const response = await api.get('http://192.168.56.101:8080/dmp/mss/state_update?count=30&api_key=mb%2Fmqs', {
-    headers: {
-      'X-PortCDM-UserId': 'porter',
-      'X-PortCDM-Password': 'porter',
-      'X-PortCDM-APIKey': 'eeee'
-    }
-  })
-  res.send(response.data)
-})
-
 router.post('/postDat/:xml', async(req, res, next) => {
   const splitInput = (req.params.xml.split(','))
   let respXml = ''
