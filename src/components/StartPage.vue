@@ -8,10 +8,14 @@
 
   <!-- <h1>{{ msg }}</h1> -->
   <div class="hero">
-    <img class="logo" src="../assets/tuglife-logo.png" width="30%">
-    <br>
-    <button type="button" class="btn btn-book" id="tugBtn" v-on:click="gotoTug()">Tug boat page</button>
-    <button type="button" class="btn btn-book" id="shipBtn" v-on:click="gotoShip()">Ship agent page</button>
+    <div class="hero-container">
+      <img class="logo" src="../assets/tuglife-logo.png" width="30%">
+      <br>
+      <div class="buttons">
+        <button type="button" class="btn btn-book" id="tugBtn" v-on:click="gotoTug()">Tug boat page</button>
+        <button type="button" class="btn btn-book" id="shipBtn" v-on:click="gotoShip()">Ship agent page</button>
+      </div>
+    </div>
   </div>
 </div>
 </template>
@@ -53,6 +57,7 @@ body {
   text-transform: uppercase;
   font-weight: 700;
   font-size: 25px;
+  margin: 10px;
 }
 
 .btn-book:hover,
@@ -69,7 +74,7 @@ body {
   background-image: linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)), url("../assets/hero-image.jpg");
   background-size: cover;
   background-repeat: no-repeat;
-  padding: 40px;
+  height: 100vh;
   background-attachment: fixed;
 }
 
@@ -183,6 +188,10 @@ input {
 
 .table2-titles th {
   text-align: center;
+}
+
+.hero-container {
+  padding-top: 170px;
 }
 
 </style>
