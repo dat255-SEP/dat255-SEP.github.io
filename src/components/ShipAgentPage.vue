@@ -193,15 +193,15 @@ export default {
   },
   methods: {
     async bookBoat (boat) {
-      this.vesselId = ''
       boat.boat = ''
       boat.serviceObject = ''
       // Här vill jag göra ett apiCall till något
-      const response = await api.bookBoat()
+      const response = await api.bookBoat(this.vesselId)
       if (!response) {
         throw new Error('Gosh! Could not book boat')
       }
       console.log(response)
+      this.vesselId = ''
     },
     async updateAPICall () {
       // var vm = this

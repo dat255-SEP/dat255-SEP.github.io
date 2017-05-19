@@ -3,8 +3,20 @@ var router = express.Router()
 var axios = require('axios')
 const api = axios.create({timeout: 5000})
 
-router.post('/bookBoat', async(req, res, next) => {
-  console.log('hej')
+router.post('/bookBoat/:vesselId', async(req, res, next) => {
+  const converted = convertBook(req.params.vesselId)
+  const response = await api.post('http://dev.portcdm.eu:8080/amss/state_update', converted, {
+    headers: {
+      'X-PortCDM-UserId': 'viktoria',
+      'X-PortCDM-Password': 'vik123',
+      'X-PortCDM-APIKey': 'dhc',
+      'Content-Type': 'application/xml'
+    }
+  })
+  if (!response) {
+    throw new Error('OPSI, could not get api')
+  }
+  res.sendStatus(response.status)
 })
 
 router.post('/getQueue', async(req, res, next) => {
@@ -55,6 +67,24 @@ router.post('/postDat/:xml', async(req, res, next) => {
   })
   res.send(response.data)
 })
+
+function convertBook (vesselId) {
+  var xml = '<ns2:portCallMessage xmlns:ns2="urn:mrn:stm:schema:port-call-message:0.6">' +
+  '<ns2:vesselId>urn:mrn:stm:vessel:IMO:' + vesselId + '</ns2:vesselId>' +
+  '<ns2:messageId>urn:mrn:stm:portcdm:message:5e989f8a-3cf6-4921-a0ef-9e70c8b1321d</ns2:messageId>' +
+  '<ns2:locationState>' +
+  '<ns2:referenceObject>VESSEL</ns2:referenceObject>' +
+  '<ns2:time>2017-05-21T06:30:00.000Z</ns2:time>' +
+  '<ns2:timeType>ESTIMATED</ns2:timeType>' +
+  '<ns2:arrivalLocation>' +
+  '<ns2:to>' +
+  '<ns2:locationMRN>urn:mrn:stm:location:segot:BERTH:arendal750</ns2:locationMRN>' +
+  '</ns2:to>' +
+  '</ns2:arrivalLocation>' +
+  '</ns2:locationState>' +
+  '</ns2:portCallMessage>'
+  return xml
+}
 
 function convertXmlLocation (xmlInput) {
   var xml = '<ns2:portCallMessage xmlns:ns2="urn:x-mrn:stm:schema:port-call-message:0.0.16">' +
