@@ -122,15 +122,19 @@
                   <select v-model="timeType">
       								<option>ACTUAL</option>
       								<option>ESTIMATED</option>
+<<<<<<< HEAD
+      							</select>
+=======
                       <option>EXPECTED</option>
                     </select>
+>>>>>>> 67cf49441d520b79c78742a63169a786f612f119
                 </div>
               </div>
               <div>
                 <div> <label>Arrival Location Type</label> </div>
                 <div>
                   <select v-model="arrivalLocationType">
-                    <option>ESCORT_TUG_ZONE</option>
+                    <option>ESCORT_TUG_ZONE FUNGERAR EJ</option>
                     <option>TUG_ZONE</option>
                     <option>BERTH</option>
                   </select>
@@ -185,10 +189,6 @@
                 <div> <input v-model="portCallId" readonly> </div>
               </div>
               <div>
-                <div> <label>Vessel ID</label> </div>
-                <div> <input v-model="vesselId" readonly> </div>
-              </div>
-              <div>
                 <div> <label>Message ID</label> </div>
                 <div> <input v-model="messageId" readonly> </div>
               </div>
@@ -220,7 +220,7 @@
               </div>
               <div>
                 <div> <label>Time</label> </div>
-                <div> <input class="inputTime" v-model="time" type="datetime-local" id="theTime"> </div>
+                <div> <input class="inputTime" v-model="timeSer" type="datetime-local" id="theTime"> </div>
               </div>
               <div>
                 <div> <label>Time Type</label> </div>
@@ -316,7 +316,33 @@ export default {
         }).catch(error => {
           console.log(error)
         })
+<<<<<<< HEAD
+      },
+
+      async postServiceState () {
+        const input = ['service', this.portCallId, this.vesselId, this.messageId, this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
+          this.at, this.to, this.from]
+        const response = await api.postState(input)
+        if (!response) {
+          console.log('Could not get API Service')
+        }
+        this.statuscodeServ = response.status
+        this.messageServ = response.data
+      },
+
+      async postLocationState () {
+        const input = ['location', this.portCallId, this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocation, this.arrivalLocationType, this.departureLocation, this.departureLocationType]
+        console.log(input)
+        const response = await api.postState(input)
+        if (!response) {
+          console.log('Could not get API Service')
+        }
+        this.statuscode = response.status
+        this.message = response.data
+      },
+=======
     },
+>>>>>>> 67cf49441d520b79c78742a63169a786f612f119
 
     async postServiceState () {
       const input = [this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
