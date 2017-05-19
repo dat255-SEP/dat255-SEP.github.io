@@ -15,150 +15,139 @@
 
 
   <div class="table-container">
-    <h2>Unbooked Tugboats</h2>
     <table class="table">
       <tr>
+        <td>
+          <table class="table">
+            <thead>
+              <tr class="table2-titles">
+                <th> Boat </th>
+                <th> serviceObject </th>
+                <th> VesselId </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="boat in unbookedBoats">
+                <td> {{ boat.boat }} </td>
+                <td> {{ boat.serviceObject }} </td>
+                <td> <input v-model="vesselId" > </td>
+              </tr>
+            </tbody>
+
+          </table>
+          <td>
+            <table class="table">
+              <thead>
+                <tr class="table2-titles">
+                  <th> Book </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr v-for="boat in unbookedBoats">
+                  <td> <button class="btn btn-book" id="bookBoat" v-on:click="bookBoat(boat)">Book</button> </td>
+                </tr>
+              </tbody>
+
+            </table>
+          </td>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="table-container">
+    <h2>Booked Tugboats</h2>
+    <table class="table">
+      <tr>
+        <td v-if="idArrayOut.length !== 0">
+          <table class="table">
+            <thead>
+              <tr class="table3-titles">
+                <th>
+                  ID
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="performingActor in idArrayOut">
+                <td> {{ performingActor.id.id }} </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
         <td v-if="idArrayOut.length == 0">
           <table class="table">
             <thead>
-                <tr class="table4-titles">
-                    <th>
-                      ID
-                    </th>
-                    <th>
-                        Service Object
-                    </th>
-                    <th>
-                        Quepasa
-                    </th>
-                    <th>
-                        lol?
-                    </th>
-                </tr>
-              </thead>
+              <tr class="table4-titles">
+                <th>
+                  ID
+                </th>
+              </tr>
+            </thead>
             <tbody>
-                <td> {{ 'BOATMR' }} </td>
-                <td> {{ 'ESCORT TOWAGE' }} </td>
-                <td> {{ 'TOWAGE' }} </td>
-                <td> {{ 'ESCORT TOWAGE' }} </td>
+              <tr v-for="fakeID in idArrayOut2">
+                <td> {{ fakeID }} </td>
+              </tr>
             </tbody>
-
-          <tbody>
-              <td> {{ 'BOATMR' }} </td>
-              <td> {{ 'ESCORT TOWAGE' }} </td>
-              <td> {{ 'TOWAGE' }} </td>
-              <td> {{ 'ESCORT TOWAGE' }} </td>
-          </tbody>
-
-        <tbody>
-            <td> {{ 'BOATMR' }} </td>
-            <td> {{ 'ESCORT TOWAGE' }} </td>
-            <td> {{ 'TOWAGE' }} </td>
-            <td> {{ 'ESCORT TOWAGE' }} </td>
-        </tbody>
-
-      <tbody>
-          <td> {{ 'BOATMR' }} </td>
-          <td> {{ 'ESCORT TOWAGE' }} </td>
-          <td> {{ 'TOWAGE' }} </td>
-          <td> {{ 'ESCORT TOWAGE' }} </td>
-      </tbody>
+          </table>
+        </td>
+        <td>
+          <table class="table">
+            <thead>
+              <tr class="table-titles">
+                <th> Service Object </th>
+                <th> Performing Actor </th>
+                <th> Time Sequence </th>
+                <th> Time </th>
+                <th> Type </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="boat in boatArray">
+                <td> {{ boat.serviceObject }} </td>
+                <td> {{ boat.performingActor }} </td>
+                <td> {{ boat.timeSequence }} </td>
+                <td> {{ boat.time}} </td>
+                <td> {{ boat.timeType }} </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td>
+          <table class="table">
+            <thead>
+              <tr class="table2-titles">
+                <th> Location State </th>
+                <th> To: Location Type </th>
+                <!-- <th> To: Pos </th> -->
+                <th> To: Name </th>
+                <th> From: Location Type </th>
+                <!-- <th> From: Pos </th> -->
+                <th> From: Name </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="between in toArrayOut">
+                <td> {{ between.to.at }} </td>
+                <td> {{ between.to.locationType }} </td>
+                <!--    <td> {{ between.to.position }} </td>   -->
+                <td> {{ between.to.name }} </td>
+                <td> {{ between.from.locationType}} </td>
+                <!--    <td> {{ between.from.position }} </td>     -->
+                <td> {{ between.from.name }} </td>
+              </tr>
+            </tbody>
           </table>
         </td>
       </tr>
     </table>
   </div>
 
-<div class="table-container">
-  <h2>Booked Tugboats</h2>
-  <table class="table">
-    <tr>
-      <td v-if="idArrayOut.length !== 0">
-        <table class="table">
-          <thead>
-              <tr class="table3-titles">
-                  <th>
-                    ID
-                  </th>
-              </tr>
-            </thead>
-          <tbody>
-            <tr v-for="performingActor in idArrayOut">
-              <td> {{ performingActor.id.id }} </td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-      <td v-if="idArrayOut.length == 0">
-        <table class="table">
-          <thead>
-              <tr class="table4-titles">
-                  <th>
-                    ID
-                  </th>
-              </tr>
-            </thead>
-          <tbody>
-            <tr v-for="fakeID in idArrayOut2">
-              <td> {{ fakeID }} </td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-      <td>
-        <table class="table">
-          <thead>
-            <tr class="table-titles">
-              <th> Service Object </th>
-              <th> Performing Actor </th>
-              <th> Time Sequence </th>
-              <th> Time </th>
-              <th> Type </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="boat in boatArray">
-              <td> {{ boat.serviceObject }} </td>
-              <td> {{ boat.performingActor }} </td>
-              <td> {{ boat.timeSequence }} </td>
-              <td> {{ boat.time}} </td>
-              <td> {{ boat.timeType }} </td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-      <td>
-        <table class="table">
-          <thead>
-            <tr class="table2-titles">
-              <th> Location State </th>
-              <th> To: Location Type </th>
-              <!-- <th> To: Pos </th> -->
-              <th> To: Name </th>
-              <th> From: Location Type </th>
-              <!-- <th> From: Pos </th> -->
-              <th> From: Name </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="between in toArrayOut">
-              <td> {{ between.to.at }} </td>
-              <td> {{ between.to.locationType }} </td>
-              <!--    <td> {{ between.to.position }} </td>   -->
-              <td> {{ between.to.name }} </td>
-              <td> {{ between.from.locationType}} </td>
-              <!--    <td> {{ between.from.position }} </td>     -->
-              <td> {{ between.from.name }} </td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-    </tr>
-  </table>
-</div>
-
 </div>
 </template>
+
+
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
@@ -170,6 +159,7 @@ import moment from 'moment'
 
 export default {
   created () {
+    this.unbookedBoats = [{boat: 'Boat1', serviceObject: 'TUG'}, {boat: 'Boat2', serviceObject: 'TUG'}, {boat: 'Boat3', serviceObject: 'ESKROT_TUG'}]
     this.updateAPICall()
   },
   data () {
@@ -197,10 +187,17 @@ export default {
       to: '',
       from: '',
       statuscodeServ: '',
-      messageServ: ''
+      messageServ: '',
+      unbookedBoats: ''
     }
   },
   methods: {
+    bookBoat (boat) {
+      this.vesselId = ''
+      boat.boat = ''
+      boat.serviceObject = ''
+      // Här vill jag göra ett apiCall till något
+    },
     async updateAPICall () {
       // var vm = this
       //
@@ -267,7 +264,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 body {
   overflow-x: hidden;
   font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -333,30 +329,30 @@ table {
 }
 
 .message-form {
-    width: 50%;
-    height: 200px;
-    padding: 12px 20px;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    background-color: #f8f8f8;
-    resize: none;
-    margin-bottom: 30px;
-    margin-top: 10px;
+  width: 50%;
+  height: 200px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  resize: none;
+  margin-bottom: 30px;
+  margin-top: 10px;
 }
 
 .status-form {
-    text-align: center;
-    margin-top: 10px;
-    width: 50%;
-    height: 50px;
-    padding: 12px 20px;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    background-color: #f8f8f8;
-    resize: none;
-    margin-bottom: 30px;
+  text-align: center;
+  margin-top: 10px;
+  width: 50%;
+  height: 50px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  resize: none;
+  margin-bottom: 30px;
 }
 
 .table-container {
@@ -389,11 +385,13 @@ table {
 }
 
 [type="date"] {
-  background:#fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)  97% 50% no-repeat ;
+  background: #fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png) 97% 50% no-repeat;
 }
+
 [type="date"]::-webkit-inner-spin-button {
   display: none;
 }
+
 [type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
 }
@@ -401,12 +399,13 @@ table {
 label {
   display: block;
 }
+
 input {
   border: 1px solid #c4c4c4;
   border-radius: 5px;
   background-color: #fff;
   padding: 3px 5px;
-  box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
   width: 190px;
 }
 
@@ -425,5 +424,4 @@ input {
 .table4-titles th {
   text-align: center;
 }
-
 </style>
