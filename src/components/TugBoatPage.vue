@@ -265,7 +265,12 @@ import * as api from '../api'
 import moment from 'moment'
 
 export default {
-  created () {
+  async created () {
+    const response = await api.getStatesTest()
+    if (!response) {
+      throw new Error('could not get states')
+    }
+    console.log(response)
     this.getStates()
     this.updateAPICall()
   },
