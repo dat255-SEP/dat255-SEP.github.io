@@ -271,6 +271,8 @@ export default {
       throw new Error('could not get states')
     }
     this.getStatesFromQueue(response)
+    this.generateMsgID()
+  //  this.generateLowerCase()
     // this.updateAPICall()
   },
   data () {
@@ -380,6 +382,29 @@ export default {
       }
       this.filterCall(datQueueThough)
     },
+    generateMsgID () {
+      function generateLetter () {
+        var chars = 'abcdef'
+        return chars.substr(Math.floor(Math.random() * 6), 1)
+      }
+
+      function aORb () {
+        var chars = 'ab'
+        return chars.substr(Math.floor(Math.random() * 2), 1)
+      }
+
+      var randomInt = Math.floor(Math.random() * (9 - 0)) + 0
+      var eightOrNine = Math.floor(Math.random() * (9 - 8 + 1)) + 8
+      var hej = '[' + randomInt + generateLetter() + generateLetter().toUpperCase() + '{8}-[' + randomInt + generateLetter() + generateLetter().toUpperCase() + ']{4}-4[' + randomInt + generateLetter() + generateLetter().toUpperCase() +
+      ']{3}-[' + eightOrNine + aORb() + aORb().toUpperCase() + '][' + randomInt + generateLetter() + generateLetter().toUpperCase() + ']{3}-[' + randomInt + generateLetter() + generateLetter().toUpperCase() + ']{12}'
+      console.log(hej)
+      return hej
+    },
+    // generateLowerCase () {
+    //   var chars = 'abcdefghijklmnopqrstuvwxyz'
+    //   var test = chars.substr(Math.floor(Math.random() * 26), 1)
+    //   console.log(test)
+    // },
 
     async postServiceState () {
       const input = ['service', this.portCallId, this.vesselId, this.messageId, this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
