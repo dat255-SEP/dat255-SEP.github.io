@@ -8,7 +8,7 @@ export async function bookBoat (vesselId) {
     throw new Error('could not book b0at')
   }
   console.log(response)
-  return response.data
+  return response
 }
 
 export async function getStatesQueue () {

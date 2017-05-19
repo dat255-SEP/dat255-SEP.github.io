@@ -15,6 +15,7 @@
 
 
   <div class="table-container">
+    <h2>Unbooked Tugboats</h2>
     <table class="table">
       <tr>
         <td>
@@ -30,7 +31,7 @@
               <tr v-for="boat in unbookedBoats">
                 <td> {{ boat.boat }} </td>
                 <td> {{ boat.serviceObject }} </td>
-                <td> <input v-model="vesselId" > </td>
+                <td> <input v-model="vesselId"> </td>
               </tr>
             </tbody>
 
@@ -149,6 +150,10 @@
 
 
 
+
+
+
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <script>
@@ -159,7 +164,16 @@ import moment from 'moment'
 
 export default {
   created () {
-    this.unbookedBoats = [{boat: 'Boat1', serviceObject: 'TUG'}, {boat: 'Boat2', serviceObject: 'TUG'}, {boat: 'Boat3', serviceObject: 'ESKROT_TUG'}]
+    this.unbookedBoats = [{
+      boat: 'Boat1',
+      serviceObject: 'TUG'
+    }, {
+      boat: 'Boat2',
+      serviceObject: 'TUG'
+    }, {
+      boat: 'Boat3',
+      serviceObject: 'ESKROT_TUG'
+    }]
     this.updateAPICall()
   },
   data () {
@@ -192,17 +206,6 @@ export default {
     }
   },
   methods: {
-    async bookBoat (boat) {
-      boat.boat = ''
-      boat.serviceObject = ''
-      // Här vill jag göra ett apiCall till något
-      const response = await api.bookBoat(this.vesselId)
-      if (!response) {
-        throw new Error('Gosh! Could not book boat')
-      }
-      console.log(response)
-      this.vesselId = ''
-    },
     async updateAPICall () {
       // var vm = this
       //
@@ -216,20 +219,30 @@ export default {
       //     })
       // }, 30000)
     },
+    findPortCall (array) {
+      const answers = (array.map(m => ({
+        'portCallId': m.portCallId,
+        'messageId': m.messageId,
+        'vesselId': m.vesselId,
+        'locationState': m.locationState,
+        'serviceState': m.serviceState
+      })))
 
-    filterCall (array) {
-      const locationStates = array.map(m => (m.locationState || m.serviceState))
-      const answers = locationStates.filter(function (el) {
-        return el !== null
+      answers.forEach(el => {
+        if (el.locationState === null) {
+          delete (el.locationState)
+        } else if (el.serviceState === null) {
+          delete (el.serviceState)
+        }
       })
+
       const filteredTugs = answers.filter(function (el) {
-        return el.serviceObject === 'TOWAGE' || el.serviceObject === 'ESCORT_TOWAGE'
+
       })
 
       filteredTugs.filter(function (tid) {
-        tid.time = moment(tid.time).format('DD MMM YYYY hh:mm a')
+        tid.serviceState.time = moment(tid.serviceState.time).local().format('MM/DD/YYYY, hh:mm')
       })
-
       this.boatArray = filteredTugs
 
       for (var i = 0; i < this.boatArray.length; i++) {
@@ -238,14 +251,13 @@ export default {
         }
       }
 
-      const betweenStates = filteredTugs.map(s => (s.between))
+      const betweenStates = filteredTugs.map(s => (s.serviceState.between))
 
       const toFromArray = betweenStates.filter(function (el) {
         if (el !== undefined) {
           return el.to
         }
       })
-
       this.toArrayOut = toFromArray
       const perfActorStates = filteredTugs.map(x => (x.performingActor))
 
@@ -253,7 +265,6 @@ export default {
       for (var i2 = 0; i2 < perfActorStates.length; i2++) {
         tempArray.push('No ID-' + i2)
       }
-      // console.log(tempArray)
       this.idArrayOut2 = tempArray
 
       const idArray = perfActorStates.filter(function (el) {
@@ -262,6 +273,27 @@ export default {
         }
       })
       this.idArrayOut = idArray
+    },
+    async bookBoat (boat) {
+      // Här vill jag göra ett apiCall till något
+      const response = await api.bookBoat(this.vesselId)
+      if (!response) {
+        throw new Error('Gosh! Could not book boat')
+      }
+      if (response.status === 200) {
+        this.vesselId = ''
+        boat.boat = ''
+        boat.serviceObject = ''
+        const response = await api.getStatesQueue()
+        if (!response) {
+          throw new Error('something something darkside...')
+        }
+        const newQueue = await api.getStatesFromQueue(response)
+        if (!newQueue) {
+          throw new Error('something something complete...')
+        }
+        this.findPortCall(newQueue)
+      }
     }
   }
 }

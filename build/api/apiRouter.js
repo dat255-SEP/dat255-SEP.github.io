@@ -13,14 +13,18 @@ router.post('/bookBoat/:vesselId', async(req, res, next) => {
       'Content-Type': 'application/xml'
     }
   })
+  const test = converted.split('>')
+  const messageId = test[4]
   if (!response) {
     throw new Error('OPSI, could not get api')
   }
+  // skall skickas tillbaka, call it ikväll
+  console.log(messageId)
   res.sendStatus(response.status)
 })
 
 router.post('/getQueue', async(req, res, next) => {
-  const response = await api.post('http://dev.portcdm.eu:8080/mb/mqs?fromTime=2017-05-10T14:20:21Z', '', {
+  const response = await api.post('http://dev.portcdm.eu:8080/mb/mqs?fromTime=2017-05-19T14:20:21Z', '', {
     headers: {
       'X-PortCDM-UserId': 'viktoria',
       'X-PortCDM-Password': 'vik123',
@@ -71,7 +75,7 @@ router.post('/postDat/:xml', async(req, res, next) => {
 function convertBook (vesselId) {
   var xml = '<ns2:portCallMessage xmlns:ns2="urn:mrn:stm:schema:port-call-message:0.6">' +
   '<ns2:vesselId>urn:mrn:stm:vessel:IMO:' + vesselId + '</ns2:vesselId>' +
-  '<ns2:messageId>urn:mrn:stm:portcdm:message:5e989f8a-3cf6-4921-a0ef-9e70c8b1321d</ns2:messageId>' +
+  '<ns2:messageId>urn:mrn:stm:portcdm:message:0e290f8a-3cf9-4936-a1ef-9e70c8b1321d</ns2:messageId>' +
   '<ns2:locationState>' +
   '<ns2:referenceObject>VESSEL</ns2:referenceObject>' +
   '<ns2:time>2017-05-21T06:30:00.000Z</ns2:time>' +
