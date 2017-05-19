@@ -122,12 +122,7 @@
                   <select v-model="timeType">
       								<option>ACTUAL</option>
       								<option>ESTIMATED</option>
-<<<<<<< HEAD
       							</select>
-=======
-                      <option>EXPECTED</option>
-                    </select>
->>>>>>> 67cf49441d520b79c78742a63169a786f612f119
                 </div>
               </div>
               <div>
@@ -316,38 +311,11 @@ export default {
         }).catch(error => {
           console.log(error)
         })
-<<<<<<< HEAD
-      },
-
-      async postServiceState () {
-        const input = ['service', this.portCallId, this.vesselId, this.messageId, this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
-          this.at, this.to, this.from]
-        const response = await api.postState(input)
-        if (!response) {
-          console.log('Could not get API Service')
-        }
-        this.statuscodeServ = response.status
-        this.messageServ = response.data
-      },
-
-      async postLocationState () {
-        const input = ['location', this.portCallId, this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocation, this.arrivalLocationType, this.departureLocation, this.departureLocationType]
-        console.log(input)
-        const response = await api.postState(input)
-        if (!response) {
-          console.log('Could not get API Service')
-        }
-        this.statuscode = response.status
-        this.message = response.data
-      },
-=======
     },
->>>>>>> 67cf49441d520b79c78742a63169a786f612f119
 
     async postServiceState () {
-      const input = [this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
-        this.at, this.to, this.from
-      ]
+      const input = ['service', this.portCallId, this.vesselId, this.messageId, this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
+        this.at, this.to, this.from]
       const response = await api.postState(input)
       if (!response) {
         console.log('Could not get API Service')
@@ -357,7 +325,7 @@ export default {
     },
 
     async postLocationState () {
-      const input = [this.portCallId, this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocation, this.arrivalLocationType, this.departureLocation, this.departureLocationType]
+      const input = ['location', this.portCallId, this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocation, this.arrivalLocationType, this.departureLocation, this.departureLocationType]
       console.log(input)
       const response = await api.postState(input)
       if (!response) {
@@ -365,92 +333,115 @@ export default {
       }
       this.statuscode = response.status
       this.message = response.data
-    },
+    }
+  },
 
-    async updateAPICall () {
-      var vm = this
+  async postServiceState () {
+    const input = [this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
+      this.at, this.to, this.from
+    ]
+    const response = await api.postState(input)
+    if (!response) {
+      console.log('Could not get API Service')
+    }
+    this.statuscodeServ = response.status
+    this.messageServ = response.data
+  },
 
-      setInterval(async function () {
-        await api.getBoatStuffs()
+  async postLocationState () {
+    const input = [this.portCallId, this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocation, this.arrivalLocationType, this.departureLocation, this.departureLocationType]
+    console.log(input)
+    const response = await api.postState(input)
+    if (!response) {
+      console.log('Could not get API Service')
+    }
+    this.statuscode = response.status
+    this.message = response.data
+  },
+
+  async updateAPICall () {
+    var vm = this
+
+    setInterval(async function () {
+      await api.getBoatStuffs()
           .then(res => {
             vm.filterCall(res)
           }).catch(error => {
             console.log(error)
           })
-      }, 30000)
-    },
+    }, 30000)
+  },
 
-    filterCall (array) {
-      const answers = (array.map(m => ({
-        'portCallId': m.portCallId,
-        'messageId': m.messageId,
-        'vesselId': m.vesselId,
-        'locationState': m.locationState,
-        'serviceState': m.serviceState
-      })))
+  filterCall (array) {
+    const answers = (array.map(m => ({
+      'portCallId': m.portCallId,
+      'messageId': m.messageId,
+      'vesselId': m.vesselId,
+      'locationState': m.locationState,
+      'serviceState': m.serviceState
+    })))
 
-      answers.forEach(el => {
+    answers.forEach(el => {
         // console.log(el.locationState)
-        if (el.locationState === null) {
-          delete (el.locationState)
-        } else if (el.serviceState === null) {
-          delete (el.serviceState)
-        }
-      })
+      if (el.locationState === null) {
+        delete (el.locationState)
+      } else if (el.serviceState === null) {
+        delete (el.serviceState)
+      }
+    })
 
-      const filteredTugs = answers.filter(function (el) {
-        if (el.locationState) {} else if (el.serviceState) {
-          if (el.serviceState.serviceObject === 'TOWAGE' || el.serviceState.serviceObject === 'ESCORT_TOWAGE') {
-            return el
-          }
-        }
-      })
-      filteredTugs.filter(function (tid) {
-        tid.serviceState.time = moment(tid.serviceState.time).local().format('MM/DD/YYYY, hh:mm')
-      })
-      this.boatArray = filteredTugs
-
-      for (var i = 0; i < this.boatArray.length; i++) {
-        if (this.boatArray[i].performingActor == null) {
-          this.boatArray[i].performingActor = 'NotSpecified' + i
+    const filteredTugs = answers.filter(function (el) {
+      if (el.locationState) {} else if (el.serviceState) {
+        if (el.serviceState.serviceObject === 'TOWAGE' || el.serviceState.serviceObject === 'ESCORT_TOWAGE') {
+          return el
         }
       }
+    })
+    filteredTugs.filter(function (tid) {
+      tid.serviceState.time = moment(tid.serviceState.time).local().format('MM/DD/YYYY, hh:mm')
+    })
+    this.boatArray = filteredTugs
 
-      const betweenStates = filteredTugs.map(s => (s.serviceState.between))
-
-      const toFromArray = betweenStates.filter(function (el) {
-        if (el !== undefined) {
-          return el.to
-        }
-      })
-      this.toArrayOut = toFromArray
-      const perfActorStates = filteredTugs.map(x => (x.performingActor))
-
-      var tempArray = []
-      for (var i2 = 0; i2 < perfActorStates.length; i2++) {
-        tempArray.push('No ID-' + i2)
+    for (var i = 0; i < this.boatArray.length; i++) {
+      if (this.boatArray[i].performingActor == null) {
+        this.boatArray[i].performingActor = 'NotSpecified' + i
       }
-      this.idArrayOut2 = tempArray
-
-      const idArray = perfActorStates.filter(function (el) {
-        if (el !== undefined) {
-          return el.id
-        }
-      })
-      this.idArrayOut = idArray
-    },
-    updateLocation (boat) {
-      console.log(boat)
-      this.portCallId = boat.portCallId
-      this.vesselId = boat.vesselId
-      this.messageId = boat.messageId
-      this.time = moment(boat.serviceState.time).format('YYYY-MM-DDThh:mm')
-      this.timeType = this.timeTypeSer = boat.serviceState.timeType
-      this.referenceObject = boat.serviceState.serviceObject
-      this.timeSequence = boat.serviceState.timeSequence
-      this.to = boat.serviceState.between.to.name
-      this.from = boat.serviceState.between.from.name
     }
+
+    const betweenStates = filteredTugs.map(s => (s.serviceState.between))
+
+    const toFromArray = betweenStates.filter(function (el) {
+      if (el !== undefined) {
+        return el.to
+      }
+    })
+    this.toArrayOut = toFromArray
+    const perfActorStates = filteredTugs.map(x => (x.performingActor))
+
+    var tempArray = []
+    for (var i2 = 0; i2 < perfActorStates.length; i2++) {
+      tempArray.push('No ID-' + i2)
+    }
+    this.idArrayOut2 = tempArray
+
+    const idArray = perfActorStates.filter(function (el) {
+      if (el !== undefined) {
+        return el.id
+      }
+    })
+    this.idArrayOut = idArray
+  },
+  updateLocation (boat) {
+    console.log(boat)
+    this.portCallId = boat.portCallId
+    this.vesselId = boat.vesselId
+    this.messageId = boat.messageId
+    this.time = moment(boat.serviceState.time).format('YYYY-MM-DDThh:mm')
+    this.timeType = this.timeTypeSer = boat.serviceState.timeType
+    this.referenceObject = boat.serviceState.serviceObject
+    this.timeSequence = boat.serviceState.timeSequence
+    this.to = boat.serviceState.between.to.name
+    this.from = boat.serviceState.between.from.name
   }
 }
 </script>
