@@ -3,13 +3,52 @@ var router = express.Router()
 var axios = require('axios')
 const api = axios.create({timeout: 5000})
 
-router.get('/getStates', async(req, res, next) => {
-  const response = await api.get('http://192.168.56.101:8080/dmp/mss/state_update?count=30&api_key=mb%2Fmqs', {
+router.post('/weBeInitiating', async(req, res, next) => {
+  const getQueueId = await api.post('http://dev.portcdm.eu:8080/mb/mqs?fromTime=2017-05-10T14:20:21Z', '', {
     headers: {
-      'X-PortCDM-UserId': 'porter',
-      'X-PortCDM-Password': 'porter',
-      'X-PortCDM-APIKey': 'eeee'
+      'X-PortCDM-UserId': 'viktoria',
+      'X-PortCDM-Password': 'vik123',
+      'X-PortCDM-APIKey': 'dhc',
+      'Content-Type': 'application/json'
     }
+  })
+  const getQueue = await api.get('http://dev.portcdm.eu:8080/mb/mqs/' + getQueueId.data, {
+    headers: {
+      'X-PortCDM-UserId': 'viktoria',
+      'X-PortCDM-Password': 'vik123',
+      'X-PortCDM-APIKey': 'dhc'
+    }
+  })
+  const portCallId = (getQueue.data).map(m => m.portCallId)
+
+  // Lol, tar ett random portcallID HAHAH
+  console.log(portCallId[0])
+})
+
+router.post('/getQueue', async(req, res, next) => {
+  const response = await api.post('http://dev.portcdm.eu:8080/mb/mqs?fromTime=2017-05-10T14:20:21Z', '', {
+    headers: {
+      'X-PortCDM-UserId': 'viktoria',
+      'X-PortCDM-Password': 'vik123',
+      'X-PortCDM-APIKey': 'dhc',
+      'Content-Type': 'application/json'
+    }
+  }).catch(error => {
+    console.log(error)
+  })
+  res.send(response.data)
+})
+
+router.get('/getAllThoseCalls/:queueId', async(req, res, next) => {
+  const queueId = req.params.queueId
+  const response = await api.get('http://dev.portcdm.eu:8080/mb/mqs/' + queueId, {
+    headers: {
+      'X-PortCDM-UserId': 'viktoria',
+      'X-PortCDM-Password': 'vik123',
+      'X-PortCDM-APIKey': 'dhc'
+    }
+  }).catch(error => {
+    console.log(error)
   })
   res.send(response.data)
 })
@@ -61,7 +100,9 @@ function convertXmlLocation (xmlInput) {
   '<ns2:latitude>0</ns2:latitude>' +
   '<ns2:longitude>0</ns2:longitude>' +
   '<ns2:name>' + xmlInput[11] + '</ns2:name>' +
-  '</ns2:position>' + '</ns2:from>' + '<ns2:locationType>' + xmlInput[10] + '</ns2:locationType>' +
+  '</ns2:position>' +
+  '</ns2:from>' +
+  '<ns2:locationType>' + xmlInput[10] + '</ns2:locationType>' +
   '</ns2:departureLocation>' +
   '</ns2:locationState>' +
   '</ns2:portCallMessage>'
