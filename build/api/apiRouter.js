@@ -3,13 +3,27 @@ var router = express.Router()
 var axios = require('axios')
 const api = axios.create({timeout: 5000})
 
-router.post('/getStatesTest', async(req, res, next) => {
+router.post('/getQueue', async(req, res, next) => {
   const response = await api.post('http://dev.portcdm.eu:8080/mb/mqs?fromTime=2017-05-10T14:20:21Z', '', {
     headers: {
       'X-PortCDM-UserId': 'viktoria',
       'X-PortCDM-Password': 'vik123',
       'X-PortCDM-APIKey': 'dhc',
       'Content-Type': 'application/json'
+    }
+  }).catch(error => {
+    console.log(error)
+  })
+  res.send(response.data)
+})
+
+router.get('/getAllThoseCalls/:queueId', async(req, res, next) => {
+  const queueId = req.params.queueId
+  const response = await api.get('http://dev.portcdm.eu:8080/mb/mqs/' + queueId, {
+    headers: {
+      'X-PortCDM-UserId': 'viktoria',
+      'X-PortCDM-Password': 'vik123',
+      'X-PortCDM-APIKey': 'dhc'
     }
   }).catch(error => {
     console.log(error)

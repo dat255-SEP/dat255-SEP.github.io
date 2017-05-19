@@ -266,11 +266,11 @@ import moment from 'moment'
 
 export default {
   async created () {
-    const response = await api.getStatesTest()
+    const response = await api.getStatesQueue()
     if (!response) {
       throw new Error('could not get states')
     }
-    console.log(response)
+    this.getStatesFromQueue(response)
     this.getStates()
     this.updateAPICall()
   },
@@ -308,6 +308,14 @@ export default {
     }
   },
   methods: {
+    async getStatesFromQueue (id) {
+      await api.getStatesFromQueue(id)
+        .then(res => {
+          console.log(res)
+        }).catch(error => {
+          console.log(error)
+        })
+    },
     async getStates () {
       this.msg = 'Tug Life'
       await api.getBoatStuffs()
