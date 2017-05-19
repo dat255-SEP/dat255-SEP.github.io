@@ -406,29 +406,6 @@ export default {
     }
   },
 
-  async postServiceState () {
-    const input = [this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
-      this.at, this.to, this.from
-    ]
-    const response = await api.postState(input)
-    if (!response) {
-      console.log('Could not get API Service')
-    }
-    this.statuscodeServ = response.status
-    this.messageServ = response.data
-  },
-
-  async postLocationState () {
-    const input = [this.portCallId, this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocation, this.arrivalLocationType, this.departureLocation, this.departureLocationType]
-    console.log(input)
-    const response = await api.postState(input)
-    if (!response) {
-      console.log('Could not get API Service')
-    }
-    this.statuscode = response.status
-    this.message = response.data
-  },
-
   async updateAPICall () {
     // var vm = this
 
