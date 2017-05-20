@@ -107,10 +107,10 @@
             <tbody>
               <tr v-for="boat in boatArray">
                 <td> {{ boat.serviceObject }} </td>
-                <td> {{ boat.performingActor }} </td>
+                <!-- <td> {{ boat.performingActor }} </td>
                 <td> {{ boat.timeSequence }} </td>
                 <td> {{ boat.time}} </td>
-                <td> {{ boat.timeType }} </td>
+                <td> {{ boat.timeType }} </td> -->
               </tr>
             </tbody>
           </table>
@@ -147,6 +147,10 @@
 
 </div>
 </template>
+
+
+
+
 
 
 
@@ -219,7 +223,7 @@ export default {
       //     })
       // }, 30000)
     },
-    findPortCall (array) {
+    findPortCall (id, array) {
       const answers = (array.map(m => ({
         'portCallId': m.portCallId,
         'messageId': m.messageId,
@@ -235,65 +239,78 @@ export default {
           delete (el.serviceState)
         }
       })
-
+      console.log(id)
       const filteredTugs = answers.filter(function (el) {
-
+        // console.log(el.portCallId)
+        if ((id).includes(el.messageId)) {
+          console.log('FOUND!!!!')
+          // console.log(el)
+        }
+        // console.log(el.messageId)
       })
 
       filteredTugs.filter(function (tid) {
         tid.serviceState.time = moment(tid.serviceState.time).local().format('MM/DD/YYYY, hh:mm')
       })
-      this.boatArray = filteredTugs
-
-      for (var i = 0; i < this.boatArray.length; i++) {
-        if (this.boatArray[i].performingActor == null) {
-          this.boatArray[i].performingActor = 'NotSpecified' + i
-        }
+      // this.boatArray = filteredTugs
+      //
+      // for (var i = 0; i < this.boatArray.length; i++) {
+      //   if (this.boatArray[i].performingActor == null) {
+      //     this.boatArray[i].performingActor = 'NotSpecified' + i
+      //   }
+      // }
+      //
+      // const betweenStates = filteredTugs.map(s => (s.serviceState.between))
+      //
+      // const toFromArray = betweenStates.filter(function (el) {
+      //   if (el !== undefined) {
+      //     return el.to
+      //   }
+      // })
+      // this.toArrayOut = toFromArray
+      // const perfActorStates = filteredTugs.map(x => (x.performingActor))
+      //
+      // var tempArray = []
+      // for (var i2 = 0; i2 < perfActorStates.length; i2++) {
+      //   tempArray.push('No ID-' + i2)
+      // }
+      // this.idArrayOut2 = tempArray
+      //
+      // const idArray = perfActorStates.filter(function (el) {
+      //   if (el !== undefined) {
+      //     return el.id
+      //   }
+      // })
+      // this.idArrayOut = idArray
+    },
+    async getnewQueue (messageId) {
+      const response = await api.getStatesQueue()
+      if (!response) {
+        throw new Error('something something darkside...')
       }
-
-      const betweenStates = filteredTugs.map(s => (s.serviceState.between))
-
-      const toFromArray = betweenStates.filter(function (el) {
-        if (el !== undefined) {
-          return el.to
-        }
-      })
-      this.toArrayOut = toFromArray
-      const perfActorStates = filteredTugs.map(x => (x.performingActor))
-
-      var tempArray = []
-      for (var i2 = 0; i2 < perfActorStates.length; i2++) {
-        tempArray.push('No ID-' + i2)
+      const newQueue = await api.getStatesFromQueue(response)
+      if (!newQueue) {
+        throw new Error('something something complete...')
       }
-      this.idArrayOut2 = tempArray
-
-      const idArray = perfActorStates.filter(function (el) {
-        if (el !== undefined) {
-          return el.id
-        }
-      })
-      this.idArrayOut = idArray
+      this.findPortCall(messageId, newQueue)
     },
     async bookBoat (boat) {
       // Här vill jag göra ett apiCall till något
-      const response = await api.bookBoat(this.vesselId)
-      if (!response) {
-        throw new Error('Gosh! Could not book boat')
-      }
-      if (response.status === 200) {
-        this.vesselId = ''
-        boat.boat = ''
-        boat.serviceObject = ''
-        const response = await api.getStatesQueue()
-        if (!response) {
-          throw new Error('something something darkside...')
-        }
-        const newQueue = await api.getStatesFromQueue(response)
-        if (!newQueue) {
-          throw new Error('something something complete...')
-        }
-        this.findPortCall(newQueue)
-      }
+      // const response = await api.bookBoat(this.vesselId)
+      // if (!response) {
+      //   throw new Error('Gosh! Could not book boat')
+      // }
+      // const messageId = response.data
+      // if (response.status === 200) {
+      this.boatArray = [{
+        serviceObject: boat.serviceObject
+      }]
+      const messageId = 'pAWd'
+      this.vesselId = ''
+      boat.boat = ''
+      boat.serviceObject = ''
+      this.getnewQueue(messageId)
+    // }
     }
   }
 }

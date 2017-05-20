@@ -19,8 +19,10 @@ router.post('/bookBoat/:vesselId', async(req, res, next) => {
     throw new Error('OPSI, could not get api')
   }
   // skall skickas tillbaka, call it ikväll
-  console.log(messageId)
-  res.sendStatus(response.status)
+  res.writeHead(response.status)
+  res.write(messageId)
+  res.end()
+  // res.sendStatus(response.status)
 })
 
 router.post('/getQueue', async(req, res, next) => {
@@ -75,10 +77,10 @@ router.post('/postDat/:xml', async(req, res, next) => {
 function convertBook (vesselId) {
   var xml = '<ns2:portCallMessage xmlns:ns2="urn:mrn:stm:schema:port-call-message:0.6">' +
   '<ns2:vesselId>urn:mrn:stm:vessel:IMO:' + vesselId + '</ns2:vesselId>' +
-  '<ns2:messageId>urn:mrn:stm:portcdm:message:0e290f8a-3cf9-4936-a1ef-9e70c8b1321d</ns2:messageId>' +
+  '<ns2:messageId>urn:mrn:stm:portcdm:message:0e950f8a-5cf5-4936-a1ef-9e70c8b1321d</ns2:messageId>' +
   '<ns2:locationState>' +
   '<ns2:referenceObject>VESSEL</ns2:referenceObject>' +
-  '<ns2:time>2017-05-21T06:30:00.000Z</ns2:time>' +
+  '<ns2:time>2017-05-20T06:30:00.000Z</ns2:time>' +
   '<ns2:timeType>ESTIMATED</ns2:timeType>' +
   '<ns2:arrivalLocation>' +
   '<ns2:to>' +

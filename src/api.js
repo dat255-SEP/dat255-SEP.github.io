@@ -7,7 +7,6 @@ export async function bookBoat (vesselId) {
   if (!response) {
     throw new Error('could not book b0at')
   }
-  console.log(response)
   return response
 }
 
