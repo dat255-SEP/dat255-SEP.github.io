@@ -107,8 +107,8 @@
             <tbody>
               <tr v-for="boat in boatArray">
                 <td> {{ boat.serviceObject }} </td>
-                <!-- <td> {{ boat.performingActor }} </td>
-                <td> {{ boat.timeSequence }} </td>
+                <td> {{ boat.performingActor }} </td>
+                <!-- <td> {{ boat.timeSequence }} </td>
                 <td> {{ boat.time}} </td>
                 <td> {{ boat.timeType }} </td> -->
               </tr>
@@ -183,7 +183,7 @@ export default {
   data () {
     return {
       msg: '',
-      boatArray: '',
+      boatArray: [],
       toArrayOut: '',
       idArrayOut: '',
       idArrayOut2: '',
@@ -302,10 +302,9 @@ export default {
       // }
       // const messageId = response.data
       // if (response.status === 200) {
-      this.boatArray = [{
-        serviceObject: boat.serviceObject
-      }]
-      const messageId = 'pAWd'
+      (this.boatArray).push({serviceObject: boat.serviceObject, performingActor: boat.boat})
+      console.log(this.boatArray)
+      const messageId = 'messageId'
       this.vesselId = ''
       boat.boat = ''
       boat.serviceObject = ''
