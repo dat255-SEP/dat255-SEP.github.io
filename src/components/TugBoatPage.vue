@@ -23,6 +23,8 @@
                 <th> Time Sequence </th>
                 <th> Time </th>
                 <th> Type </th>
+                <th> To: Location </th>
+                <!-- <th> From: Location </th> -->
               </tr>
             </thead>
             <tbody>
@@ -34,30 +36,19 @@
                 <td> {{ boat.serviceState.time }} </td>
                 <td> {{ boat.serviceState.timeType }} </td>
               </tr>
+                <tr v-for="between in toArrayOut">
+                  <td> {{ between.vesselId }} </td>
+                  <td> {{ between.locationState.referenceObject }} </td>
+                  <td> {{ ' '}} </td>
+                  <td> {{ ' ' }} </td>
+                  <td> {{ between.locationState.time }} </td>
+                  <td> {{ between.locationState.timeType }} </td>
+                  <td> {{ between.locationState.arrivalLocation.to.locationMRN}} </td>
+                </tr>
             </tbody>
           </table>
         </td>
         <td>
-          <table class="table">
-            <thead>
-              <tr class="table2-titles">
-                <th> To: Location Type </th>
-                <th> To: Name </th>
-                <th> From: Location Type </th>
-                <th> From: Name </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="between in toArrayOut">
-                <td> {{ between.to.locationType }} </td>
-                <td> {{ between.to.name }} </td>
-                <td> {{ between.from.locationType}} </td>
-                <td> {{ between.from.name }} </td>
-              </tr>
-            </tbody>
-
-
-          </table>
           <td>
             <table class="table">
               <thead>
@@ -325,13 +316,13 @@ export default {
         }
       })
 
+      const locationArray = []
       const filteredTugs = answers.filter(function (el) {
         if (el.locationState) {
-          if ((el.locationState.referenceObject).localeCompare('TUG') === 0 || el.locationState.referenceObject === 'ESCORT_TUG') {
-            return el
+          if (el.locationState.referenceObject === 'TUG' || el.locationState.referenceObject === 'ESCORT_TUG') {
+            locationArray.push(el)
           }
         } else if (el.serviceState) {
-          console.log(el.serviceState.serviceObject)
           if (el.serviceState.serviceObject === 'TOWAGE' || el.serviceState.serviceObject === 'ESCORT_TOWAGE') {
             return el
           }
@@ -342,35 +333,8 @@ export default {
         tid.serviceState.time = moment(tid.serviceState.time).local().format('MM/DD/YYYY, hh:mm')
       })
       this.boatArray = filteredTugs
-
-      for (var i = 0; i < this.boatArray.length; i++) {
-        if (this.boatArray[i].performingActor == null) {
-          this.boatArray[i].performingActor = 'NotSpecified' + i
-        }
-      }
-
-      const betweenStates = filteredTugs.map(s => (s.serviceState.between))
-
-      const toFromArray = betweenStates.filter(function (el) {
-        if (el !== undefined) {
-          return el.to
-        }
-      })
-      this.toArrayOut = toFromArray
-      const perfActorStates = filteredTugs.map(x => (x.performingActor))
-
-      var tempArray = []
-      for (var i2 = 0; i2 < perfActorStates.length; i2++) {
-        tempArray.push('No ID-' + i2)
-      }
-      this.idArrayOut2 = tempArray
-
-      const idArray = perfActorStates.filter(function (el) {
-        if (el !== undefined) {
-          return el.id
-        }
-      })
-      this.idArrayOut = idArray
+      console.log(locationArray)
+      this.toArrayOut = locationArray
     },
     async getStatesFromQueue (id) {
       const datQueueThough = await api.getStatesFromQueue(id)

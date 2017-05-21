@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 var axios = require('axios')
 const api = axios.create({timeout: 5000})
+const moment = require('moment')
 
 router.post('/bookBoat/:vesselId', async(req, res, next) => {
   const converted = convertBook(req.params.vesselId)
@@ -21,7 +22,9 @@ router.post('/bookBoat/:vesselId', async(req, res, next) => {
 })
 
 router.post('/getQueue', async(req, res, next) => {
-  const response = await api.post('http://dev.portcdm.eu:8080/mb/mqs?fromTime=2017-05-21T14:20:21Z', '', {
+  const timeNow = new Date()
+  const correctTime = moment(timeNow - 3600000 * 5).local().format('YYYY-MM-DDTHH:mm:ss')
+  const response = await api.post('http://dev.portcdm.eu:8080/mb/mqs?fromTime=' + encodeURIComponent(correctTime + 'Z'), '', {
     headers: {
       'X-PortCDM-UserId': 'viktoria',
       'X-PortCDM-Password': 'vik123',
