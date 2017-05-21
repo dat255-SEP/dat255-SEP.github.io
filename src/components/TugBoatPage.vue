@@ -327,12 +327,11 @@ export default {
 
       const filteredTugs = answers.filter(function (el) {
         if (el.locationState) {
-          // console.log(el.locationState.referenceObject)
           if ((el.locationState.referenceObject).localeCompare('TUG') === 0 || el.locationState.referenceObject === 'ESCORT_TUG') {
             return el
           }
         } else if (el.serviceState) {
-          // console.log(el.serviceState.serviceObject)
+          console.log(el.serviceState.serviceObject)
           if (el.serviceState.serviceObject === 'TOWAGE' || el.serviceState.serviceObject === 'ESCORT_TOWAGE') {
             return el
           }
@@ -391,6 +390,12 @@ export default {
       }
       this.statuscodeServ = response.status
       this.messageServ = response.data
+
+      const getStates = await api.getStatesQueue()
+      if (!getStates) {
+        throw new Error('could not get states')
+      }
+      this.getStatesFromQueue(getStates)
     },
 
     async postLocationState () {
@@ -409,12 +414,12 @@ export default {
     // var vm = this
 
     setInterval(async function () {
-    //   await api.getBoatStuffs()
-    //     .then(res => {
-    //       vm.filterCall(res)
-    //     }).catch(error => {
-    //       console.log(error)
-    //     })
+      //   await api.getBoatStuffs()
+      //     .then(res => {
+      //       vm.filterCall(res)
+      //     }).catch(error => {
+      //       console.log(error)
+      //     })
     }, 30000)
   },
   updateLocation (boat) {

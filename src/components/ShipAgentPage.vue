@@ -31,6 +31,7 @@
               <tr v-for="boat in unbookedBoats">
                 <td> {{ boat.boat }} </td>
                 <td> {{ boat.serviceObject }} </td>
+                <td> {{ boat.time }} </td>
                 <td> <input v-model="vesselId"> </td>
               </tr>
             </tbody>
@@ -108,9 +109,8 @@
               <tr v-for="boat in boatArray">
                 <td> {{ boat.serviceObject }} </td>
                 <td> {{ boat.performingActor }} </td>
-                <!-- <td> {{ boat.timeSequence }} </td>
+                <td> {{ boat.timeSequence }} </td>
                 <td> {{ boat.time}} </td>
-                <td> {{ boat.timeType }} </td> -->
               </tr>
             </tbody>
           </table>
@@ -158,13 +158,16 @@
 
 
 
+
+
+
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <script>
 //
 import * as api from '../api'
 //  import * as update from '../update'
-import moment from 'moment'
 
 export default {
   created () {
@@ -179,6 +182,7 @@ export default {
       serviceObject: 'ESKROT_TUG'
     }]
     this.updateAPICall()
+    this.filterData('awd')
   },
   data () {
     return {
@@ -223,93 +227,49 @@ export default {
       //     })
       // }, 30000)
     },
-    findPortCall (id, array) {
-      const answers = (array.map(m => ({
-        'portCallId': m.portCallId,
-        'messageId': m.messageId,
-        'vesselId': m.vesselId,
-        'locationState': m.locationState,
-        'serviceState': m.serviceState
-      })))
+    filterData (array) {
+      const data = '<ns2:portCallMessage xmlns:ns2="urn:mrn:stm:schema:port-call-message:0.6">' +
+      '<ns2:portCallId>urn:mrn:stm:portcdm:port_call:SEGOT:1965050c-657f-42ef-b388-1cd1d743ddee</ns2:portCallId>' +
+      '<ns2:vesselId>urn:mrn:stm:vessel:IMO:8506373</ns2:vesselId>' +
+      '<ns2:messageId>urn:mrn:stm:portcdm:message:3e950f9a-3cf0-4946-a1ef-9e72c8b1451d</ns2:messageId>' +
+      '<ns2:serviceState>' +
+      '<ns2:serviceObject>TOWAGE</ns2:serviceObject>' +
+      '<ns2:timeSequence>COMMENCED</ns2:timeSequence>' +
+      '<ns2:time>2017-05-10T18:30:00.000Z</ns2:time>' +
+      '<ns2:timeType>ESTIMATED</ns2:timeType>' +
+      '<ns2:between>' +
+      '<ns2:to>' +
+      '<ns2:locationMRN>urn:mrn:stm:location:SEGOT:TRAFFIC_AREA</ns2:locationMRN>' +
+      '</ns2:to>' +
+      '<ns2:from>' +
+      '<ns2:locationMRN>urn:mrn:stm:location:SEGOT:TRAFFIC_AREA</ns2:locationMRN>' +
+      '</ns2:from>' +
+      '</ns2:between>' +
+      '</ns2:serviceState>' +
+      '</ns2:portCallMessage>'
 
-      answers.forEach(el => {
-        if (el.locationState === null) {
-          delete (el.locationState)
-        } else if (el.serviceState === null) {
-          delete (el.serviceState)
-        }
+      const splitsNits = data.split('>')
+      console.log(splitsNits)
+      this.boatArray.push({
+        time: splitsNits[13]
       })
-      console.log(id)
-      const filteredTugs = answers.filter(function (el) {
-        // console.log(el.portCallId)
-        if ((id).includes(el.messageId)) {
-          console.log('FOUND!!!!')
-          // console.log(el)
-        }
-        // console.log(el.messageId)
-      })
-
-      filteredTugs.filter(function (tid) {
-        tid.serviceState.time = moment(tid.serviceState.time).local().format('MM/DD/YYYY, hh:mm')
-      })
-      // this.boatArray = filteredTugs
-      //
-      // for (var i = 0; i < this.boatArray.length; i++) {
-      //   if (this.boatArray[i].performingActor == null) {
-      //     this.boatArray[i].performingActor = 'NotSpecified' + i
-      //   }
-      // }
-      //
-      // const betweenStates = filteredTugs.map(s => (s.serviceState.between))
-      //
-      // const toFromArray = betweenStates.filter(function (el) {
-      //   if (el !== undefined) {
-      //     return el.to
-      //   }
-      // })
-      // this.toArrayOut = toFromArray
-      // const perfActorStates = filteredTugs.map(x => (x.performingActor))
-      //
-      // var tempArray = []
-      // for (var i2 = 0; i2 < perfActorStates.length; i2++) {
-      //   tempArray.push('No ID-' + i2)
-      // }
-      // this.idArrayOut2 = tempArray
-      //
-      // const idArray = perfActorStates.filter(function (el) {
-      //   if (el !== undefined) {
-      //     return el.id
-      //   }
-      // })
-      // this.idArrayOut = idArray
-    },
-    async getnewQueue (messageId) {
-      const response = await api.getStatesQueue()
-      if (!response) {
-        throw new Error('something something darkside...')
-      }
-      const newQueue = await api.getStatesFromQueue(response)
-      if (!newQueue) {
-        throw new Error('something something complete...')
-      }
-      this.findPortCall(messageId, newQueue)
     },
     async bookBoat (boat) {
       // Här vill jag göra ett apiCall till något
-      // const response = await api.bookBoat(this.vesselId)
-      // if (!response) {
-      //   throw new Error('Gosh! Could not book boat')
-      // }
-      // const messageId = response.data
-      // if (response.status === 200) {
-      (this.boatArray).push({serviceObject: boat.serviceObject, performingActor: boat.boat})
-      console.log(this.boatArray)
-      const messageId = 'messageId'
-      this.vesselId = ''
-      boat.boat = ''
-      boat.serviceObject = ''
-      this.getnewQueue(messageId)
-    // }
+      const response = await api.bookBoat(this.vesselId)
+      if (!response) {
+        throw new Error('Gosh! Could not book boat')
+      }
+      if (response.status === 200) {
+        (this.boatArray).push({
+          serviceObject: boat.serviceObject,
+          performingActor: boat.boat
+        })
+        this.vesselId = ''
+        boat.boat = ''
+        boat.serviceObject = ''
+        this.filterData(response.data)
+      }
     }
   }
 }
