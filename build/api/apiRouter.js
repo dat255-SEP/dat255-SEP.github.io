@@ -104,7 +104,7 @@ function convertBook (xmlInput, messageId) {
 function convertXmlLocationArrival (xmlInput, messageId) {
   var xml = '<ns2:portCallMessage xmlns:ns2="urn:mrn:stm:schema:port-call-message:0.6">' +
   '<ns2:portCallId>urn:mrn:stm:portcdm:port_call:SEGOT:1965050c-657f-42ef-b388-1cd1d743ddee</ns2:portCallId>' +
-  '<ns2:vesselId>urn:mrn:stm:vessel:IMO:8506373</ns2:vesselId>' +
+  '<ns2:vesselId>' + xmlInput[2] + '</ns2:vesselId>' +
   '<ns2:messageId>urn:mrn:stm:portcdm:message:' + messageId + '</ns2:messageId>' +
   '<ns2:reportedBy>' + xmlInput[4] + '</ns2:reportedBy>' +
   '<ns2:locationState>' +
@@ -121,9 +121,10 @@ function convertXmlLocationArrival (xmlInput, messageId) {
 }
 
 function convertXmlLocationDeparture (xmlInput, messageId) {
+  console.log(xmlInput)
   var xml = '<ns2:portCallMessage xmlns:ns2="urn:mrn:stm:schema:port-call-message:0.6">' +
   '<ns2:portCallId>urn:mrn:stm:portcdm:port_call:SEGOT:1965050c-657f-42ef-b388-1cd1d743ddee</ns2:portCallId>' +
-  '<ns2:vesselId>urn:mrn:stm:vessel:IMO:8506373</ns2:vesselId>' +
+  '<ns2:vesselId>' + xmlInput[2] + '</ns2:vesselId>' +
   '<ns2:messageId>urn:mrn:stm:portcdm:message:' + messageId + '</ns2:messageId>' +
   '<ns2:reportedBy>' + xmlInput[4] + '</ns2:reportedBy>' +
   '<ns2:locationState>' +
