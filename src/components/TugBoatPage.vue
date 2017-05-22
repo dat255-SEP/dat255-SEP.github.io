@@ -232,8 +232,8 @@ export default {
       throw new Error('could not get states')
     }
     this.getStatesFromQueue(response)
+    this.updateAPICall()
     this.updateLocation([''])
-    // this.updateAPICall()
   },
   data () {
     return {
@@ -273,6 +273,11 @@ export default {
       this.portCallId = boat.portCallId
       this.vesselId = boat.vesselId
       this.messageId = boat.messageId
+      this.time = moment(boat.serviceState.time).format('YYYY-MM-DDThh:mm')
+      this.timeType = this.timeTypeSer = boat.serviceState.timeType
+      this.timeSequence = boat.serviceState.timeSequence
+      this.to = boat.serviceState.between.to.name
+      this.from = boat.serviceState.between.from.name
       if (boat.locationState) {
         this.referenceObject = boat.locationState.referenceObject
       } else {
@@ -287,8 +292,8 @@ export default {
         'locationState': m.locationState,
         'serviceState': m.serviceState
       })))
-      console.log(array)
-
+      // console.log(array)
+      console.log(answers)
       answers.forEach(el => {
         if (el.locationState === null) {
           delete (el.locationState)
@@ -377,21 +382,21 @@ export default {
       }
       this.statuscode = response.status
       this.message = response.data
+    },
+    async updateAPICall () {
+      var vm = this
+      setInterval(async function () {
+        await api.getStatesQueue()
+            .then(res => {
+              vm.getStatesFromQueue(res)
+            }).catch(error => {
+              console.log(error)
+            })
+      }, 5000)
     }
-  },
 
-  async updateAPICall () {
-    // var vm = this
-
-    setInterval(async function () {
-      //   await api.getBoatStuffs()
-      //     .then(res => {
-      //       vm.filterCall(res)
-      //     }).catch(error => {
-      //       console.log(error)
-      //     })
-    }, 30000)
   }
+
 }
 </script>
 
