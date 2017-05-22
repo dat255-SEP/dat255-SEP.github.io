@@ -25,15 +25,19 @@
                 <th> Boat </th>
                 <th> serviceObject </th>
                 <th> VesselId </th>
+                <th> Time </th>
+                <th> To </th>
+                <th> From </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="boat in unbookedBoats">
                 <td> {{ boat.boat }} </td>
                 <td> {{ boat.serviceObject }} </td>
-                <td> {{ boat.time }} </td>
                 <td> <input v-model="vesselId"> </td>
-
+                <td> <input class="inputTime" v-model="time" type="datetime-local" id="theTime"> </td>
+                <td> <input v-model="to"> </td>
+                <td> <input v-model="from"> </td>
               </tr>
             </tbody>
 
@@ -174,16 +178,15 @@ export default {
   created () {
     this.unbookedBoats = [{
       boat: 'Boat1',
-      serviceObject: 'TUG'
+      serviceObject: 'TOWAGE'
     }, {
       boat: 'Boat2',
-      serviceObject: 'TUG'
+      serviceObject: 'TOWAGE'
     }, {
       boat: 'Boat3',
-      serviceObject: 'ESKROT_TUG'
+      serviceObject: 'ESCORT_TOWAGE'
     }]
     this.updateAPICall()
-    this.filterData('awd')
   },
   data () {
     return {
@@ -228,36 +231,9 @@ export default {
       //     })
       // }, 30000)
     },
-    filterData (array) {
-      const data = '<ns2:portCallMessage xmlns:ns2="urn:mrn:stm:schema:port-call-message:0.6">' +
-      '<ns2:portCallId>urn:mrn:stm:portcdm:port_call:SEGOT:1965050c-657f-42ef-b388-1cd1d743ddee</ns2:portCallId>' +
-      '<ns2:vesselId>urn:mrn:stm:vessel:IMO:8506373</ns2:vesselId>' +
-      '<ns2:messageId>urn:mrn:stm:portcdm:message:3e950f9a-3cf0-4946-a1ef-9e72c8b1451d</ns2:messageId>' +
-      '<ns2:serviceState>' +
-      '<ns2:serviceObject>TOWAGE</ns2:serviceObject>' +
-      '<ns2:timeSequence>COMMENCED</ns2:timeSequence>' +
-      '<ns2:time>2017-05-10T18:30:00.000Z</ns2:time>' +
-      '<ns2:timeType>ESTIMATED</ns2:timeType>' +
-      '<ns2:between>' +
-      '<ns2:to>' +
-      '<ns2:locationMRN>urn:mrn:stm:location:SEGOT:TRAFFIC_AREA</ns2:locationMRN>' +
-      '</ns2:to>' +
-      '<ns2:from>' +
-      '<ns2:locationMRN>urn:mrn:stm:location:SEGOT:TRAFFIC_AREA</ns2:locationMRN>' +
-      '</ns2:from>' +
-      '</ns2:between>' +
-      '</ns2:serviceState>' +
-      '</ns2:portCallMessage>'
-
-      const splitsNits = data.split('>')
-      console.log(splitsNits)
-      this.boatArray.push({
-        time: splitsNits[13]
-      })
-    },
     async bookBoat (boat) {
-      // Här vill jag göra ett apiCall till något
-      const response = await api.bookBoat(this.vesselId)
+      const input = [boat.serviceObject, this.vesselId, this.time, this.to, this.from]
+      const response = await api.bookBoat(input)
       if (!response) {
         throw new Error('Gosh! Could not book boat')
       }
@@ -269,7 +245,7 @@ export default {
         this.vesselId = ''
         boat.boat = ''
         boat.serviceObject = ''
-        this.filterData(response.data)
+        console.log(response.data)
       }
     }
   }

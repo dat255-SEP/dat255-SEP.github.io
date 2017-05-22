@@ -2,8 +2,8 @@ import axios from 'axios'
 
 const api = axios.create({timeout: 5000})
 
-export async function bookBoat (vesselId) {
-  const response = await api.post(`/api/bookBoat/${vesselId}`)
+export async function bookBoat (xml) {
+  const response = await api.post(`/api/bookBoat/${xml}`)
   if (!response) {
     throw new Error('could not book b0at')
   }

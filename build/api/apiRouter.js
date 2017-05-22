@@ -4,8 +4,9 @@ var axios = require('axios')
 const api = axios.create({timeout: 5000})
 const moment = require('moment')
 
-router.post('/bookBoat/:vesselId', async(req, res, next) => {
-  const converted = convertBook(req.params.vesselId)
+router.post('/bookBoat/:xml', async(req, res, next) => {
+  const splitInput = (req.params.xml.split(','))
+  const converted = convertBook(splitInput, uuid())
   const response = await api.post('http://dev.portcdm.eu:8080/mb/mss', converted, {
     headers: {
       'X-PortCDM-UserId': 'viktoria',
@@ -22,9 +23,9 @@ router.post('/bookBoat/:vesselId', async(req, res, next) => {
 })
 
 router.post('/getQueue', async(req, res, next) => {
-  const timeNow = new Date()
-  const correctTime = moment(timeNow - 3600000 * 3).local().format('YYYY-MM-DDTHH:mm:ss')
-  const response = await api.post('http://dev.portcdm.eu:8080/mb/mqs?fromTime=' + encodeURIComponent(correctTime + 'Z'), '', {
+  // const timeNow = new Date()
+  // const correctTime = moment(timeNow - 3600000 * 8).local().format('YYYY-MM-DDTHH:mm:ss')
+  const response = await api.post('http://dev.portcdm.eu:8080/mb/mqs?fromTime=' + encodeURIComponent('2017-04-23T00:01:00Z'), '', {
     headers: {
       'X-PortCDM-UserId': 'viktoria',
       'X-PortCDM-Password': 'vik123',
@@ -77,22 +78,22 @@ router.post('/postDat/:xml', async(req, res, next) => {
   res.send(response.data)
 })
 
-function convertBook (vesselId, messageId) {
+function convertBook (xmlInput, messageId) {
   var xml = '<ns2:portCallMessage xmlns:ns2="urn:mrn:stm:schema:port-call-message:0.6">' +
   '<ns2:portCallId>urn:mrn:stm:portcdm:port_call:SEGOT:1965050c-657f-42ef-b388-1cd1d743ddee</ns2:portCallId>' +
-  '<ns2:vesselId>urn:mrn:stm:vessel:IMO:8506373</ns2:vesselId>' +
+  '<ns2:vesselId>urn:mrn:stm:vessel:IMO:' + xmlInput[1] + '</ns2:vesselId>' +
   '<ns2:messageId>urn:mrn:stm:portcdm:message:' + messageId + '</ns2:messageId>' +
   '<ns2:serviceState>' +
-  '<ns2:serviceObject>TOWAGE</ns2:serviceObject>' +
-  '<ns2:timeSequence>COMMENCED</ns2:timeSequence>' +
-  '<ns2:time>2017-05-10T18:30:00.000Z</ns2:time>' +
-  '<ns2:timeType>ESTIMATED</ns2:timeType>' +
+  '<ns2:serviceObject>' + xmlInput[0] + '</ns2:serviceObject>' +
+  '<ns2:timeSequence>REQUESTED</ns2:timeSequence>' +
+  '<ns2:time>' + xmlInput[2] + 'Z</ns2:time>' +
+  '<ns2:timeType>ACTUAL</ns2:timeType>' +
   '<ns2:between>' +
   '<ns2:to>' +
-  '<ns2:locationMRN>urn:mrn:stm:location:SEGOT:TRAFFIC_AREA</ns2:locationMRN>' +
+  '<ns2:locationMRN>urn:mrn:stm:location:SEGOT:' + xmlInput[3] + '</ns2:locationMRN>' +
   '</ns2:to>' +
   '<ns2:from>' +
-  '<ns2:locationMRN>urn:mrn:stm:location:SEGOT:TRAFFIC_AREA</ns2:locationMRN>' +
+  '<ns2:locationMRN>urn:mrn:stm:location:SEGOT:' + xmlInput[4] + '</ns2:locationMRN>' +
   '</ns2:from>' +
   '</ns2:between>' +
   '</ns2:serviceState>' +
@@ -139,11 +140,11 @@ function convertXmlLocationDeparture (xmlInput, messageId) {
   return xml
 }
 
-function convertXmlService (xmlInput, messageId) {
+function convertXmlService (xmlInput) {
   var xml = '<ns2:portCallMessage xmlns:ns2="urn:mrn:stm:schema:port-call-message:0.6">' +
   '<ns2:portCallId>urn:mrn:stm:portcdm:port_call:SEGOT:1965050c-657f-42ef-b388-1cd1d743ddee</ns2:portCallId>' +
   '<ns2:vesselId>urn:mrn:stm:vessel:IMO:8506373</ns2:vesselId>' +
-  '<ns2:messageId>urn:mrn:stm:portcdm:message:' + messageId + '</ns2:messageId>' +
+  '<ns2:messageId>urn:mrn:stm:portcdm:message:3e950f9a-3cf0-4946-a1ef-9e05c8b1352d</ns2:messageId>' +
   '<ns2:comment>TugLajf</ns2:comment>' +
   '<ns2:serviceState>' +
   '<ns2:serviceObject>' + xmlInput[4] + '</ns2:serviceObject>' +
