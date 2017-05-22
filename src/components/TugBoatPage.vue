@@ -43,7 +43,7 @@
                   <td> {{ ' ' }} </td>
                   <td> {{ between.locationState.time }} </td>
                   <td> {{ between.locationState.timeType }} </td>
-                  <td> {{ between.locationState.arrivalLocation.to.locationMRN}} </td>
+                  <td> {{ between.locationState.arrivalLocation }} </td>
                 </tr>
             </tbody>
           </table>
@@ -98,8 +98,8 @@
                 <div> <label>Reference Object</label> </div>
                 <div>
                   <select v-model="referenceObject">
-                    <option>ESCORT_TOWAGE</option>
-                    <option>TOWAGE</option>
+                    <option>ESCORT_TUG</option>
+                    <option>TUG</option>
                   </select>
                 </div>
               </div>
@@ -117,21 +117,12 @@
                 </div>
               </div>
               <div>
-                <div> <label>Arrival Location Type</label> </div>
+                <div> <label>Arrival Location </label> </div>
                 <div>
                   <select v-model="arrivalLocationType">
-                    <option>ESCORT_TUG_ZONE FUNGERAR EJ</option>
+                    <option>ETUG_ZONE</option>
                     <option>TUG_ZONE</option>
                     <option>BERTH</option>
-                  </select>
-                </div>
-              </div>
-              <div>
-                <div> <label>Arrival Location</label> </div>
-                <div>
-                  <select v-model="arrivalLocation">
-                    <option>-</option>
-                    <option>Vessel</option>
                   </select>
                 </div>
               </div>
@@ -140,16 +131,7 @@
                 <div>
                   <select v-model="departureLocation">
                     <option>LOC</option>
-                    <option>Vessel</option>
-                  </select>
-                </div>
-              </div>
-              <div>
-                <div> <label>Departure Location Type</label> </div>
-                <div>
-                  <select v-model="departureLocationType">
-                    <option>From</option>
-                    <option>To</option>
+                    <option>VESSEL</option>
                   </select>
                 </div>
               </div>
@@ -319,6 +301,7 @@ export default {
       const locationArray = []
       const filteredTugs = answers.filter(function (el) {
         if (el.locationState) {
+          console.log(el.locationState)
           if (el.locationState.referenceObject === 'TUG' || el.locationState.referenceObject === 'ESCORT_TUG') {
             locationArray.push(el)
           }
@@ -333,7 +316,6 @@ export default {
         tid.serviceState.time = moment(tid.serviceState.time).local().format('MM/DD/YYYY, hh:mm')
       })
       this.boatArray = filteredTugs
-      console.log(locationArray)
       this.toArrayOut = locationArray
     },
     async getStatesFromQueue (id) {
@@ -363,7 +345,7 @@ export default {
     },
 
     async postLocationState () {
-      const input = ['location', this.portCallId, this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocation, this.arrivalLocationType, this.departureLocation, this.departureLocationType]
+      const input = ['location', this.portCallId, this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocationType, this.departureLocationType]
       console.log(input)
       const response = await api.postState(input)
       if (!response) {
