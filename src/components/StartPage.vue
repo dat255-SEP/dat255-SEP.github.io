@@ -9,29 +9,27 @@
   <div class="hero">
     <div class="hero-container">
       <img class="logo" src="../assets/tuglife-logo.png" width="30%">
-      <br>
-      <div class="buttons">
-        <button type="button" class="btn btn-book" id="tugBtn" v-on:click="gotoTug()">Click here to enter world of tugs</button>
-        <!-- <button type="button" class="btn btn-book" id="shipBtn" v-on:click="gotoShip()">Ship agent page</button> -->
-      </div>
     </div>
   </div>
 </div>
 </template>
+
+<!-- Scripts  -->
 <script>
 
 export default {
+  async created () {
+    setTimeout(this.gotoTug, 2000)
+  },
   methods: {
     async gotoTug () {
       this.$router.push({path: '/TugBoatPage', name: 'TugBoatPage'})
-    },
-    async gotoShip () {
-      this.$router.push({path: '/ShipAgentPage', name: 'ShipAgentPage'})
     }
   }
 }
 </script>
 
+<!-- CSS  -->
 <style scoped>
 
 body {
@@ -73,7 +71,7 @@ body {
 }
 
 .hero-container {
-  padding-top: 170px;
+  padding-top: 200px;
 }
 
 </style>
