@@ -12,8 +12,8 @@
       <img class="logo" src="../assets/tuglife-logo.png" width="30%">
       <br>
       <div class="buttons">
-        <button type="button" class="btn btn-book" id="tugBtn" v-on:click="gotoTug()">Tug boat page</button>
-        <button type="button" class="btn btn-book" id="shipBtn" v-on:click="gotoShip()">Ship agent page</button>
+        <button type="button" class="btn btn-book" id="tugBtn" v-on:click="gotoTug()">Click here to enter world of tugs</button>
+        <!-- <button type="button" class="btn btn-book" id="shipBtn" v-on:click="gotoShip()">Ship agent page</button> -->
       </div>
     </div>
   </div>
