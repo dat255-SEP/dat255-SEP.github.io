@@ -270,7 +270,6 @@ export default {
   },
   methods: {
     updateLocation (boat) {
-      console.log(boat)
       this.portCallId = boat.portCallId
       this.vesselId = boat.vesselId
       this.messageId = boat.messageId
@@ -288,6 +287,7 @@ export default {
         'locationState': m.locationState,
         'serviceState': m.serviceState
       })))
+      console.log(array)
 
       answers.forEach(el => {
         if (el.locationState === null) {
@@ -309,6 +309,9 @@ export default {
           }
         }
       })
+
+      console.log(filteredTugs)
+      console.log(locationArray)
 
       filteredTugs.filter(function (tid) {
         tid.serviceState.time = moment(tid.serviceState.time).local().format('MM/DD/YYYY, hh:mm')
