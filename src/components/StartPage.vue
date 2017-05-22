@@ -22,9 +22,7 @@
 <script>
 
 export default {
-
   methods: {
-
     async gotoTug () {
       this.$router.push({path: '/TugBoatPage', name: 'TugBoatPage'})
     },
