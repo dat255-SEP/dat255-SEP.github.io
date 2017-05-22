@@ -23,6 +23,9 @@
                 <th> Time Sequence </th>
                 <th> Time </th>
                 <th> Type </th>
+                <th> Location </th>
+                <th> Update </th>
+                <!-- <th> From: Location </th> -->
               </tr>
             </thead>
             <tbody>
@@ -33,47 +36,23 @@
                 <td> {{ boat.serviceState.timeSequence }} </td>
                 <td> {{ boat.serviceState.time }} </td>
                 <td> {{ boat.serviceState.timeType }} </td>
+                <td>
+                  {{ ' ' }}
+                </td>
+                <td> <button class="btn btn-book" v-on:click="updateLocation(boat)">Update</button> </td>
               </tr>
+                <tr v-for="between in toArrayOut">
+                  <td> {{ between.vesselId }} </td>
+                  <td> {{ between.locationState.referenceObject }} </td>
+                  <td> {{ ' '}} </td>
+                  <td> {{ ' ' }} </td>
+                  <td> {{ between.locationState.time }} </td>
+                  <td> {{ between.locationState.timeType }} </td>
+                  <td> {{ between.locationState.arrivalLocation }} </td>
+                  <td> <button class="btn btn-book" v-on:click="updateLocation(between)">Update</button> </td>
+                </tr>
             </tbody>
           </table>
-        </td>
-        <td>
-          <table class="table">
-            <thead>
-              <tr class="table2-titles">
-                <th> To: Location Type </th>
-                <th> To: Name </th>
-                <th> From: Location Type </th>
-                <th> From: Name </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="between in toArrayOut">
-                <td> {{ between.to.locationType }} </td>
-                <td> {{ between.to.name }} </td>
-                <td> {{ between.from.locationType}} </td>
-                <td> {{ between.from.name }} </td>
-              </tr>
-            </tbody>
-
-
-          </table>
-          <td>
-            <table class="table">
-              <thead>
-                <tr class="table2-titles">
-                  <th> Update </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr v-for="boat in boatArray">
-                  <td> <button class="btn btn-book" id="updateLocation" v-on:click="updateLocation(boat)">Update</button> </td>
-                </tr>
-              </tbody>
-
-            </table>
-          </td>
         </td>
       </tr>
     </table>
@@ -107,8 +86,8 @@
                 <div> <label>Reference Object</label> </div>
                 <div>
                   <select v-model="referenceObject">
-                    <option>ESCORT_TOWAGE</option>
-                    <option>TOWAGE</option>
+                    <option>ESCORT_TUG</option>
+                    <option>TUG</option>
                   </select>
                 </div>
               </div>
@@ -126,21 +105,12 @@
                 </div>
               </div>
               <div>
-                <div> <label>Arrival Location Type</label> </div>
+                <div> <label>Arrival Location </label> </div>
                 <div>
                   <select v-model="arrivalLocationType">
-                    <option>ESCORT_TUG_ZONE FUNGERAR EJ</option>
+                    <option>ETUG_ZONE</option>
                     <option>TUG_ZONE</option>
                     <option>BERTH</option>
-                  </select>
-                </div>
-              </div>
-              <div>
-                <div> <label>Arrival Location</label> </div>
-                <div>
-                  <select v-model="arrivalLocation">
-                    <option>-</option>
-                    <option>Vessel</option>
                   </select>
                 </div>
               </div>
@@ -149,16 +119,7 @@
                 <div>
                   <select v-model="departureLocation">
                     <option>LOC</option>
-                    <option>Vessel</option>
-                  </select>
-                </div>
-              </div>
-              <div>
-                <div> <label>Departure Location Type</label> </div>
-                <div>
-                  <select v-model="departureLocationType">
-                    <option>From</option>
-                    <option>To</option>
+                    <option>VESSEL</option>
                   </select>
                 </div>
               </div>
@@ -271,8 +232,7 @@ export default {
       throw new Error('could not get states')
     }
     this.getStatesFromQueue(response)
-    this.generateMsgID()
-  //  this.generateLowerCase()
+    this.updateLocation([''])
     // this.updateAPICall()
   },
   data () {
@@ -309,6 +269,17 @@ export default {
     }
   },
   methods: {
+    updateLocation (boat) {
+      console.log(boat)
+      this.portCallId = boat.portCallId
+      this.vesselId = boat.vesselId
+      this.messageId = boat.messageId
+      if (boat.locationState) {
+        this.referenceObject = boat.locationState.referenceObject
+      } else {
+        this.serviceObject = boat.serviceState.serviceObject
+      }
+    },
     filterCall (array) {
       const answers = (array.map(m => ({
         'portCallId': m.portCallId,
@@ -319,7 +290,6 @@ export default {
       })))
 
       answers.forEach(el => {
-        // console.log(el.locationState)
         if (el.locationState === null) {
           delete (el.locationState)
         } else if (el.serviceState === null) {
@@ -327,14 +297,13 @@ export default {
         }
       })
 
+      const locationArray = []
       const filteredTugs = answers.filter(function (el) {
         if (el.locationState) {
-          // console.log(el.locationState.referenceObject)
-          if ((el.locationState.referenceObject).localeCompare('TUG') === 0 || el.locationState.referenceObject === 'ESCORT_TUG') {
-            return el
+          if (el.locationState.referenceObject === 'TUG' || el.locationState.referenceObject === 'ESCORT_TUG') {
+            locationArray.push(el)
           }
         } else if (el.serviceState) {
-          // console.log(el.serviceState.serviceObject)
           if (el.serviceState.serviceObject === 'TOWAGE' || el.serviceState.serviceObject === 'ESCORT_TOWAGE') {
             return el
           }
@@ -345,35 +314,7 @@ export default {
         tid.serviceState.time = moment(tid.serviceState.time).local().format('MM/DD/YYYY, hh:mm')
       })
       this.boatArray = filteredTugs
-
-      for (var i = 0; i < this.boatArray.length; i++) {
-        if (this.boatArray[i].performingActor == null) {
-          this.boatArray[i].performingActor = 'NotSpecified' + i
-        }
-      }
-
-      const betweenStates = filteredTugs.map(s => (s.serviceState.between))
-
-      const toFromArray = betweenStates.filter(function (el) {
-        if (el !== undefined) {
-          return el.to
-        }
-      })
-      this.toArrayOut = toFromArray
-      const perfActorStates = filteredTugs.map(x => (x.performingActor))
-
-      var tempArray = []
-      for (var i2 = 0; i2 < perfActorStates.length; i2++) {
-        tempArray.push('No ID-' + i2)
-      }
-      this.idArrayOut2 = tempArray
-
-      const idArray = perfActorStates.filter(function (el) {
-        if (el !== undefined) {
-          return el.id
-        }
-      })
-      this.idArrayOut = idArray
+      this.toArrayOut = locationArray
     },
     async getStatesFromQueue (id) {
       const datQueueThough = await api.getStatesFromQueue(id)
@@ -416,10 +357,16 @@ export default {
       }
       this.statuscodeServ = response.status
       this.messageServ = response.data
+
+      const getStates = await api.getStatesQueue()
+      if (!getStates) {
+        throw new Error('could not get states')
+      }
+      this.getStatesFromQueue(getStates)
     },
 
     async postLocationState () {
-      const input = ['location', this.portCallId, this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocation, this.arrivalLocationType, this.departureLocation, this.departureLocationType]
+      const input = ['location', this.portCallId, this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocationType, this.departureLocationType]
       console.log(input)
       const response = await api.postState(input)
       if (!response) {
@@ -434,25 +381,13 @@ export default {
     // var vm = this
 
     setInterval(async function () {
-    //   await api.getBoatStuffs()
-    //     .then(res => {
-    //       vm.filterCall(res)
-    //     }).catch(error => {
-    //       console.log(error)
-    //     })
+      //   await api.getBoatStuffs()
+      //     .then(res => {
+      //       vm.filterCall(res)
+      //     }).catch(error => {
+      //       console.log(error)
+      //     })
     }, 30000)
-  },
-  updateLocation (boat) {
-    console.log(boat)
-    this.portCallId = boat.portCallId
-    this.vesselId = boat.vesselId
-    this.messageId = boat.messageId
-    this.time = moment(boat.serviceState.time).format('YYYY-MM-DDThh:mm')
-    this.timeType = this.timeTypeSer = boat.serviceState.timeType
-    this.referenceObject = boat.serviceState.serviceObject
-    this.timeSequence = boat.serviceState.timeSequence
-    this.to = boat.serviceState.between.to.name
-    this.from = boat.serviceState.between.from.name
   }
 }
 </script>

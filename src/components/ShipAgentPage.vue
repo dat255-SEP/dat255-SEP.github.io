@@ -15,6 +15,7 @@
 
 
   <div class="table-container">
+    <h2>Unbooked Tugboats</h2>
     <table class="table">
       <tr>
         <td>
@@ -28,9 +29,11 @@
             </thead>
             <tbody>
               <tr v-for="boat in unbookedBoats">
-                <td height="55"> {{ boat.boat }} </td>
-                <td height="55"> {{ boat.serviceObject }} </td>
-                <td height="55"> <input v-model="vesselId" > </td>
+                <td> {{ boat.boat }} </td>
+                <td> {{ boat.serviceObject }} </td>
+                <td> {{ boat.time }} </td>
+                <td> <input v-model="vesselId"> </td>
+
               </tr>
             </tbody>
 
@@ -109,7 +112,6 @@
                 <td> {{ boat.performingActor }} </td>
                 <td> {{ boat.timeSequence }} </td>
                 <td> {{ boat.time}} </td>
-                <td> {{ boat.timeType }} </td>
               </tr>
             </tbody>
           </table>
@@ -149,23 +151,44 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <script>
 //
 import * as api from '../api'
 //  import * as update from '../update'
-import moment from 'moment'
 
 export default {
   created () {
-    this.unbookedBoats = [{boat: 'Boat1', serviceObject: 'TUG'}, {boat: 'Boat2', serviceObject: 'TUG'}, {boat: 'Boat3', serviceObject: 'ESKROT_TUG'}]
+    this.unbookedBoats = [{
+      boat: 'Boat1',
+      serviceObject: 'TUG'
+    }, {
+      boat: 'Boat2',
+      serviceObject: 'TUG'
+    }, {
+      boat: 'Boat3',
+      serviceObject: 'ESKROT_TUG'
+    }]
     this.updateAPICall()
+    this.filterData('awd')
   },
   data () {
     return {
       msg: '',
-      boatArray: '',
+      boatArray: [],
       toArrayOut: '',
       idArrayOut: '',
       idArrayOut2: '',
@@ -192,17 +215,6 @@ export default {
     }
   },
   methods: {
-    async bookBoat (boat) {
-      this.vesselId = ''
-      boat.boat = ''
-      boat.serviceObject = ''
-      // Här vill jag göra ett apiCall till något
-      const response = await api.bookBoat()
-      if (!response) {
-        throw new Error('Gosh! Could not book boat')
-      }
-      console.log(response)
-    },
     async updateAPICall () {
       // var vm = this
       //
@@ -216,52 +228,49 @@ export default {
       //     })
       // }, 30000)
     },
+    filterData (array) {
+      const data = '<ns2:portCallMessage xmlns:ns2="urn:mrn:stm:schema:port-call-message:0.6">' +
+      '<ns2:portCallId>urn:mrn:stm:portcdm:port_call:SEGOT:1965050c-657f-42ef-b388-1cd1d743ddee</ns2:portCallId>' +
+      '<ns2:vesselId>urn:mrn:stm:vessel:IMO:8506373</ns2:vesselId>' +
+      '<ns2:messageId>urn:mrn:stm:portcdm:message:3e950f9a-3cf0-4946-a1ef-9e72c8b1451d</ns2:messageId>' +
+      '<ns2:serviceState>' +
+      '<ns2:serviceObject>TOWAGE</ns2:serviceObject>' +
+      '<ns2:timeSequence>COMMENCED</ns2:timeSequence>' +
+      '<ns2:time>2017-05-10T18:30:00.000Z</ns2:time>' +
+      '<ns2:timeType>ESTIMATED</ns2:timeType>' +
+      '<ns2:between>' +
+      '<ns2:to>' +
+      '<ns2:locationMRN>urn:mrn:stm:location:SEGOT:TRAFFIC_AREA</ns2:locationMRN>' +
+      '</ns2:to>' +
+      '<ns2:from>' +
+      '<ns2:locationMRN>urn:mrn:stm:location:SEGOT:TRAFFIC_AREA</ns2:locationMRN>' +
+      '</ns2:from>' +
+      '</ns2:between>' +
+      '</ns2:serviceState>' +
+      '</ns2:portCallMessage>'
 
-    filterCall (array) {
-      const locationStates = array.map(m => (m.locationState || m.serviceState))
-      const answers = locationStates.filter(function (el) {
-        return el !== null
+      const splitsNits = data.split('>')
+      console.log(splitsNits)
+      this.boatArray.push({
+        time: splitsNits[13]
       })
-      const filteredTugs = answers.filter(function (el) {
-        return el.serviceObject === 'TOWAGE' || el.serviceObject === 'ESCORT_TOWAGE'
-      })
-
-      filteredTugs.filter(function (tid) {
-        tid.time = moment(tid.time).format('DD MMM YYYY hh:mm a')
-      })
-
-      this.boatArray = filteredTugs
-
-      for (var i = 0; i < this.boatArray.length; i++) {
-        if (this.boatArray[i].performingActor == null) {
-          this.boatArray[i].performingActor = 'NotSpecified' + i
-        }
+    },
+    async bookBoat (boat) {
+      // Här vill jag göra ett apiCall till något
+      const response = await api.bookBoat(this.vesselId)
+      if (!response) {
+        throw new Error('Gosh! Could not book boat')
       }
-
-      const betweenStates = filteredTugs.map(s => (s.between))
-
-      const toFromArray = betweenStates.filter(function (el) {
-        if (el !== undefined) {
-          return el.to
-        }
-      })
-
-      this.toArrayOut = toFromArray
-      const perfActorStates = filteredTugs.map(x => (x.performingActor))
-
-      var tempArray = []
-      for (var i2 = 0; i2 < perfActorStates.length; i2++) {
-        tempArray.push('No ID-' + i2)
+      if (response.status === 200) {
+        (this.boatArray).push({
+          serviceObject: boat.serviceObject,
+          performingActor: boat.boat
+        })
+        this.vesselId = ''
+        boat.boat = ''
+        boat.serviceObject = ''
+        this.filterData(response.data)
       }
-      // console.log(tempArray)
-      this.idArrayOut2 = tempArray
-
-      const idArray = perfActorStates.filter(function (el) {
-        if (el !== undefined) {
-          return el.id
-        }
-      })
-      this.idArrayOut = idArray
     }
   }
 }
