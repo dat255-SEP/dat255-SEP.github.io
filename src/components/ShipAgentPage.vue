@@ -28,9 +28,9 @@
             </thead>
             <tbody>
               <tr v-for="boat in unbookedBoats">
-                <td> {{ boat.boat }} </td>
-                <td> {{ boat.serviceObject }} </td>
-                <td> <input v-model="vesselId" > </td>
+                <td height="55"> {{ boat.boat }} </td>
+                <td height="55"> {{ boat.serviceObject }} </td>
+                <td height="55"> <input v-model="vesselId" > </td>
               </tr>
             </tbody>
 
@@ -45,7 +45,7 @@
 
               <tbody>
                 <tr v-for="boat in unbookedBoats">
-                  <td> <button class="btn btn-book" id="bookBoat" v-on:click="bookBoat(boat)">Book</button> </td>
+                  <td height="55"> <button class="btn btn-book" id="bookBoat" v-on:click="bookBoat(boat)">Book</button> </td>
                 </tr>
               </tbody>
 
