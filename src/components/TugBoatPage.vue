@@ -1,5 +1,5 @@
 <template>
-<div class="hello">
+<div class="page">
 
   <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -72,7 +72,11 @@
               </div>
               <div>
                 <div> <label>Vessel ID</label> </div>
-                <div> <input v-model="vesselId"> </div>
+                <div> <input v-model="vesselId" readonly> </div>
+              </div>
+              <div>
+                <div> <label>Message ID</label> </div>
+                <div> <input v-model="messageId"> </div>
               </div>
               <div>
                 <div> <label>Reported By</label> </div>
@@ -138,11 +142,11 @@
             <form action="#" method="post" class="contact-form">
               <div>
                 <div> <label>PortCall ID</label> </div>
-                <div> <input v-model="portCallId" disabled="disabled"> </div>
+                <div> <input v-model="portCallId" readonly> </div>
               </div>
               <div>
-                <div> <label>Vessel ID</label> </div>
-                <div> <input v-model="vesselId" disabled="disabled"> </div>
+                <div> <label>Message ID</label> </div>
+                <div> <input v-model="messageId" readonly> </div>
               </div>
               <div>
                 <div> <label>Performing Actor</label> </div>
@@ -228,8 +232,8 @@ export default {
       throw new Error('could not get states')
     }
     this.getStatesFromQueue(response)
+    this.updateAPICall()
     this.updateLocation([''])
-    // this.updateAPICall()
   },
   data () {
     return {
@@ -269,6 +273,11 @@ export default {
       this.portCallId = boat.portCallId
       this.vesselId = boat.vesselId
       this.messageId = boat.messageId
+      this.time = moment(boat.serviceState.time).format('YYYY-MM-DDThh:mm')
+      this.timeType = this.timeTypeSer = boat.serviceState.timeType
+      this.timeSequence = boat.serviceState.timeSequence
+      this.to = boat.serviceState.between.to.name
+      this.from = boat.serviceState.between.from.name
       if (boat.locationState) {
         this.referenceObject = boat.locationState.referenceObject
       } else {
@@ -283,8 +292,8 @@ export default {
         'locationState': m.locationState,
         'serviceState': m.serviceState
       })))
-      console.log(array)
-
+      // console.log(array)
+      console.log(answers)
       answers.forEach(el => {
         if (el.locationState === null) {
           delete (el.locationState)
@@ -306,6 +315,9 @@ export default {
         }
       })
 
+      console.log(filteredTugs)
+      console.log(locationArray)
+
       filteredTugs.filter(function (tid) {
         tid.serviceState.time = moment(tid.serviceState.time).local().format('MM/DD/YYYY, hh:mm')
       })
@@ -319,8 +331,32 @@ export default {
       }
       this.filterCall(datQueueThough)
     },
+    generateMsgID () {
+      function generateLetter () {
+        var chars = 'abcdef'
+        return chars.substr(Math.floor(Math.random() * 6), 1)
+      }
+
+      function aORb () {
+        var chars = 'ab'
+        return chars.substr(Math.floor(Math.random() * 2), 1)
+      }
+
+      var randomInt = Math.floor(Math.random() * (9 - 0)) + 0
+      var eightOrNine = Math.floor(Math.random() * (9 - 8 + 1)) + 8
+      var hej = '[' + randomInt + generateLetter() + generateLetter().toUpperCase() + '{8}-[' + randomInt + generateLetter() + generateLetter().toUpperCase() + ']{4}-4[' + randomInt + generateLetter() + generateLetter().toUpperCase() +
+      ']{3}-[' + eightOrNine + aORb() + aORb().toUpperCase() + '][' + randomInt + generateLetter() + generateLetter().toUpperCase() + ']{3}-[' + randomInt + generateLetter() + generateLetter().toUpperCase() + ']{12}'
+      console.log(hej)
+      return hej
+    },
+    // generateLowerCase () {
+    //   var chars = 'abcdefghijklmnopqrstuvwxyz'
+    //   var test = chars.substr(Math.floor(Math.random() * 26), 1)
+    //   console.log(test)
+    // },
+
     async postServiceState () {
-      const input = ['service', this.portCallId, this.vesselId, this.performingActor, this.serviceObject, this.timeSequence, this.timeSer, this.timeTypeSer,
+      const input = ['service', this.portCallId, this.vesselId, this.messageId, this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
         this.at, this.to, this.from
       ]
       const response = await api.postState(input)
@@ -338,28 +374,29 @@ export default {
     },
 
     async postLocationState () {
-      const input = ['location', this.portCallId, this.vesselId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocationType, this.departureLocationType]
+      const input = ['location', this.portCallId, this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocationType, this.departureLocationType]
+      console.log(input)
       const response = await api.postState(input)
       if (!response) {
         console.log('Could not get API Service')
       }
       this.statuscode = response.status
       this.message = response.data
+    },
+    async updateAPICall () {
+      var vm = this
+      setInterval(async function () {
+        await api.getStatesQueue()
+            .then(res => {
+              vm.getStatesFromQueue(res)
+            }).catch(error => {
+              console.log(error)
+            })
+      }, 5000)
     }
-  },
 
-  async updateAPICall () {
-    // var vm = this
-
-    setInterval(async function () {
-      //   await api.getBoatStuffs()
-      //     .then(res => {
-      //       vm.filterCall(res)
-      //     }).catch(error => {
-      //       console.log(error)
-      //     })
-    }, 30000)
   }
+
 }
 </script>
 
