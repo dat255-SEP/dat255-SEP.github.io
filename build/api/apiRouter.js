@@ -6,7 +6,7 @@ const moment = require('moment')
 
 router.post('/getQueue', async(req, res, next) => {
   const timeNow = new Date()
-  const correctTime = moment(timeNow - (3600000 * 3)).local().format('YYYY-MM-DDTHH:mm:ss')
+  const correctTime = moment(timeNow - (3600000 * 4)).local().format('YYYY-MM-DDTHH:mm:ss')
   const response = await api.post('http://dev.portcdm.eu:8080/mb/mqs?fromTime=' + encodeURIComponent(correctTime + 'Z'), '', {
     headers: {
       'X-PortCDM-UserId': 'viktoria',
@@ -63,7 +63,7 @@ router.post('/postDat/:xml', async(req, res, next) => {
 function convertXmlLocationArrival (xmlInput, messageId) {
   console.log('ejhjae')
   var xml = '<ns2:portCallMessage xmlns:ns2="urn:mrn:stm:schema:port-call-message:0.6">' +
-  '<ns2:portCallId>urn:mrn:stm:portcdm:port_call:SEGOT:1965050c-657f-42ef-b388-1cd1d743ddee</ns2:portCallId>' +
+  '<ns2:portCallId>' + xmlInput[1] + '</ns2:portCallId>' +
   '<ns2:vesselId>' + xmlInput[2] + '</ns2:vesselId>' +
   '<ns2:messageId>urn:mrn:stm:portcdm:message:' + messageId + '</ns2:messageId>' +
   '<ns2:reportedBy>' + xmlInput[3] + '</ns2:reportedBy>' +
@@ -83,7 +83,7 @@ function convertXmlLocationArrival (xmlInput, messageId) {
 function convertXmlLocationDeparture (xmlInput, messageId) {
   console.log(xmlInput)
   var xml = '<ns2:portCallMessage xmlns:ns2="urn:mrn:stm:schema:port-call-message:0.6">' +
-  '<ns2:portCallId>urn:mrn:stm:portcdm:port_call:SEGOT:1965050c-657f-42ef-b388-1cd1d743ddee</ns2:portCallId>' +
+  '<ns2:portCallId>' + xmlInput[1] + '</ns2:portCallId>' +
   '<ns2:vesselId>' + xmlInput[2] + '</ns2:vesselId>' +
   '<ns2:messageId>urn:mrn:stm:portcdm:message:' + messageId + '</ns2:messageId>' +
   '<ns2:reportedBy>' + xmlInput[3] + '</ns2:reportedBy>' +
