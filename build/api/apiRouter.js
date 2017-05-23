@@ -142,6 +142,7 @@ function convertXmlLocationDeparture (xmlInput, messageId) {
 }
 
 function convertXmlService (xmlInput) {
+  console.log(xmlInput)
   var xml = '<ns2:portCallMessage xmlns:ns2="urn:mrn:stm:schema:port-call-message:0.6">' +
   '<ns2:portCallId>urn:mrn:stm:portcdm:port_call:SEGOT:1965050c-657f-42ef-b388-1cd1d743ddee</ns2:portCallId>' +
   '<ns2:vesselId>' + xmlInput[2] + '</ns2:vesselId>' +
