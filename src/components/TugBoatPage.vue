@@ -68,7 +68,7 @@
             <form action="#" method="post" class="contact-form">
               <div>
                 <div> <label>PortCall ID</label> </div>
-                <div> <input v-model="portCallId" readonly> </div>
+                <div> <input v-model="portCallId"> </div>
               </div>
               <div>
                 <div> <label>Vessel ID</label> </div>
@@ -138,11 +138,11 @@
             <form action="#" method="post" class="contact-form">
               <div>
                 <div> <label>PortCall ID</label> </div>
-                <div> <input v-model="portCallId" disabled="disabled"> </div>
+                <div> <input v-model="portCallId"> </div>
               </div>
               <div>
                 <div> <label>Vessel ID</label> </div>
-                <div> <input v-model="vesselId" disabled="disabled"> </div>
+                <div> <input v-model="vesselId"> </div>
               </div>
               <div>
                 <div> <label>Performing Actor</label> </div>
