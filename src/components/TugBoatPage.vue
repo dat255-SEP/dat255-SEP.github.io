@@ -48,7 +48,7 @@
                   <td> {{ ' ' }} </td>
                   <td> {{ between.locationState.time }} </td>
                   <td> {{ between.locationState.timeType }} </td>
-                  <td> {{ between.locationState.arrivalLocation }} </td>
+                  <td> {{ between.locationState.arrivalLocation || between.locationState.departureLocation }} </td>
                   <td> <button class="btn btn-book" v-on:click="updateLocation(between)">Update</button> </td>
                 </tr>
             </tbody>
@@ -73,10 +73,6 @@
               <div>
                 <div> <label>Vessel ID</label> </div>
                 <div> <input v-model="vesselId" readonly> </div>
-              </div>
-              <div>
-                <div> <label>Message ID</label> </div>
-                <div> <input v-model="messageId"> </div>
               </div>
               <div>
                 <div> <label>Reported By</label> </div>
@@ -147,7 +143,7 @@
               <div>
                 <div> <label>Vessel ID</label> </div>
                 <div> <input v-model="vesselId"> </div>
-                
+
               </div>
               <div>
                 <div> <label>Performing Actor</label> </div>
@@ -335,7 +331,7 @@ export default {
     },
 
     async postServiceState () {
-      const input = ['service', this.portCallId, this.vesselId, this.messageId, this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
+      const input = ['service', this.portCallId, this.vesselId, this.serviceObject, this.performingActor, this.timeSequence, this.timeSer, this.timeTypeSer,
         this.at, this.to, this.from
       ]
       const response = await api.postState(input)
@@ -353,8 +349,7 @@ export default {
     },
 
     async postLocationState () {
-      const input = ['location', this.portCallId, this.vesselId, this.messageId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocationType, this.departureLocationType]
-      console.log(input)
+      const input = ['location', this.portCallId, this.vesselId, this.reportedBy, this.referenceObject, this.time, this.timeType, this.arrivalLocationType, this.departureLocation]
       const response = await api.postState(input)
       if (!response) {
         console.log('Could not get API Service')
