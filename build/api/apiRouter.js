@@ -6,8 +6,8 @@ const moment = require('moment')
 
 router.post('/getQueue', async(req, res, next) => {
   const timeNow = new Date()
-  const correctTime = moment(timeNow - (3600000 * 4)).local().format('YYYY-MM-DDTHH:mm:ss')
-  const response = await api.post('http://dev.portcdm.eu:8080/mb/mqs?fromTime=' + encodeURIComponent(correctTime + 'Z'), '', {
+  const correctTime = moment(timeNow - (3600000 * 3.3)).local().format('YYYY-MM-DDTHH:mm:ss')
+  const response = await api.post('http://sandbox-5.portcdm.eu:8080/mb/mqs?fromTime=' + encodeURIComponent(correctTime + 'Z'), '', {
     headers: {
       'X-PortCDM-UserId': 'viktoria',
       'X-PortCDM-Password': 'vik123',
@@ -22,7 +22,7 @@ router.post('/getQueue', async(req, res, next) => {
 
 router.get('/getAllThoseCalls/:queueId', async(req, res, next) => {
   const queueId = req.params.queueId
-  const response = await api.get('http://dev.portcdm.eu:8080/mb/mqs/' + queueId, {
+  const response = await api.get('http://sandbox-5.portcdm.eu:8080/mb/mqs/' + queueId, {
     headers: {
       'X-PortCDM-UserId': 'viktoria',
       'X-PortCDM-Password': 'vik123',
@@ -47,7 +47,7 @@ router.post('/postDat/:xml', async(req, res, next) => {
   } else {
     respXml = convertXmlService(splitInput, uuid())
   }
-  const response = await api.post('http://dev.portcdm.eu:8080/mb/mss', respXml, {
+  const response = await api.post('http://sandbox-5.portcdm.eu:8080/mb/mss', respXml, {
     headers: {
       'X-PortCDM-UserId': 'viktoria',
       'X-PortCDM-Password': 'vik123',
@@ -61,7 +61,6 @@ router.post('/postDat/:xml', async(req, res, next) => {
 })
 
 function convertXmlLocationArrival (xmlInput, messageId) {
-  console.log('ejhjae')
   var xml = '<ns2:portCallMessage xmlns:ns2="urn:mrn:stm:schema:port-call-message:0.6">' +
   '<ns2:portCallId>' + xmlInput[1] + '</ns2:portCallId>' +
   '<ns2:vesselId>' + xmlInput[2] + '</ns2:vesselId>' +
@@ -81,7 +80,6 @@ function convertXmlLocationArrival (xmlInput, messageId) {
 }
 
 function convertXmlLocationDeparture (xmlInput, messageId) {
-  console.log(xmlInput)
   var xml = '<ns2:portCallMessage xmlns:ns2="urn:mrn:stm:schema:port-call-message:0.6">' +
   '<ns2:portCallId>' + xmlInput[1] + '</ns2:portCallId>' +
   '<ns2:vesselId>' + xmlInput[2] + '</ns2:vesselId>' +

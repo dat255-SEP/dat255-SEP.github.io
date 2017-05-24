@@ -290,8 +290,7 @@ export default {
         'locationState': m.locationState,
         'serviceState': m.serviceState
       })))
-      // console.log(array)
-      console.log(answers)
+      console.log(array)
       answers.forEach(el => {
         if (el.locationState === null) {
           delete (el.locationState)
@@ -312,9 +311,6 @@ export default {
           }
         }
       })
-
-      console.log(filteredTugs)
-      console.log(locationArray)
 
       filteredTugs.filter(function (tid) {
         tid.serviceState.time = moment(tid.serviceState.time).local().format('MM/DD/YYYY, hh:mm')
