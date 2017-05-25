@@ -271,7 +271,7 @@ export default {
       this.portCallId = boat.portCallId
       this.vesselId = boat.vesselId
       this.messageId = boat.messageId
-      this.time = moment(boat.serviceState.time).format('YYYY-MM-DDThh:mm')
+      this.time = this.timeSer = moment(boat.serviceState.time).format('YYYY-MM-DDThh:mm')
       this.timeType = this.timeTypeSer = boat.serviceState.timeType
       this.timeSequence = boat.serviceState.timeSequence
       this.to = boat.serviceState.between.to.name
