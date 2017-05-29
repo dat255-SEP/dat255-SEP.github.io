@@ -58,159 +58,99 @@
     </table>
   </div>
 
-  <table class="table">
-    <tr class="changeRow">
-      <td>
-        <div class="form-box">
-          <div class="locationTitle">
-            <h1>Change Location State</h1> </div>
-          <div>
-            <form action="#" method="post" class="contact-form">
-              <div>
-                <div> <label>PortCall ID</label> </div>
-                <div> <input v-model="portCallId"> </div>
-              </div>
-              <div>
-                <div> <label>Vessel ID</label> </div>
-                <div> <input v-model="vesselId" readonly> </div>
-              </div>
-              <div>
-                <div> <label>Reported By</label> </div>
-                <div> <input v-model="reportedBy"> </div>
-              </div>
-              <div>
-                <div> <label>Reference Object</label> </div>
-                <div>
-                  <select v-model="referenceObject">
-                    <option>ESCORT_TUG</option>
-                    <option>TUG</option>
-                  </select>
-                </div>
-              </div>
-              <div>
-                <div> <label>Time</label> </div>
-                <div> <input class="inputTime" v-model="time" type="datetime-local" id="theTime"> </div>
-              </div>
-              <div>
-                <div> <label>Time Type</label> </div>
-                <div>
-                  <select v-model="timeType">
-      								<option>ACTUAL</option>
-      								<option>ESTIMATED</option>
-      							</select>
-                </div>
-              </div>
-              <div>
-                <div> <label>Arrival Location </label> </div>
-                <div>
-                  <select v-model="arrivalLocationType">
-                    <option>ETUG_ZONE</option>
-                    <option>TUG_ZONE</option>
-                    <option>BERTH</option>
-                  </select>
-                </div>
-              </div>
-              <div>
-                <div> <label>Departure Location</label> </div>
-                <div>
-                  <select v-model="departureLocation">
-                    <option>LOC</option>
-                    <option>VESSEL</option>
-                  </select>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-        <button id="post_button" v-on:click="postLocationState">Post</button>
-        <div class="post">
-          <h2> {{ 'Statuscode: ' }} </h2>
-          <form>
-            <textarea class="status-form"> {{ statuscode }} </textarea>
-          </form>
-        </div>
-      </td>
-      <td>
-        <div class="form-box">
-          <div class="locationTitle">
-            <h1>Change Service State</h1> </div>
-          <div>
-            <form action="#" method="post" class="contact-form">
-              <div>
-                <div> <label>PortCall ID</label> </div>
-                <div> <input v-model="portCallId"> </div>
-              </div>
-              <div>
-                <div> <label>Vessel ID</label> </div>
-                <div> <input v-model="vesselId"> </div>
 
-              </div>
-              <div>
-                <div> <label>Performing Actor</label> </div>
-                <div>
-                  <select v-model="performingActor">
-                      <option> EscortTowage </option>
-                      <option> Towage </option>
+    <table class="table">
+      <tr class="changeRow">
+        <td>
+          <div class="form-box">
+              <h1>Change Location State</h1>
+              <form action="#" method="post" class="contact-form">
+                  <label>PortCall ID</label> <br />
+                  <input v-model="portCallId"> <br />
+                  <label>Vessel ID</label> <br />
+                  <input v-model="vesselId" readonly> <br />
+                  <label>Reported By</label> <br />
+                  <input v-model="reportedBy"> <br />
+                  <label>Reference Object</label> <br />
+                    <select v-model="referenceObject">
+                      <option>ESCORT_TUG</option>
+                      <option>TUG</option>
+                    </select> <br />
+                  <label>Time</label> <br />
+                  <input class="inputTime" v-model="time" type="datetime-local" id="theTime"> <br />
+                  <label>Time Type</label> <br />
+                    <select v-model="timeType">
+        								<option>ACTUAL</option>
+        								<option>ESTIMATED</option>
+        							</select> <br />
+                  <label>Arrival Location </label> <br />
+                    <select v-model="arrivalLocationType">
+                      <option>ETUG_ZONE</option>
+                      <option>TUG_ZONE</option>
+                      <option>BERTH</option>
+                    </select> <br />
+                    <label>Departure Location</label> <br />
+                    <select v-model="departureLocation">
+                      <option>LOC</option>
+                      <option>VESSEL</option>
                     </select>
-                </div>
-              </div>
-              <div>
-                <div> <label>Service Object</label> </div>
-                <div> <input v-model="serviceObject"> </div>
-              </div>
-              <div>
-                <div> <label>Time Sequence</label> </div>
-                <div>
-                  <select v-model="timeSequence">
-                      <option> COMMENCED </option>
-                      <option> COMPLETED </option>
-                      <option> CONFIRMED </option>
-                      <option> DENIED </option>
-                      <option> REQUEST_RECEIVED </option>
-                      <option> REQUESTED </option>
-                    </select>
-                </div>
-              </div>
-              <div>
-                <div> <label>Time</label> </div>
-                <div> <input class="inputTime" v-model="timeSer" type="datetime-local" id="theTime"> </div>
-              </div>
-              <div>
-                <div> <label>Time Type</label> </div>
-                <div>
-                  <select v-model="timeTypeSer">
-                    <option>ACTUAL</option>
-                    <option>ESTIMATED</option>
-                    <option>EXPECTED</option>
-                    </select>
-                </div>
-              </div>
-              <div>
-                <div> <label>At Location</label> </div>
-                <div> <input v-model="at"> </div>
-              </div>
-              <div>
-                <div> <label>Between: To Location</label> </div>
-                <div> <input v-model="to"> </div>
-              </div>
-              <div>
-                <div> <label>Between: From Location</label> </div>
-                <div> <input v-model="from"> </div>
-              </div>
-              <div>
-                <div> <label>&nbsp;</label> </div>
-              </div>
+              </form>
+          </div>
+          <button id="post_button" v-on:click="postLocationState">Post</button>
+          <div class="post">
+            <h2> {{ 'Statuscode: ' }} </h2>
+            <form>
+              <textarea class="status-form"> {{ statuscode }} </textarea>
             </form>
           </div>
-        </div>
-        <button id="post_button" v-on:click="postServiceState">Post</button>
-        <div class="post">
-          <h2> {{ 'Statuscode: ' }} </h2>
-          <form> <textarea class="status-form"> {{ statuscodeServ }} </textarea> </form>
-        </div>
-      </td>
-    </tr>
-  </table>
+        </td>
+        <td>
+          <div class="form-box">
+              <h1>Change Service State</h1>
+              <form action="#" method="post" class="contact-form">
+                  <label>PortCall ID</label> <br />
+                  <input v-model="portCallId"> <br  />
+                  <label>Vessel ID</label> <br />
+                  <input v-model="vesselId"> <br />
+                  <label>Service Object</label> <br />
+                    <select v-model="performingActor">
+                        <option> ESCORT_TOWAGE </option>
+                        <option> TOWAGE </option>
+                      </select> <br />
+                  <label>Time Sequence</label> <br />
+                    <select v-model="timeSequence">
+                        <option> COMMENCED </option>
+                        <option> COMPLETED </option>
+                        <option> CONFIRMED </option>
+                        <option> DENIED </option>
+                        <option> REQUEST_RECEIVED </option>
+                        <option> REQUESTED </option>
+                      </select> <br />
+                  <label>Time</label> <br />
+                  <input class="inputTime" v-model="timeSer" type="datetime-local" id="theTime"> <br />
+                  <label>Time Type</label> <br />
+                    <select v-model="timeTypeSer">
+                      <option>ACTUAL</option>
+                      <option>ESTIMATED</option>
+                      <option>EXPECTED</option>
+                    </select> <br />
+                  <label>At Location</label> <br />
+                  <input v-model="at"> <br  />
+                  <label>Between: To Location</label> <br />
+                  <input v-model="to"> <br />
+                  <label>Between: From Location</label> <br />
+                  <input v-model="from">
+              </form>
+            </div>
+          <button id="post_button" v-on:click="postServiceState">Post</button>
+          <div class="post">
+            <h2> {{ 'Statuscode: ' }} </h2>
+            <form> <textarea class="status-form"> {{ statuscodeServ }} </textarea> </form>
+          </div>
+        </td>
+      </tr>
+    </table>
+
 </div>
 </template>
 
