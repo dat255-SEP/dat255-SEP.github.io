@@ -2,6 +2,7 @@
 <div class="page">
 
   <head>
+    <!-- Import Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
   </head>
@@ -10,12 +11,15 @@
     <img class="logo" src="../assets/tuglife-logo.png" width="30%">
     <br>
   </div>
+  <!-- Table with all active objects (TUG/TOWAGE and status) -->
   <div class="table-container">
     <table class="table">
       <tr>
         <td>
+          <h1>This table contains all current towage missions and their states. <br />Press update on a tug boat to update its states.</h1>
           <table class="table">
             <thead>
+              <!-- Correct headers are set here -->
               <tr class="table-titles">
                 <th> VesselIds </th>
                 <th> Service Object </th>
@@ -29,6 +33,7 @@
               </tr>
             </thead>
             <tbody>
+              <!-- For every boat in boatArray, display their info under correct table headers -->
               <tr v-for="boat in boatArray">
                 <td> {{ boat.vesselId }} </td>
                 <td> {{ boat.serviceState.serviceObject }} </td>
@@ -39,8 +44,10 @@
                 <td>
                   {{ ' ' }}
                 </td>
+                <!-- Press update button to change the status of a boat -->
                 <td> <button class="btn btn-book" v-on:click="updateLocation(boat)">Update</button> </td>
               </tr>
+              <!-- For every "between object" in toArrayOut, display the location info of that object -->
                 <tr v-for="between in toArrayOut">
                   <td> {{ between.vesselId }} </td>
                   <td> {{ between.locationState.referenceObject }} </td>
@@ -58,15 +65,13 @@
     </table>
   </div>
 
-<!-- Table to change location state and service state -->
+<!-- Table to change location state and service state. When the Update button above is pressed, update these input fields with the correct boat information -->
     <table class="table">
       <tr class="changeRow">
         <td>
           <div class="form-box">
               <h1>Change Location State</h1>
               <form action="#" method="post" class="contact-form">
-                  <label>PortCall ID</label> <br />
-                  <input v-model="portCallId"> <br />
                   <label>Vessel ID</label> <br />
                   <input v-model="vesselId" readonly> <br />
                   <label>Reported By</label> <br />
@@ -108,8 +113,6 @@
           <div class="form-box">
               <h1>Change Service State</h1>
               <form action="#" method="post" class="contact-form">
-                  <label>PortCall ID</label> <br />
-                  <input v-model="portCallId"> <br  />
                   <label>Vessel ID</label> <br />
                   <input v-model="vesselId"> <br />
                   <label>Service Object</label> <br />
@@ -174,6 +177,7 @@ export default {
     this.updateAPICall()
     this.updateLocation([''])
   },
+  // These are all reactive data fields which can be updated when needed
   data () {
     return {
       msg: '',
@@ -208,6 +212,7 @@ export default {
     }
   },
   methods: {
+    // updateLocation sets the input fields in the location and service state when the Update button is pressed
     updateLocation (boat) {
       this.portCallId = boat.portCallId
       this.vesselId = boat.vesselId
@@ -223,6 +228,7 @@ export default {
         this.serviceObject = boat.serviceState.serviceObject
       }
     },
+    // filterCall filters the returned API call and returns only the relevant information in an array. After the array is filtered, the boats are displayed in the table
     filterCall (array) {
       const answers = (array.map(m => ({
         'portCallId': m.portCallId,
@@ -294,6 +300,7 @@ export default {
       this.statuscode = response.status
       this.message = response.data
     },
+    // Makes an API call every five seconds and updates the table accordingly
     async updateAPICall () {
       var vm = this
       setInterval(async function () {
@@ -305,9 +312,7 @@ export default {
             })
       }, 5000)
     }
-
   }
-
 }
 </script>
 
