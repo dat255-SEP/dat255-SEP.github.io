@@ -58,7 +58,7 @@
     </table>
   </div>
 
-
+<!-- Table to change location state and service state -->
     <table class="table">
       <tr class="changeRow">
         <td>
@@ -153,12 +153,13 @@
 
 </div>
 </template>
-
+<!-- Runs bootstrap script -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
 
 </script>
 
 <script>
+// import dependencies and css
 import * as api from '../api'
 import moment from 'moment'
 require('../stylesheets/style.css')
