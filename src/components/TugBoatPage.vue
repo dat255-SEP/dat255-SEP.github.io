@@ -16,7 +16,7 @@
     <table class="table">
       <tr>
         <td>
-          <h1>This table contains all current towage missions and their states. <br />Press update on a tug boat to update its states.</h1>
+          <h1>Press update on a tug boat to update its location or service state.</h1>
           <table class="table">
             <thead>
               <!-- Correct headers are set here -->
@@ -116,7 +116,7 @@
                   <label>Vessel ID</label> <br />
                   <input v-model="vesselId"> <br />
                   <label>Service Object</label> <br />
-                    <select v-model="performingActor">
+                    <select v-model="serviceObject">
                         <option> ESCORT_TOWAGE </option>
                         <option> TOWAGE </option>
                       </select> <br />
@@ -231,14 +231,16 @@ export default {
       this.portCallId = boat.portCallId
       this.vesselId = boat.vesselId
       this.messageId = boat.messageId
-      this.time = this.timeSer = moment(boat.serviceState.time).format('YYYY-MM-DDThh:mm')
-      this.timeType = this.timeTypeSer = boat.serviceState.timeType
-      this.timeSequence = boat.serviceState.timeSequence
-      this.to = boat.serviceState.between.to.name
-      this.from = boat.serviceState.between.from.name
       if (boat.locationState) {
+        this.time = moment(boat.locationState.time).format('YYYY-MM-DDThh:mm')
+        this.timeType = boat.locationState.timeType
         this.referenceObject = boat.locationState.referenceObject
       } else {
+        this.timeSequence = boat.serviceState.timeSequence
+        this.to = boat.serviceState.between.to.name
+        this.from = boat.serviceState.between.from.name
+        this.timeSer = moment(boat.serviceState.time).format('YYYY-MM-DDThh:mm')
+        this.timeTypeSer = boat.serviceState.timeType
         this.serviceObject = boat.serviceState.serviceObject
       }
     },
@@ -271,10 +273,16 @@ export default {
           }
         }
       })
-
+      locationArray.filter(function (tid) {
+        tid.locationState.time = moment(tid.locationState.time).local().format('MM/DD/YYYY, hh:mm')
+        // console.log(tid.serviceState.time)
+      })
       filteredTugs.filter(function (tid) {
         tid.serviceState.time = moment(tid.serviceState.time).local().format('MM/DD/YYYY, hh:mm')
+        // console.log(tid.serviceState.time)
       })
+      console.log(filteredTugs)
+      console.log(locationArray)
       this.boatArray = filteredTugs
       this.toArrayOut = locationArray
     },
