@@ -176,6 +176,20 @@ export default {
     this.getStatesFromQueue(response)
     this.updateAPICall()
     this.updateLocation([''])
+    const input = ['service', 'urn:mrn:stm:portcdm:port_call:SEGOT:1965050c-657f-42ef-b388-1cd1d743ddee', 'urn:mrn:stm:vessel:IMO:9501368', 'TOWAGE', this.performingActor, 'COMMENCED', '2017-06-02T', 'ACTUAL',
+      this.at, 'VESSEL', 'VESSEL'
+    ]
+    const answer = await api.postState(input)
+    if (!answer) {
+      console.log('Could not get API Service')
+    }
+    this.statuscodeServ = answer.status
+    this.messageServ = answer.data
+    const getStates = await api.getStatesQueue()
+    if (!getStates) {
+      throw new Error('could not get states')
+    }
+    this.getStatesFromQueue(getStates)
   },
   // These are all reactive data fields which can be updated when needed
   data () {
@@ -237,7 +251,6 @@ export default {
         'locationState': m.locationState,
         'serviceState': m.serviceState
       })))
-      console.log(array)
       answers.forEach(el => {
         if (el.locationState === null) {
           delete (el.locationState)
