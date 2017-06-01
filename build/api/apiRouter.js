@@ -6,7 +6,7 @@ const moment = require('moment')
 
 router.post('/getQueue', async(req, res, next) => {
   const timeNow = new Date()
-  const correctTime = moment(timeNow - (3600000 * 3.3)).local().format('YYYY-MM-DDTHH:mm:ss')
+  const correctTime = moment(timeNow - (3600000 * 1)).local().format('YYYY-MM-DDTHH:mm:ss')
   const response = await api.post('http://dev.portcdm.eu:8080/mb/mqs?fromTime=' + encodeURIComponent(correctTime + 'Z'), '', {
     headers: {
       'X-PortCDM-UserId': 'viktoria',
