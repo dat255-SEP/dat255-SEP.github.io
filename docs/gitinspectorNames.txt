@@ -1,0 +1,6 @@
+emilundg = Emil Lundgren
+hackehackspett = Kevin Rasku
+Jonas = Jonas Åkesson
+KevinNordenhog = Kevin Nordenhög
+LukaMrk = Luka Mrkonjic
+Seblerr = Sebastian Nilsson
