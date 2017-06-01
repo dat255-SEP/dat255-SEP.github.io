@@ -169,6 +169,13 @@ require('../stylesheets/style.css')
 
 export default {
   async created () {
+    const input = ['service', 'urn:mrn:stm:portcdm:port_call:SEGOT:76ff85f0-cec8-419e-b971-4cc206ffc48b', 'urn:mrn:stm:vessel:IMO:9236315', 'TOWAGE', this.performingActor, 'COMMENCED', '2017-06-02T13:37', 'ACTUAL',
+      this.at, 'VESSEL', 'VESSEL'
+    ]
+    const answer = await api.postState(input)
+    if (!answer) {
+      console.log('Could not get API Service')
+    }
     const response = await api.getStatesQueue()
     if (!response) {
       throw new Error('could not get states')
@@ -176,15 +183,6 @@ export default {
     this.getStatesFromQueue(response)
     this.updateAPICall()
     this.updateLocation([''])
-    const input = ['service', 'urn:mrn:stm:portcdm:port_call:SEGOT:1965050c-657f-42ef-b388-1cd1d743ddee', 'urn:mrn:stm:vessel:IMO:9501368', 'TOWAGE', this.performingActor, 'COMMENCED', '2017-06-02T', 'ACTUAL',
-      this.at, 'VESSEL', 'VESSEL'
-    ]
-    const answer = await api.postState(input)
-    if (!answer) {
-      console.log('Could not get API Service')
-    }
-    this.statuscodeServ = answer.status
-    this.messageServ = answer.data
     const getStates = await api.getStatesQueue()
     if (!getStates) {
       throw new Error('could not get states')
@@ -281,8 +279,6 @@ export default {
         tid.serviceState.time = moment(tid.serviceState.time).local().format('MM/DD/YYYY, hh:mm')
         // console.log(tid.serviceState.time)
       })
-      console.log(filteredTugs)
-      console.log(locationArray)
       this.boatArray = filteredTugs
       this.toArrayOut = locationArray
     },
