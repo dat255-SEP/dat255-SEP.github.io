@@ -192,11 +192,8 @@ export default {
   // These are all reactive data fields which can be updated when needed
   data () {
     return {
-      msg: '',
       boatArray: '',
       toArrayOut: '',
-      idArrayOut: '',
-      idArrayOut2: '',
       vesselId: '',
       messageId: '',
       reportedBy: '',
@@ -219,8 +216,7 @@ export default {
       vesselIdArray: '',
       portCallId: '',
       arrivalLocationType: '',
-      departureLocation: '',
-      departureLocationType: ''
+      departureLocation: ''
     }
   },
   methods: {
