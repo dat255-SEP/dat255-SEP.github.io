@@ -16,7 +16,7 @@
 
 <!-- Scripts  -->
 <script>
-require('../stylesheets/style.css')
+import '../stylesheets/style.css'
 export default {
   async created () {
     setTimeout(this.gotoTug, 2000)

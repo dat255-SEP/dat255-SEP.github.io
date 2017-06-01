@@ -165,7 +165,7 @@
 // import dependencies and css
 import * as api from '../api'
 import moment from 'moment'
-require('../stylesheets/style.css')
+import '../stylesheets/style.css'
 
 export default {
   async created () {
