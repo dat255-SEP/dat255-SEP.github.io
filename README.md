@@ -7,6 +7,11 @@ The application can be found at:
 https://aqueous-mountain-75653.herokuapp.com/#/TugBoatPage
 if the table is not showing any items it's due to no tugboats existing in the portcdm backend from a time back. 
 
+## Trello
+Can be found at: 
+https://trello.com/b/FiEO6KWd
+And is shared with Jan-Phillipp
+
 ## Build Setup
 
 ``` bash
